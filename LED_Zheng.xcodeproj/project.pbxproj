@@ -13,6 +13,8 @@
 		ADE9409C1E90C3C9002DA4C1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADE9409A1E90C3C9002DA4C1 /* Main.storyboard */; };
 		ADE9409E1E90C3C9002DA4C1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADE9409D1E90C3C9002DA4C1 /* Assets.xcassets */; };
 		ADE940A11E90C3C9002DA4C1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADE9409F1E90C3C9002DA4C1 /* LaunchScreen.storyboard */; };
+		ADE940AB1E90C3FA002DA4C1 /* FontDataTool.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE940AA1E90C3FA002DA4C1 /* FontDataTool.m */; };
+		ADE940AF1E90CA88002DA4C1 /* Font.txt in Resources */ = {isa = PBXBuildFile; fileRef = ADE940AE1E90CA88002DA4C1 /* Font.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,9 @@
 		ADE9409D1E90C3C9002DA4C1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ADE940A01E90C3C9002DA4C1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ADE940A21E90C3C9002DA4C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ADE940A91E90C3FA002DA4C1 /* FontDataTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontDataTool.h; sourceTree = "<group>"; };
+		ADE940AA1E90C3FA002DA4C1 /* FontDataTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontDataTool.m; sourceTree = "<group>"; };
+		ADE940AE1E90CA88002DA4C1 /* Font.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Font.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +63,7 @@
 		ADE940901E90C3C9002DA4C1 /* LED_Zheng */ = {
 			isa = PBXGroup;
 			children = (
+				ADE940A81E90C3D6002DA4C1 /* FontTool */,
 				ADE940941E90C3C9002DA4C1 /* AppDelegate.h */,
 				ADE940951E90C3C9002DA4C1 /* AppDelegate.m */,
 				ADE940971E90C3C9002DA4C1 /* ViewController.h */,
@@ -77,6 +83,16 @@
 				ADE940921E90C3C9002DA4C1 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		ADE940A81E90C3D6002DA4C1 /* FontTool */ = {
+			isa = PBXGroup;
+			children = (
+				ADE940AE1E90CA88002DA4C1 /* Font.txt */,
+				ADE940A91E90C3FA002DA4C1 /* FontDataTool.h */,
+				ADE940AA1E90C3FA002DA4C1 /* FontDataTool.m */,
+			);
+			name = FontTool;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -139,6 +155,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADE940A11E90C3C9002DA4C1 /* LaunchScreen.storyboard in Resources */,
+				ADE940AF1E90CA88002DA4C1 /* Font.txt in Resources */,
 				ADE9409E1E90C3C9002DA4C1 /* Assets.xcassets in Resources */,
 				ADE9409C1E90C3C9002DA4C1 /* Main.storyboard in Resources */,
 			);
@@ -151,6 +168,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADE940AB1E90C3FA002DA4C1 /* FontDataTool.m in Sources */,
 				ADE940991E90C3C9002DA4C1 /* ViewController.m in Sources */,
 				ADE940961E90C3C9002DA4C1 /* AppDelegate.m in Sources */,
 				ADE940931E90C3C9002DA4C1 /* main.m in Sources */,
@@ -273,6 +291,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 6EM7RHL4TV;
 				INFOPLIST_FILE = LED_Zheng/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dfd.testApp.LED-Zheng";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -285,6 +304,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 6EM7RHL4TV;
 				INFOPLIST_FILE = LED_Zheng/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dfd.testApp.LED-Zheng";
 				PRODUCT_NAME = "$(TARGET_NAME)";
