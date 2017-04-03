@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AD77335C1E92A23300E31CFE /* enlish_word.txt in Resources */ = {isa = PBXBuildFile; fileRef = AD77335B1E92A23300E31CFE /* enlish_word.txt */; };
 		ADE940931E90C3C9002DA4C1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE940921E90C3C9002DA4C1 /* main.m */; };
 		ADE940961E90C3C9002DA4C1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE940951E90C3C9002DA4C1 /* AppDelegate.m */; };
 		ADE940991E90C3C9002DA4C1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE940981E90C3C9002DA4C1 /* ViewController.m */; };
@@ -14,10 +15,11 @@
 		ADE9409E1E90C3C9002DA4C1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADE9409D1E90C3C9002DA4C1 /* Assets.xcassets */; };
 		ADE940A11E90C3C9002DA4C1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADE9409F1E90C3C9002DA4C1 /* LaunchScreen.storyboard */; };
 		ADE940AB1E90C3FA002DA4C1 /* FontDataTool.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE940AA1E90C3FA002DA4C1 /* FontDataTool.m */; };
-		ADE940AF1E90CA88002DA4C1 /* Font.txt in Resources */ = {isa = PBXBuildFile; fileRef = ADE940AE1E90CA88002DA4C1 /* Font.txt */; };
+		ADE940AF1E90CA88002DA4C1 /* chinese_word.txt in Resources */ = {isa = PBXBuildFile; fileRef = ADE940AE1E90CA88002DA4C1 /* chinese_word.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AD77335B1E92A23300E31CFE /* enlish_word.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = enlish_word.txt; sourceTree = "<group>"; };
 		ADE9408E1E90C3C9002DA4C1 /* LED_Zheng.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LED_Zheng.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADE940921E90C3C9002DA4C1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		ADE940941E90C3C9002DA4C1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -30,7 +32,7 @@
 		ADE940A21E90C3C9002DA4C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ADE940A91E90C3FA002DA4C1 /* FontDataTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontDataTool.h; sourceTree = "<group>"; };
 		ADE940AA1E90C3FA002DA4C1 /* FontDataTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontDataTool.m; sourceTree = "<group>"; };
-		ADE940AE1E90CA88002DA4C1 /* Font.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Font.txt; sourceTree = "<group>"; };
+		ADE940AE1E90CA88002DA4C1 /* chinese_word.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = chinese_word.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,7 +90,8 @@
 		ADE940A81E90C3D6002DA4C1 /* FontTool */ = {
 			isa = PBXGroup;
 			children = (
-				ADE940AE1E90CA88002DA4C1 /* Font.txt */,
+				AD77335B1E92A23300E31CFE /* enlish_word.txt */,
+				ADE940AE1E90CA88002DA4C1 /* chinese_word.txt */,
 				ADE940A91E90C3FA002DA4C1 /* FontDataTool.h */,
 				ADE940AA1E90C3FA002DA4C1 /* FontDataTool.m */,
 			);
@@ -155,9 +158,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADE940A11E90C3C9002DA4C1 /* LaunchScreen.storyboard in Resources */,
-				ADE940AF1E90CA88002DA4C1 /* Font.txt in Resources */,
+				ADE940AF1E90CA88002DA4C1 /* chinese_word.txt in Resources */,
 				ADE9409E1E90C3C9002DA4C1 /* Assets.xcassets in Resources */,
 				ADE9409C1E90C3C9002DA4C1 /* Main.storyboard in Resources */,
+				AD77335C1E92A23300E31CFE /* enlish_word.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,6 +334,7 @@
 				ADE940A71E90C3C9002DA4C1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

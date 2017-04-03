@@ -7,10 +7,20 @@
 //
 
 #import "FontDataTool.h"
+#include <string.h>
 
-static NSString * const latticeDataArrayName = @"Font.txt";
+static NSString * const chineseDataArrayName = @"chinese_word.txt";         // 汉字的点阵名称
+static NSString * const enlishDataArrayName = @"enlish_word.txt";           // 英文(符号)的点阵名称
 
-static NSArray<NSString *> *latticeDataArray;
+static NSArray<NSString *> * chineseDataArray;                              // 汉字的点阵数据
+static NSArray<NSString *> *enlishDataArray;                                // 英文(符号)点阵数据
+
+static const int chineseDadaLength = 18;                                    // 汉字的字模数据长度
+static const int enlishDadaLength = 9;                                      // 英文的字模数据长度
+
+static const int enlishGBKMax = 0x7E;                                       // 英文字模数据范围最大（不等于）
+static const int enlishGBKMin = 0x20;                                       // 英文字模数据范围最小（不等于）
+
 
 @interface FontDataTool()
 
@@ -20,23 +30,42 @@ static NSArray<NSString *> *latticeDataArray;
 @implementation FontDataTool
 
 
+/**
+ 初始化数据
+ */
 + (void)setupData{
     
-    NSString *path = [[NSBundle mainBundle] pathForResource:latticeDataArrayName ofType:nil];
+    NSString *path = [[NSBundle mainBundle] pathForResource:chineseDataArrayName ofType:nil];
     NSError *error;
     NSString *stringData = [NSString stringWithContentsOfURL:[NSURL fileURLWithPath:path]
                                                     encoding:NSUTF8StringEncoding
                                                        error:&error];
     if (error) {
-        NSLog(@"初始化失败!");
+        NSLog(@"中文初始化失败!");
     }else{
-        latticeDataArray =  [stringData componentsSeparatedByString:@","];
+        chineseDataArray =  [stringData componentsSeparatedByString:@","];
+    }
+    
+    
+    path = [[NSBundle mainBundle] pathForResource:enlishDataArrayName ofType:nil];
+    stringData = [NSString stringWithContentsOfURL:[NSURL fileURLWithPath:path]
+                                          encoding:NSUTF8StringEncoding
+                                             error:&error];
+    if (error) {
+        NSLog(@"英文+符号初始化失败!");
+    }else{
+        enlishDataArray =  [stringData componentsSeparatedByString:@","];
     }
 }
 
-
+/**
+ 获取文本的点阵数据， 其中包含了英文和中文
+ 
+ @param string 文本
+ @return NSArray<NSArray <NSNumber*>*> * 类型
+ */
 + (NSArray<NSArray <NSNumber*>*> *)getLatticeDataArray:(NSString *)string{
-    if (!latticeDataArray) {
+    if (!chineseDataArray || !enlishDataArray) {
         NSLog(@"库文件为空");
         return nil;;
     }
@@ -45,21 +74,36 @@ static NSArray<NSString *> *latticeDataArray;
     
     NSMutableArray *arrResult = [NSMutableArray array];
     for (int i = 0; i < arrayGBK.count; i++) {
-        int gbkSimple = [arrayGBK[i] intValue];
+        
+        NSDictionary *dicSimple = arrayGBK[i];
+        int gbkSimple = [dicSimple.allValues.firstObject intValue];
+        
         NSLog(@"机内码:%@", [self intToHex:gbkSimple]);
         unsigned char heigh = (gbkSimple >> 8) & 0xFF;
         unsigned char low =  gbkSimple & 0xFF;
         unsigned int address = ZK_Address_H12X12(heigh, low);
         NSLog(@"在字模数据中的索引:%@", @(address));
-        NSArray *arraySimple = [latticeDataArray subarrayWithRange:NSMakeRange(address, 18)];
+        
+        NSArray *arraySimple;
+        if ([dicSimple.allKeys.firstObject intValue] == 1) {        // 汉字
+            arraySimple = [chineseDataArray subarrayWithRange:NSMakeRange(address, chineseDadaLength)];
+        }else{                                                      // 英文或者字符
+            arraySimple = [enlishDataArray subarrayWithRange:NSMakeRange(address, enlishDadaLength)];
+        }
+        
         if (arraySimple) {
             NSLog(@"最终字模数据: \n%@", [arraySimple componentsJoinedByString:@","]);
-            [arrResult addObject:arraySimple];
+            NSMutableArray * arraySimpleNumber = [NSMutableArray array];
+            for (int i = 0; i < arraySimple.count; i++) {
+                NSString *stringHex = arraySimple[i];
+                int value = [self hexToInt:[stringHex substringFromIndex:2]];
+                [arraySimpleNumber addObject:@(value)];
+            }
+            [arrResult addObject:arraySimpleNumber];
         }
     }
     return arrResult;
 }
-
 
 /**
  获取文本文字的机内码（GBK码）
@@ -67,11 +111,13 @@ static NSArray<NSString *> *latticeDataArray;
  @param string 文本文字
  @return 数组
  */
-+ (NSArray<NSNumber *> *)getGBKFromString:(NSString *)string{
++ (NSArray<NSDictionary *> *)getGBKFromString:(NSString *)string{
     NSMutableArray *arrayResult = [NSMutableArray array];
     for (int i = 0; i < string.length; i++) {
-        int gbk = [self getGBKFromSimpleString:[string substringWithRange:NSMakeRange(i, 1)]];
-        [arrayResult addObject:@(gbk)];
+        BOOL isChinese = NO;
+        int gbk = [self getGBKFromSimpleString:[string substringWithRange:NSMakeRange(i, 1)]
+                                     isChinese:&isChinese];
+        [arrayResult addObject:@{(isChinese ? @"1" : @"0") : @(gbk)}];
     }
     return arrayResult;
 }
@@ -80,16 +126,25 @@ static NSArray<NSString *> *latticeDataArray;
  获取单个字符的机内码（GBK码）
  
  @param string 单个字符
+ @param isChinese 是否是中文
  @return 机内码
  */
-+ (int)getGBKFromSimpleString:(NSString *)string{
++ (int)getGBKFromSimpleString:(NSString *)string
+                    isChinese:(BOOL *)isChinese{
     if ([self isChinese:string]) {
         NSLog(@"%@:  ->汉字", string);
+        *isChinese = YES;
         return [self getGBKFromChinese:string];
-    }else{
-        NSLog(@"%@:  ->非汉字", string);
-        return [string characterAtIndex:0];
     }
+    
+    int ascCode = [string characterAtIndex:0];
+    if (ascCode > enlishGBKMin && ascCode < enlishGBKMax) {
+        NSLog(@"%@:  ->非汉字", string);
+        *isChinese = NO;
+        return ascCode;
+    }
+    NSLog(@"数据库中没找到");
+    return 0;
 }
 
 /**
@@ -287,6 +342,136 @@ static NSArray<NSString *> *latticeDataArray;
 }
 
 
+/**
+ 通过文字，获取到行列数据信息
+ 
+ @param string 文字
+ @return 行列信息
+ */
++ (NSArray <NSDictionary *>*)getRowColumnDataFromText:(NSString *)string{
+    NSArray *arrayNumbers = [self getLatticeDataArray:string];
+    NSArray *arrayResult = [self getRowColumnDataFromLatticeData:arrayNumbers];
+    return arrayResult;
+}
+
+/**
+ 通过字模数组信息，获取到行列数据信息
+
+ @param arrayM 字模信息
+ @return 行列数据信息。 数组中为行列的键值对。 Key: 是否有数据(@"1":有点  @"0":没有点) Value:NSArray 0:列，1:行
+ */
++ (NSArray <NSDictionary *>*)getRowColumnDataFromLatticeData:(NSArray<NSArray <NSNumber*>*> *)arrayM{
+    
+    NSMutableArray *arrayResult = [NSMutableArray array];
+    NSMutableArray *arraySimple;
+    for (int w = 0; w < arrayM.count; w++) {
+        arraySimple = [NSMutableArray array];
+        NSArray *array = arrayM[w];
+        int i, j,CS=0;
+        int n = 0;
+        CS=0;
+        int Longs;
+        Longs=12;//控制列的,如果为中文这个值=12，英文则=6
+        if (array.count == 18) {
+            Longs = 12;
+        }else{
+            Longs = 6;
+        }
+        for(i=0;i<Longs;i+=2)//控制列的
+        {
+            //        n = ColorD[CS];
+            n = [array[CS] intValue];
+            for(j=0;j<4;j++)//0到3行
+            {
+                if(n&0x80)
+                {
+                    //                im1[i,j]=1;
+                    [arraySimple addObject:@{@"1": @[@(i), @(j)]}];
+                }
+                else
+                {
+                    //                im1[i,j]=0;
+                    [arraySimple addObject:@{@"0": @[@(i), @(j)]}];
+                }
+                n <<=1;
+                
+                if(n&0x80)
+                {
+                    //                im1[i+1,j]=1;
+                    [arraySimple addObject:@{@"1": @[@(i+1), @(j)]}];
+                }
+                else
+                {
+                    //                im1[i+1,j]=0;
+                    [arraySimple addObject:@{@"0": @[@(i+1), @(j)]}];
+                }
+                n <<=1;
+            }
+            
+            //        n = ColorD[CS+1];
+            n = [array[CS+1] intValue];
+            for(j=4;j<8;j++)//4到7行
+            {
+                if(n&0x80)
+                {
+                    //                im1[i,j]=1;
+                    [arraySimple addObject:@{@"1": @[@(i), @(j)]}];
+                }
+                else
+                {
+                    //                im1[i,j]=0;
+                    [arraySimple addObject:@{@"0": @[@(i), @(j)]}];
+                }
+                n <<=1;
+                
+                if(n&0x80)
+                {
+                    //                im1[i+1,j]=1;
+                    [arraySimple addObject:@{@"1": @[@(i+1), @(j)]}];
+                }
+                else
+                {
+                    //                im1[i+1,j]=0;
+                    [arraySimple addObject:@{@"0": @[@(i+1), @(j)]}];
+                }
+                n <<=1;
+            }
+            
+            //        n = ColorD[CS+2];
+            n = [array[CS+2] intValue];
+            for(j=8;j<12;j++)//8到11行
+            {
+                if(n&0x80)
+                {
+                    //                im1[i,j]=1;
+                    [arraySimple addObject:@{@"1": @[@(i), @(j)]}];
+                }
+                else
+                {
+                    //                im1[i,j]=0;
+                    [arraySimple addObject:@{@"0": @[@(i), @(j)]}];
+                }
+                n <<=1;
+                
+                if(n&0x80)
+                {
+                    //                im1[i+1,j]=1;
+                    [arrayResult addObject:@{@"1": @[@(i+1), @(j)]}];
+                }
+                else
+                {
+                    //                im1[i+1,j]=0;
+                    [arraySimple addObject:@{@"0": @[@(i+1), @(j)]}];
+                }
+                n <<=1;
+            }
+            CS+=3;
+        }
+        
+        [arrayResult addObject:arraySimple];
+    }
+    return arrayResult;
+}
 
 
 /*******************************************************************************************
@@ -337,4 +522,5 @@ unsigned int ZK_Address_H12X12 (unsigned char c1, unsigned char c2)
     return(h);
 }
 
+    
 @end
