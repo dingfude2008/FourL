@@ -21,6 +21,8 @@ static const int enlishDadaLength = 9;                                      // �
 static const int enlishGBKMax = 0x7E;                                       // 英文字模数据范围最大（不等于）
 static const int enlishGBKMin = 0x20;                                       // 英文字模数据范围最小（不等于）
 
+static NSArray<NSString *> * chineseEmpty;                                  // 汉字的空数据字模
+static NSArray<NSString *> * enlishEmpty;                                   // 英文的空数据字模
 
 @interface FontDataTool()
 
@@ -56,6 +58,9 @@ static const int enlishGBKMin = 0x20;                                       // �
     }else{
         enlishDataArray =  [stringData componentsSeparatedByString:@","];
     }
+    
+    chineseEmpty = @[@"0x00",@"0x00",@"0x00",@"0x00",@"0x00",@"0x00",@"0x00",@"0x00",@"0x00",@"0x00",@"0x00",@"0x00",@"0x00",@"0x00",@"0x00",@"0x00",@"0x00",@"0x00"];
+    enlishEmpty = @[@"0x00",@"0x00",@"0x00",@"0x00",@"0x00",@"0x00",@"0x00",@"0x00",@"0x00"];
 }
 
 /**
@@ -79,16 +84,27 @@ static const int enlishGBKMin = 0x20;                                       // �
         int gbkSimple = [dicSimple.allValues.firstObject intValue];
         
         NSLog(@"机内码:%@", [self intToHex:gbkSimple]);
-        unsigned char heigh = (gbkSimple >> 8) & 0xFF;
-        unsigned char low =  gbkSimple & 0xFF;
-        unsigned int address = ZK_Address_H12X12(heigh, low);
-        NSLog(@"在字模数据中的索引:%@", @(address));
-        
+        unsigned int address;
         NSArray *arraySimple;
+        
         if ([dicSimple.allKeys.firstObject intValue] == 1) {        // 汉字
-            arraySimple = [chineseDataArray subarrayWithRange:NSMakeRange(address, chineseDadaLength)];
+            if (gbkSimple == -1) {
+                arraySimple = chineseEmpty;
+            }else{
+                unsigned char heigh = (gbkSimple >> 8) & 0xFF;
+                unsigned char low =  gbkSimple & 0xFF;
+                address = ZK_Address_H12X12(heigh, low);
+                NSLog(@"中文:在字模数据中的索引:%@", @(address));
+                arraySimple = [chineseDataArray subarrayWithRange:NSMakeRange(address, chineseDadaLength)];
+            }
         }else{                                                      // 英文或者字符
-            arraySimple = [enlishDataArray subarrayWithRange:NSMakeRange(address, enlishDadaLength)];
+            if (gbkSimple == -1) {
+                arraySimple = chineseEmpty;
+            }else{
+                address = (gbkSimple - 0x20)* 9;
+                NSLog(@"英文:在字模数据中的索引:%@", @(address));
+                arraySimple = [enlishDataArray subarrayWithRange:NSMakeRange(address, enlishDadaLength)];            
+            }
         }
         
         if (arraySimple) {
@@ -109,7 +125,7 @@ static const int enlishGBKMin = 0x20;                                       // �
  获取文本文字的机内码（GBK码）
  
  @param string 文本文字
- @return 数组
+ @return 数组  NSDictionary Key:  1：汉字  0：非汉字
  */
 + (NSArray<NSDictionary *> *)getGBKFromString:(NSString *)string{
     NSMutableArray *arrayResult = [NSMutableArray array];
@@ -143,8 +159,8 @@ static const int enlishGBKMin = 0x20;                                       // �
         *isChinese = NO;
         return ascCode;
     }
-    NSLog(@"数据库中没找到");
-    return 0;
+    NSLog(@"数据库中没找到--->%@", string);
+    return -1;
 }
 
 /**
@@ -348,7 +364,7 @@ static const int enlishGBKMin = 0x20;                                       // �
  @param string 文字
  @return 行列信息
  */
-+ (NSArray <NSDictionary *>*)getRowColumnDataFromText:(NSString *)string{
++ (NSArray<NSArray <NSDictionary*>*> *)getRowColumnDataFromText:(NSString *)string{
     NSArray *arrayNumbers = [self getLatticeDataArray:string];
     NSArray *arrayResult = [self getRowColumnDataFromLatticeData:arrayNumbers];
     return arrayResult;
@@ -360,7 +376,7 @@ static const int enlishGBKMin = 0x20;                                       // �
  @param arrayM 字模信息
  @return 行列数据信息。 数组中为行列的键值对。 Key: 是否有数据(@"1":有点  @"0":没有点) Value:NSArray 0:列，1:行
  */
-+ (NSArray <NSDictionary *>*)getRowColumnDataFromLatticeData:(NSArray<NSArray <NSNumber*>*> *)arrayM{
++ (NSArray<NSArray <NSDictionary*>*> *)getRowColumnDataFromLatticeData:(NSArray<NSArray <NSNumber*>*> *)arrayM{
     
     NSMutableArray *arrayResult = [NSMutableArray array];
     NSMutableArray *arraySimple;
@@ -377,92 +393,106 @@ static const int enlishGBKMin = 0x20;                                       // �
         }else{
             Longs = 6;
         }
+        
+        int addCount = 0;
+        
         for(i=0;i<Longs;i+=2)//控制列的
         {
-            //        n = ColorD[CS];
+            if (i == 10) {
+                NSLog(@"1");
+            }
+            
             n = [array[CS] intValue];
             for(j=0;j<4;j++)//0到3行
             {
+                
                 if(n&0x80)
                 {
-                    //                im1[i,j]=1;
+                    
                     [arraySimple addObject:@{@"1": @[@(i), @(j)]}];
                 }
                 else
                 {
-                    //                im1[i,j]=0;
+                    
                     [arraySimple addObject:@{@"0": @[@(i), @(j)]}];
                 }
                 n <<=1;
                 
                 if(n&0x80)
                 {
-                    //                im1[i+1,j]=1;
+                    
                     [arraySimple addObject:@{@"1": @[@(i+1), @(j)]}];
                 }
                 else
                 {
-                    //                im1[i+1,j]=0;
+                    
                     [arraySimple addObject:@{@"0": @[@(i+1), @(j)]}];
                 }
+                
+                addCount += 2;
                 n <<=1;
             }
             
-            //        n = ColorD[CS+1];
+            
             n = [array[CS+1] intValue];
             for(j=4;j<8;j++)//4到7行
             {
                 if(n&0x80)
                 {
-                    //                im1[i,j]=1;
+                    
                     [arraySimple addObject:@{@"1": @[@(i), @(j)]}];
                 }
                 else
                 {
-                    //                im1[i,j]=0;
+                    
                     [arraySimple addObject:@{@"0": @[@(i), @(j)]}];
                 }
                 n <<=1;
                 
                 if(n&0x80)
                 {
-                    //                im1[i+1,j]=1;
+                    
                     [arraySimple addObject:@{@"1": @[@(i+1), @(j)]}];
                 }
                 else
                 {
-                    //                im1[i+1,j]=0;
+                    
                     [arraySimple addObject:@{@"0": @[@(i+1), @(j)]}];
                 }
+                
+                addCount += 2;
                 n <<=1;
             }
             
-            //        n = ColorD[CS+2];
+            
             n = [array[CS+2] intValue];
             for(j=8;j<12;j++)//8到11行
             {
+                
                 if(n&0x80)
                 {
-                    //                im1[i,j]=1;
+                    
                     [arraySimple addObject:@{@"1": @[@(i), @(j)]}];
                 }
                 else
                 {
-                    //                im1[i,j]=0;
+                    
                     [arraySimple addObject:@{@"0": @[@(i), @(j)]}];
                 }
                 n <<=1;
                 
                 if(n&0x80)
                 {
-                    //                im1[i+1,j]=1;
-                    [arrayResult addObject:@{@"1": @[@(i+1), @(j)]}];
+                    
+                    [arraySimple addObject:@{@"1": @[@(i+1), @(j)]}];
                 }
                 else
                 {
-                    //                im1[i+1,j]=0;
+                    
                     [arraySimple addObject:@{@"0": @[@(i+1), @(j)]}];
                 }
+                
+                addCount += 2;
                 n <<=1;
             }
             CS+=3;

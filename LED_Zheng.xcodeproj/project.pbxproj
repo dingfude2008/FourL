@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AD64D6701E932953006CB3DF /* DFMatrixLedView.m in Sources */ = {isa = PBXBuildFile; fileRef = AD64D66F1E932953006CB3DF /* DFMatrixLedView.m */; };
 		AD77335C1E92A23300E31CFE /* enlish_word.txt in Resources */ = {isa = PBXBuildFile; fileRef = AD77335B1E92A23300E31CFE /* enlish_word.txt */; };
 		ADE940931E90C3C9002DA4C1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE940921E90C3C9002DA4C1 /* main.m */; };
 		ADE940961E90C3C9002DA4C1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE940951E90C3C9002DA4C1 /* AppDelegate.m */; };
@@ -16,9 +17,12 @@
 		ADE940A11E90C3C9002DA4C1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADE9409F1E90C3C9002DA4C1 /* LaunchScreen.storyboard */; };
 		ADE940AB1E90C3FA002DA4C1 /* FontDataTool.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE940AA1E90C3FA002DA4C1 /* FontDataTool.m */; };
 		ADE940AF1E90CA88002DA4C1 /* chinese_word.txt in Resources */ = {isa = PBXBuildFile; fileRef = ADE940AE1E90CA88002DA4C1 /* chinese_word.txt */; };
+		ADE9D7F61E93572600D64AC1 /* DFMatrixLedContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE9D7F51E93572600D64AC1 /* DFMatrixLedContainerView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AD64D66E1E932953006CB3DF /* DFMatrixLedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFMatrixLedView.h; sourceTree = "<group>"; };
+		AD64D66F1E932953006CB3DF /* DFMatrixLedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DFMatrixLedView.m; sourceTree = "<group>"; };
 		AD77335B1E92A23300E31CFE /* enlish_word.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = enlish_word.txt; sourceTree = "<group>"; };
 		ADE9408E1E90C3C9002DA4C1 /* LED_Zheng.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LED_Zheng.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADE940921E90C3C9002DA4C1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -33,6 +37,8 @@
 		ADE940A91E90C3FA002DA4C1 /* FontDataTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontDataTool.h; sourceTree = "<group>"; };
 		ADE940AA1E90C3FA002DA4C1 /* FontDataTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontDataTool.m; sourceTree = "<group>"; };
 		ADE940AE1E90CA88002DA4C1 /* chinese_word.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = chinese_word.txt; sourceTree = "<group>"; };
+		ADE9D7F41E93572600D64AC1 /* DFMatrixLedContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFMatrixLedContainerView.h; sourceTree = "<group>"; };
+		ADE9D7F51E93572600D64AC1 /* DFMatrixLedContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DFMatrixLedContainerView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,6 +52,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AD64D66D1E932947006CB3DF /* DFMatrixLedView */ = {
+			isa = PBXGroup;
+			children = (
+				AD64D66E1E932953006CB3DF /* DFMatrixLedView.h */,
+				AD64D66F1E932953006CB3DF /* DFMatrixLedView.m */,
+				ADE9D7F41E93572600D64AC1 /* DFMatrixLedContainerView.h */,
+				ADE9D7F51E93572600D64AC1 /* DFMatrixLedContainerView.m */,
+			);
+			path = DFMatrixLedView;
+			sourceTree = "<group>";
+		};
 		ADE940851E90C3C9002DA4C1 = {
 			isa = PBXGroup;
 			children = (
@@ -65,6 +82,7 @@
 		ADE940901E90C3C9002DA4C1 /* LED_Zheng */ = {
 			isa = PBXGroup;
 			children = (
+				AD64D66D1E932947006CB3DF /* DFMatrixLedView */,
 				ADE940A81E90C3D6002DA4C1 /* FontTool */,
 				ADE940941E90C3C9002DA4C1 /* AppDelegate.h */,
 				ADE940951E90C3C9002DA4C1 /* AppDelegate.m */,
@@ -174,8 +192,10 @@
 			files = (
 				ADE940AB1E90C3FA002DA4C1 /* FontDataTool.m in Sources */,
 				ADE940991E90C3C9002DA4C1 /* ViewController.m in Sources */,
+				AD64D6701E932953006CB3DF /* DFMatrixLedView.m in Sources */,
 				ADE940961E90C3C9002DA4C1 /* AppDelegate.m in Sources */,
 				ADE940931E90C3C9002DA4C1 /* main.m in Sources */,
+				ADE9D7F61E93572600D64AC1 /* DFMatrixLedContainerView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

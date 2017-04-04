@@ -22,7 +22,7 @@
  @param string 文字
  @return 行列信息
  */
-+ (NSArray <NSDictionary *>*)getRowColumnDataFromText:(NSString *)string;
++ (NSArray<NSArray <NSDictionary*>*> *)getRowColumnDataFromText:(NSString *)string;
 
 /**
  获取文本的点阵数据
@@ -35,9 +35,9 @@
 /**
  通过字模数组信息，获取到行列数据信息
  
- @param array 字模信息
+ @param arrayM 字模信息
  @return 行列数据信息。 数组中为行列的键值对。 Key: 是否有数据(@"1":有点  @"0":没有点) Value:NSArray 0:列，1:行
  */
-+ (NSArray <NSDictionary *>*)getRowColumnDataFromLatticeData:(NSArray<NSNumber*> *)array;
++ (NSArray<NSArray <NSDictionary*>*> *)getRowColumnDataFromLatticeData:(NSArray<NSArray <NSNumber*>*> *)arrayM;
 
 @end

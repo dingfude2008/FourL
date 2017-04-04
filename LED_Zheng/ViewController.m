@@ -8,17 +8,19 @@
 
 #import "ViewController.h"
 #import "FontDataTool.h"
-
+#import "DFMatrixLedContainerView.h"
 
 static const NSUInteger SIZE_HEIGHT = 12;
 
-static const NSUInteger SIZE_WIDTH  = SIZE_HEIGHT * 1;
+static const NSUInteger SIZE_WIDTH  = SIZE_HEIGHT * 4;
 
 @interface ViewController (){
     NSMutableArray *arrView;
     __weak IBOutlet UITextField *texxField;
     
-    __weak IBOutlet UIView *containerView;
+    __weak IBOutlet DFMatrixLedContainerView *containerView;
+    
+    NSTimer *timer;
 }
 
 @end
@@ -28,112 +30,65 @@ static const NSUInteger SIZE_WIDTH  = SIZE_HEIGHT * 1;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
+    
     [FontDataTool setupData];
     
     NSString *string = @"黑固好";
     
+    
+    
+    
+    
     // [FontDataTool getLatticeDataArray:string];
     
-    int tag = 5;
-    arrView = [NSMutableArray array];
     
-    for (int i = 0 ; i < SIZE_HEIGHT * SIZE_WIDTH; i++) {
-        
-        int row = i / SIZE_WIDTH;
-        int column = i % SIZE_WIDTH;
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(column * tag, row * tag, tag, tag)];
-        
-        view.tag = i;
-        
-        [arrView addObject:view];
-        view.backgroundColor = [UIColor blackColor];
-        [containerView addSubview:view];
-    }
+//    matrixLedView.row = SIZE_HEIGHT;
+//    matrixLedView.column = SIZE_WIDTH;
+    
+    
+    
+    
+//    return;
+//    int tag = 2;
+//    arrView = [NSMutableArray array];
+//    
+//    for (int i = 0 ; i < SIZE_HEIGHT * SIZE_WIDTH; i++) {
+//        
+//        int row = i / SIZE_WIDTH;
+//        int column = i % SIZE_WIDTH;
+//        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(column * tag, row * tag, tag, tag)];
+//        
+//        view.tag = i;
+//        
+//        [arrView addObject:view];
+//        view.backgroundColor = [UIColor blackColor];
+//        [containerView addSubview:view];
+//    }
 
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    [self changeView];
+    
+    if (!timer) {
+        timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(changeView) userInfo:nil repeats:YES];
+    }else{
+        [timer invalidate];
+        timer = nil;
+    }
 }
 
 - (void)changeView{
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        size_t length = 0;
-        
-        texxField.text = @"好";
-        
-        NSString *string = texxField.text;
-        
-        
-        NSArray *arrayColumnRowData = [FontDataTool getRowColumnDataFromText:string];
-        NSLog(@"%@", arrayColumnRowData);
-        NSLog(@"%@", arrayColumnRowData);
-       
-        NSArray *arrayFirst = arrayColumnRowData.firstObject;
-        
-        for (int i = 0; i < arrayFirst.count; i++) {
-
-            
-            NSDictionary *dicSimple = arrayFirst[i];
-            if ([dicSimple.allKeys.firstObject intValue] == 1) {
-                NSArray *columnRow = dicSimple.allValues;
-                int column = [columnRow[0] intValue];
-                int row = [columnRow[1] intValue];
-                
-                
-                UIView *view = arrView[column + row * SIZE_WIDTH];
-                
-                view.backgroundColor = [UIColor redColor];
-            }
-        }
-        
-        
-        
-        //        size_t length1= 0;
-        
-        
-        // 240 * 60 = 14400   57600   4倍
-        
-        // unsigned char * chars1 = [ImageHelper convertUIImageToBitmapRGBA8:image withSize:&length1];
-        
-        // 48 * 12  = 576  4  2304
-        
-        // UIImage *imageResult = [ImageHelper reSizeImage:image toSize:CGSizeMake(48, 12)];
-        
-//        unsigned char * chars = [ImageHelper convertUIImageToBitmapRGBA8:image withSize:&length];
-//        
-//        NSData *contentData = [NSData dataWithBytes:chars length:length];
-//        
-//        NSArray *result = [self getResultDataFromBMPData:contentData];
-//        
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            
-//            for (int i = 0; i < arrView.count; i++) {
-//                
-//                UIView *view = arrView[i];
-//                if ([result[i] boolValue]) {
-//                    
-//                    int row = i / SIZE_WIDTH;
-//                    int column = i % SIZE_WIDTH;
-//                    
-//                    //NSLog(@"行：%d  列:%d, tag:%d", row, column, (int)view.tag);
-//                    
-//                    view.backgroundColor = [UIColor redColor];
-//                }else{
-//                    view.backgroundColor = [UIColor blackColor];
-//                }
-//            }
-//        });
-        
-        //        chars = NULL;
-        //        // 测试
-        //        NSData *newData = [NSData dataWithBytes:chars length:length];
-        
-        
-        
-        // NSLog(@"result:%@", result);
-    });
     
+    NSString *string = @"国标码+查询;汉#字国?家标准B编码:GB2312GBKGB18030floatpowfA因此我登上了 IRC (Internet Relay Chat)，在那里我遇到了一个很有意思的挑战。它是以 Clarus the dog cow 的形式出现的（译者注：一只像牛的狗，这个卡通形象由苹果传奇图形设计师 SusanKare 设计，在早期的 Mac 系统中，用来显示打印页面的朝向）。这只狗狗是以点阵图 (bitmap) 的形式出现的，通常情况下将其转换为 UIImage 并不是一件很容易的事。当然我觉得，应该有一种通用的方法能够将其转换为可重复使用的路径。";
+    
+    string = [string substringWithRange:NSMakeRange(arc4random() % (string.length - 4), 4)];
+    
+    texxField.text = string;
+    
+    
+    NSArray <NSArray <NSDictionary *>*>* arrayColumnRowData = [FontDataTool getRowColumnDataFromText:string];
+    [containerView setupData:arrayColumnRowData];
 
 }
 
