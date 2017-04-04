@@ -1,0 +1,22 @@
+//
+//  PrefixHeader.pch
+//  FriedRice
+//
+//  Created by DFD on 2017/1/9.
+//  Copyright © 2017年 DFD. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+
+#import "HelperMacro.h"
+
+#import "NSData+ToString.h"
+
+#import "MBProgressHUD+Add.h"
+
+#import "BLEManager.h"
+
+
+#endif /* PrefixHeader_pch */

@@ -15,20 +15,23 @@
  */
 + (void)setupData;
 
-
 /**
- 通过文字，获取到行列数据信息
+ 通过长文本，获取到行列数据信息
 
- @param string 文字
- @return 行列信息
+ @param string 长文本
+ @return 行列信息  NSArray 中是一个字符算一个元素，汉字算一个，英文字母算一个，符号也算一个元素
+ NSDictionary Key： 1：要显示  0:不显示
+              Value: NSArray 两个元素，  0: 列  1:行
  */
 + (NSArray<NSArray <NSDictionary*>*> *)getRowColumnDataFromText:(NSString *)string;
 
 /**
- 获取文本的点阵数据
+ 通过长文本， 获取对应的的点阵数据
 
  @param string 文本
  @return NSArray<NSArray <NSNumber*>*> * 类型
+ 子元素 NSArray 是一个（汉字、字母，符号）
+ NSNumber 是点阵字符的10进制数据
  */
 + (NSArray<NSArray <NSNumber*>*> *)getLatticeDataArray:(NSString *)string;
 

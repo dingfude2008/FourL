@@ -18,9 +18,4 @@
 @property (nonatomic, strong) NSArray *pointsArray;
 
 
-- (void)beginAnimation;
-
-- (void)endAnimation;
-
-
 @end

@@ -7,38 +7,58 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AD64D6701E932953006CB3DF /* DFMatrixLedView.m in Sources */ = {isa = PBXBuildFile; fileRef = AD64D66F1E932953006CB3DF /* DFMatrixLedView.m */; };
-		AD77335C1E92A23300E31CFE /* enlish_word.txt in Resources */ = {isa = PBXBuildFile; fileRef = AD77335B1E92A23300E31CFE /* enlish_word.txt */; };
+		ADAF73421E9379C5003D4B25 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADAF73411E9379C5003D4B25 /* Main.storyboard */; };
 		ADE940931E90C3C9002DA4C1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE940921E90C3C9002DA4C1 /* main.m */; };
 		ADE940961E90C3C9002DA4C1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE940951E90C3C9002DA4C1 /* AppDelegate.m */; };
-		ADE940991E90C3C9002DA4C1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE940981E90C3C9002DA4C1 /* ViewController.m */; };
 		ADE9409C1E90C3C9002DA4C1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADE9409A1E90C3C9002DA4C1 /* Main.storyboard */; };
 		ADE9409E1E90C3C9002DA4C1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADE9409D1E90C3C9002DA4C1 /* Assets.xcassets */; };
 		ADE940A11E90C3C9002DA4C1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADE9409F1E90C3C9002DA4C1 /* LaunchScreen.storyboard */; };
-		ADE940AB1E90C3FA002DA4C1 /* FontDataTool.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE940AA1E90C3FA002DA4C1 /* FontDataTool.m */; };
-		ADE940AF1E90CA88002DA4C1 /* chinese_word.txt in Resources */ = {isa = PBXBuildFile; fileRef = ADE940AE1E90CA88002DA4C1 /* chinese_word.txt */; };
-		ADE9D7F61E93572600D64AC1 /* DFMatrixLedContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE9D7F51E93572600D64AC1 /* DFMatrixLedContainerView.m */; };
+		ADE9D8261E93756E00D64AC1 /* NSData+ToString.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE9D8101E93756D00D64AC1 /* NSData+ToString.m */; };
+		ADE9D8271E93756E00D64AC1 /* DFMatrixLedContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE9D8141E93756D00D64AC1 /* DFMatrixLedContainerView.m */; };
+		ADE9D8281E93756E00D64AC1 /* DFMatrixLedView.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE9D8161E93756D00D64AC1 /* DFMatrixLedView.m */; };
+		ADE9D8291E93756E00D64AC1 /* BLEManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE9D81B1E93756D00D64AC1 /* BLEManager.m */; };
+		ADE9D82A1E93756E00D64AC1 /* CBPeripheral+Additon.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE9D81D1E93756D00D64AC1 /* CBPeripheral+Additon.m */; };
+		ADE9D82B1E93756E00D64AC1 /* chinese_word.txt in Resources */ = {isa = PBXBuildFile; fileRef = ADE9D81F1E93756D00D64AC1 /* chinese_word.txt */; };
+		ADE9D82C1E93756E00D64AC1 /* enlish_word.txt in Resources */ = {isa = PBXBuildFile; fileRef = ADE9D8201E93756D00D64AC1 /* enlish_word.txt */; };
+		ADE9D82D1E93756E00D64AC1 /* FontDataTool.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE9D8221E93756E00D64AC1 /* FontDataTool.m */; };
+		ADE9D82E1E93756E00D64AC1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE9D8251E93756E00D64AC1 /* ViewController.m */; };
+		ADE9D8371E9378E300D64AC1 /* MBProgressHUD+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE9D8341E9378E300D64AC1 /* MBProgressHUD+Add.m */; };
+		ADE9D8381E9378E300D64AC1 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE9D8361E9378E300D64AC1 /* MBProgressHUD.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		AD64D66E1E932953006CB3DF /* DFMatrixLedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFMatrixLedView.h; sourceTree = "<group>"; };
-		AD64D66F1E932953006CB3DF /* DFMatrixLedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DFMatrixLedView.m; sourceTree = "<group>"; };
-		AD77335B1E92A23300E31CFE /* enlish_word.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = enlish_word.txt; sourceTree = "<group>"; };
+		ADAF73411E9379C5003D4B25 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		ADE9408E1E90C3C9002DA4C1 /* LED_Zheng.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LED_Zheng.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADE940921E90C3C9002DA4C1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		ADE940941E90C3C9002DA4C1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		ADE940951E90C3C9002DA4C1 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		ADE940971E90C3C9002DA4C1 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		ADE940981E90C3C9002DA4C1 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		ADE9409B1E90C3C9002DA4C1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		ADE9409D1E90C3C9002DA4C1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ADE940A01E90C3C9002DA4C1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ADE940A21E90C3C9002DA4C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		ADE940A91E90C3FA002DA4C1 /* FontDataTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontDataTool.h; sourceTree = "<group>"; };
-		ADE940AA1E90C3FA002DA4C1 /* FontDataTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontDataTool.m; sourceTree = "<group>"; };
-		ADE940AE1E90CA88002DA4C1 /* chinese_word.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = chinese_word.txt; sourceTree = "<group>"; };
-		ADE9D7F41E93572600D64AC1 /* DFMatrixLedContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFMatrixLedContainerView.h; sourceTree = "<group>"; };
-		ADE9D7F51E93572600D64AC1 /* DFMatrixLedContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DFMatrixLedContainerView.m; sourceTree = "<group>"; };
+		ADE9D80F1E93756D00D64AC1 /* NSData+ToString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+ToString.h"; sourceTree = "<group>"; };
+		ADE9D8101E93756D00D64AC1 /* NSData+ToString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+ToString.m"; sourceTree = "<group>"; };
+		ADE9D8131E93756D00D64AC1 /* DFMatrixLedContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFMatrixLedContainerView.h; sourceTree = "<group>"; };
+		ADE9D8141E93756D00D64AC1 /* DFMatrixLedContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DFMatrixLedContainerView.m; sourceTree = "<group>"; };
+		ADE9D8151E93756D00D64AC1 /* DFMatrixLedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFMatrixLedView.h; sourceTree = "<group>"; };
+		ADE9D8161E93756D00D64AC1 /* DFMatrixLedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DFMatrixLedView.m; sourceTree = "<group>"; };
+		ADE9D8191E93756D00D64AC1 /* BLEHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLEHeader.h; sourceTree = "<group>"; };
+		ADE9D81A1E93756D00D64AC1 /* BLEManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLEManager.h; sourceTree = "<group>"; };
+		ADE9D81B1E93756D00D64AC1 /* BLEManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLEManager.m; sourceTree = "<group>"; };
+		ADE9D81C1E93756D00D64AC1 /* CBPeripheral+Additon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CBPeripheral+Additon.h"; sourceTree = "<group>"; };
+		ADE9D81D1E93756D00D64AC1 /* CBPeripheral+Additon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CBPeripheral+Additon.m"; sourceTree = "<group>"; };
+		ADE9D81F1E93756D00D64AC1 /* chinese_word.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = chinese_word.txt; sourceTree = "<group>"; };
+		ADE9D8201E93756D00D64AC1 /* enlish_word.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = enlish_word.txt; sourceTree = "<group>"; };
+		ADE9D8211E93756D00D64AC1 /* FontDataTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontDataTool.h; sourceTree = "<group>"; };
+		ADE9D8221E93756E00D64AC1 /* FontDataTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontDataTool.m; sourceTree = "<group>"; };
+		ADE9D8241E93756E00D64AC1 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		ADE9D8251E93756E00D64AC1 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		ADE9D8301E93761E00D64AC1 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		ADE9D8311E9376D600D64AC1 /* HelperMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelperMacro.h; sourceTree = "<group>"; };
+		ADE9D8331E9378E300D64AC1 /* MBProgressHUD+Add.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+Add.h"; sourceTree = "<group>"; };
+		ADE9D8341E9378E300D64AC1 /* MBProgressHUD+Add.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+Add.m"; sourceTree = "<group>"; };
+		ADE9D8351E9378E300D64AC1 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		ADE9D8361E9378E300D64AC1 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,17 +72,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		AD64D66D1E932947006CB3DF /* DFMatrixLedView */ = {
-			isa = PBXGroup;
-			children = (
-				AD64D66E1E932953006CB3DF /* DFMatrixLedView.h */,
-				AD64D66F1E932953006CB3DF /* DFMatrixLedView.m */,
-				ADE9D7F41E93572600D64AC1 /* DFMatrixLedContainerView.h */,
-				ADE9D7F51E93572600D64AC1 /* DFMatrixLedContainerView.m */,
-			);
-			path = DFMatrixLedView;
-			sourceTree = "<group>";
-		};
 		ADE940851E90C3C9002DA4C1 = {
 			isa = PBXGroup;
 			children = (
@@ -82,17 +91,8 @@
 		ADE940901E90C3C9002DA4C1 /* LED_Zheng */ = {
 			isa = PBXGroup;
 			children = (
-				AD64D66D1E932947006CB3DF /* DFMatrixLedView */,
-				ADE940A81E90C3D6002DA4C1 /* FontTool */,
-				ADE940941E90C3C9002DA4C1 /* AppDelegate.h */,
-				ADE940951E90C3C9002DA4C1 /* AppDelegate.m */,
-				ADE940971E90C3C9002DA4C1 /* ViewController.h */,
-				ADE940981E90C3C9002DA4C1 /* ViewController.m */,
-				ADE9409A1E90C3C9002DA4C1 /* Main.storyboard */,
-				ADE9409D1E90C3C9002DA4C1 /* Assets.xcassets */,
-				ADE9409F1E90C3C9002DA4C1 /* LaunchScreen.storyboard */,
-				ADE940A21E90C3C9002DA4C1 /* Info.plist */,
-				ADE940911E90C3C9002DA4C1 /* Supporting Files */,
+				ADE9D82F1E93757A00D64AC1 /* App */,
+				ADE9D80D1E93756D00D64AC1 /* Class */,
 			);
 			path = LED_Zheng;
 			sourceTree = "<group>";
@@ -105,15 +105,113 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		ADE940A81E90C3D6002DA4C1 /* FontTool */ = {
+		ADE9D80D1E93756D00D64AC1 /* Class */ = {
 			isa = PBXGroup;
 			children = (
-				AD77335B1E92A23300E31CFE /* enlish_word.txt */,
-				ADE940AE1E90CA88002DA4C1 /* chinese_word.txt */,
-				ADE940A91E90C3FA002DA4C1 /* FontDataTool.h */,
-				ADE940AA1E90C3FA002DA4C1 /* FontDataTool.m */,
+				ADE9D80E1E93756D00D64AC1 /* Additions */,
+				ADE9D8111E93756D00D64AC1 /* Third */,
+				ADE9D8171E93756D00D64AC1 /* Tool */,
+				ADE9D8231E93756E00D64AC1 /* View */,
 			);
-			name = FontTool;
+			path = Class;
+			sourceTree = "<group>";
+		};
+		ADE9D80E1E93756D00D64AC1 /* Additions */ = {
+			isa = PBXGroup;
+			children = (
+				ADE9D80F1E93756D00D64AC1 /* NSData+ToString.h */,
+				ADE9D8101E93756D00D64AC1 /* NSData+ToString.m */,
+			);
+			path = Additions;
+			sourceTree = "<group>";
+		};
+		ADE9D8111E93756D00D64AC1 /* Third */ = {
+			isa = PBXGroup;
+			children = (
+				ADE9D8321E9378E300D64AC1 /* MBProgressHUD */,
+				ADE9D8121E93756D00D64AC1 /* DFMatrixLedView */,
+			);
+			path = Third;
+			sourceTree = "<group>";
+		};
+		ADE9D8121E93756D00D64AC1 /* DFMatrixLedView */ = {
+			isa = PBXGroup;
+			children = (
+				ADE9D8131E93756D00D64AC1 /* DFMatrixLedContainerView.h */,
+				ADE9D8141E93756D00D64AC1 /* DFMatrixLedContainerView.m */,
+				ADE9D8151E93756D00D64AC1 /* DFMatrixLedView.h */,
+				ADE9D8161E93756D00D64AC1 /* DFMatrixLedView.m */,
+			);
+			path = DFMatrixLedView;
+			sourceTree = "<group>";
+		};
+		ADE9D8171E93756D00D64AC1 /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+				ADE9D8181E93756D00D64AC1 /* BLEManager */,
+				ADE9D81E1E93756D00D64AC1 /* FontDataTool */,
+			);
+			path = Tool;
+			sourceTree = "<group>";
+		};
+		ADE9D8181E93756D00D64AC1 /* BLEManager */ = {
+			isa = PBXGroup;
+			children = (
+				ADE9D8191E93756D00D64AC1 /* BLEHeader.h */,
+				ADE9D81A1E93756D00D64AC1 /* BLEManager.h */,
+				ADE9D81B1E93756D00D64AC1 /* BLEManager.m */,
+				ADE9D81C1E93756D00D64AC1 /* CBPeripheral+Additon.h */,
+				ADE9D81D1E93756D00D64AC1 /* CBPeripheral+Additon.m */,
+			);
+			path = BLEManager;
+			sourceTree = "<group>";
+		};
+		ADE9D81E1E93756D00D64AC1 /* FontDataTool */ = {
+			isa = PBXGroup;
+			children = (
+				ADE9D81F1E93756D00D64AC1 /* chinese_word.txt */,
+				ADE9D8201E93756D00D64AC1 /* enlish_word.txt */,
+				ADE9D8211E93756D00D64AC1 /* FontDataTool.h */,
+				ADE9D8221E93756E00D64AC1 /* FontDataTool.m */,
+			);
+			path = FontDataTool;
+			sourceTree = "<group>";
+		};
+		ADE9D8231E93756E00D64AC1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				ADE9D8241E93756E00D64AC1 /* ViewController.h */,
+				ADE9D8251E93756E00D64AC1 /* ViewController.m */,
+				ADAF73411E9379C5003D4B25 /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		ADE9D82F1E93757A00D64AC1 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				ADE9D8311E9376D600D64AC1 /* HelperMacro.h */,
+				ADE9D8301E93761E00D64AC1 /* PrefixHeader.pch */,
+				ADE940941E90C3C9002DA4C1 /* AppDelegate.h */,
+				ADE940951E90C3C9002DA4C1 /* AppDelegate.m */,
+				ADE9409A1E90C3C9002DA4C1 /* Main.storyboard */,
+				ADE9409D1E90C3C9002DA4C1 /* Assets.xcassets */,
+				ADE9409F1E90C3C9002DA4C1 /* LaunchScreen.storyboard */,
+				ADE940A21E90C3C9002DA4C1 /* Info.plist */,
+				ADE940911E90C3C9002DA4C1 /* Supporting Files */,
+			);
+			name = App;
+			sourceTree = "<group>";
+		};
+		ADE9D8321E9378E300D64AC1 /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				ADE9D8331E9378E300D64AC1 /* MBProgressHUD+Add.h */,
+				ADE9D8341E9378E300D64AC1 /* MBProgressHUD+Add.m */,
+				ADE9D8351E9378E300D64AC1 /* MBProgressHUD.h */,
+				ADE9D8361E9378E300D64AC1 /* MBProgressHUD.m */,
+			);
+			path = MBProgressHUD;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -175,11 +273,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADE9D82B1E93756E00D64AC1 /* chinese_word.txt in Resources */,
 				ADE940A11E90C3C9002DA4C1 /* LaunchScreen.storyboard in Resources */,
-				ADE940AF1E90CA88002DA4C1 /* chinese_word.txt in Resources */,
 				ADE9409E1E90C3C9002DA4C1 /* Assets.xcassets in Resources */,
+				ADAF73421E9379C5003D4B25 /* Main.storyboard in Resources */,
 				ADE9409C1E90C3C9002DA4C1 /* Main.storyboard in Resources */,
-				AD77335C1E92A23300E31CFE /* enlish_word.txt in Resources */,
+				ADE9D82C1E93756E00D64AC1 /* enlish_word.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -190,12 +289,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ADE940AB1E90C3FA002DA4C1 /* FontDataTool.m in Sources */,
-				ADE940991E90C3C9002DA4C1 /* ViewController.m in Sources */,
-				AD64D6701E932953006CB3DF /* DFMatrixLedView.m in Sources */,
+				ADE9D82E1E93756E00D64AC1 /* ViewController.m in Sources */,
+				ADE9D82D1E93756E00D64AC1 /* FontDataTool.m in Sources */,
+				ADE9D82A1E93756E00D64AC1 /* CBPeripheral+Additon.m in Sources */,
 				ADE940961E90C3C9002DA4C1 /* AppDelegate.m in Sources */,
+				ADE9D8381E9378E300D64AC1 /* MBProgressHUD.m in Sources */,
 				ADE940931E90C3C9002DA4C1 /* main.m in Sources */,
-				ADE9D7F61E93572600D64AC1 /* DFMatrixLedContainerView.m in Sources */,
+				ADE9D8281E93756E00D64AC1 /* DFMatrixLedView.m in Sources */,
+				ADE9D8261E93756E00D64AC1 /* NSData+ToString.m in Sources */,
+				ADE9D8371E9378E300D64AC1 /* MBProgressHUD+Add.m in Sources */,
+				ADE9D8271E93756E00D64AC1 /* DFMatrixLedContainerView.m in Sources */,
+				ADE9D8291E93756E00D64AC1 /* BLEManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -314,6 +418,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 6EM7RHL4TV;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/LED_Zheng/PrefixHeader.pch";
 				INFOPLIST_FILE = LED_Zheng/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -327,6 +432,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 6EM7RHL4TV;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/LED_Zheng/PrefixHeader.pch";
 				INFOPLIST_FILE = LED_Zheng/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

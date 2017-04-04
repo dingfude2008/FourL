@@ -19,8 +19,6 @@
 @implementation DFMatrixLedView
 
 
-
-
 - (void)setPointsArray:(NSArray *)pointsArray{
     _pointsArray = pointsArray;
     

@@ -64,10 +64,12 @@ static NSArray<NSString *> * enlishEmpty;                                   // �
 }
 
 /**
- 获取文本的点阵数据， 其中包含了英文和中文
+ 获取长文本的点阵数据， 其中包含了英文和中文
  
  @param string 文本
  @return NSArray<NSArray <NSNumber*>*> * 类型
+ NSArray
+ 
  */
 + (NSArray<NSArray <NSNumber*>*> *)getLatticeDataArray:(NSString *)string{
     if (!chineseDataArray || !enlishDataArray) {
