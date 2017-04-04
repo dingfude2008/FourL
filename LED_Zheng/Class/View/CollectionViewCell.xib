@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CollectionViewCell" id="gTV-IL-0wX" customClass="CollectionViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="219" height="85"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="219" height="85"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kWg-H2-SFZ">
+                        <rect key="frame" x="0.0" y="0.0" width="219" height="35.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.72156862745098038" green="0.72156862745098038" blue="0.72156862745098038" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vki-o8-MBT">
+                        <rect key="frame" x="0.0" y="35.5" width="219" height="49.5"/>
+                        <color key="backgroundColor" red="0.8784313725490196" green="0.8784313725490196" blue="0.8784313725490196" alpha="1" colorSpace="calibratedRGB"/>
+                        <state key="normal" title="ddd" image="navigationbar_arrow_down">
+                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <state key="highlighted" image="navigationbar_arrow_up"/>
+                        <connections>
+                            <action selector="buttonClick" destination="gTV-IL-0wX" eventType="touchUpInside" id="hSt-KS-Rkk"/>
+                        </connections>
+                    </button>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="kWg-H2-SFZ" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="0FW-9U-1lw"/>
+                <constraint firstAttribute="bottom" secondItem="Vki-o8-MBT" secondAttribute="bottom" id="0ae-Lc-kN3"/>
+                <constraint firstItem="kWg-H2-SFZ" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="3YM-sH-3Cs"/>
+                <constraint firstAttribute="trailing" secondItem="kWg-H2-SFZ" secondAttribute="trailing" id="74x-Kl-Yff"/>
+                <constraint firstItem="Vki-o8-MBT" firstAttribute="top" secondItem="kWg-H2-SFZ" secondAttribute="bottom" id="IvG-IE-tNY"/>
+                <constraint firstItem="Vki-o8-MBT" firstAttribute="height" secondItem="kWg-H2-SFZ" secondAttribute="height" multiplier="1.4" id="ffy-Q8-ZhF"/>
+                <constraint firstAttribute="trailing" secondItem="Vki-o8-MBT" secondAttribute="trailing" id="gjE-08-NZE"/>
+                <constraint firstItem="Vki-o8-MBT" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="yUW-tO-cch"/>
+            </constraints>
+            <size key="customSize" width="219" height="85"/>
+            <connections>
+                <outlet property="button" destination="Vki-o8-MBT" id="BM0-Ra-x1Q"/>
+                <outlet property="titleLabel" destination="kWg-H2-SFZ" id="m3U-Yn-ikd"/>
+            </connections>
+            <point key="canvasLocation" x="-60.5" y="-21.5"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="navigationbar_arrow_down" width="13" height="7"/>
+        <image name="navigationbar_arrow_up" width="13" height="7"/>
+    </resources>
+</document>

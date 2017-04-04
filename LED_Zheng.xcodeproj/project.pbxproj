@@ -7,10 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		ADAF73421E9379C5003D4B25 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADAF73411E9379C5003D4B25 /* Main.storyboard */; };
+		9530AC38A2073F27E5E2D718 /* libPods-LED_Zheng.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CCEA1143E523C759054CCF7 /* libPods-LED_Zheng.a */; };
+		ADAF73461E937C67003D4B25 /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ADAF73441E937C67003D4B25 /* CollectionViewCell.m */; };
+		ADAF73471E937C67003D4B25 /* CollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADAF73451E937C67003D4B25 /* CollectionViewCell.xib */; };
+		ADAF734A1E938C54003D4B25 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADAF73481E938C54003D4B25 /* Main.storyboard */; };
 		ADE940931E90C3C9002DA4C1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE940921E90C3C9002DA4C1 /* main.m */; };
 		ADE940961E90C3C9002DA4C1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE940951E90C3C9002DA4C1 /* AppDelegate.m */; };
-		ADE9409C1E90C3C9002DA4C1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADE9409A1E90C3C9002DA4C1 /* Main.storyboard */; };
 		ADE9409E1E90C3C9002DA4C1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADE9409D1E90C3C9002DA4C1 /* Assets.xcassets */; };
 		ADE940A11E90C3C9002DA4C1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADE9409F1E90C3C9002DA4C1 /* LaunchScreen.storyboard */; };
 		ADE9D8261E93756E00D64AC1 /* NSData+ToString.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE9D8101E93756D00D64AC1 /* NSData+ToString.m */; };
@@ -27,12 +29,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		ADAF73411E9379C5003D4B25 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		4CCEA1143E523C759054CCF7 /* libPods-LED_Zheng.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LED_Zheng.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5AF4B200D3E0B3CA14F64153 /* Pods-LED_Zheng.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LED_Zheng.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LED_Zheng/Pods-LED_Zheng.debug.xcconfig"; sourceTree = "<group>"; };
+		A16984C0F7B66CBEB91ADDA0 /* Pods-LED_Zheng.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LED_Zheng.release.xcconfig"; path = "Pods/Target Support Files/Pods-LED_Zheng/Pods-LED_Zheng.release.xcconfig"; sourceTree = "<group>"; };
+		ADAF73431E937C67003D4B25 /* CollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
+		ADAF73441E937C67003D4B25 /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
+		ADAF73451E937C67003D4B25 /* CollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionViewCell.xib; sourceTree = "<group>"; };
+		ADAF73491E938C54003D4B25 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		ADE9408E1E90C3C9002DA4C1 /* LED_Zheng.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LED_Zheng.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADE940921E90C3C9002DA4C1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		ADE940941E90C3C9002DA4C1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		ADE940951E90C3C9002DA4C1 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		ADE9409B1E90C3C9002DA4C1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		ADE9409D1E90C3C9002DA4C1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ADE940A01E90C3C9002DA4C1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ADE940A21E90C3C9002DA4C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -66,6 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9530AC38A2073F27E5E2D718 /* libPods-LED_Zheng.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +85,8 @@
 			children = (
 				ADE940901E90C3C9002DA4C1 /* LED_Zheng */,
 				ADE9408F1E90C3C9002DA4C1 /* Products */,
+				C6562F41D99E320AAA586028 /* Pods */,
+				E97A18D1DF5A60AD13D428B7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -182,7 +192,9 @@
 			children = (
 				ADE9D8241E93756E00D64AC1 /* ViewController.h */,
 				ADE9D8251E93756E00D64AC1 /* ViewController.m */,
-				ADAF73411E9379C5003D4B25 /* Main.storyboard */,
+				ADAF73431E937C67003D4B25 /* CollectionViewCell.h */,
+				ADAF73441E937C67003D4B25 /* CollectionViewCell.m */,
+				ADAF73451E937C67003D4B25 /* CollectionViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -194,7 +206,7 @@
 				ADE9D8301E93761E00D64AC1 /* PrefixHeader.pch */,
 				ADE940941E90C3C9002DA4C1 /* AppDelegate.h */,
 				ADE940951E90C3C9002DA4C1 /* AppDelegate.m */,
-				ADE9409A1E90C3C9002DA4C1 /* Main.storyboard */,
+				ADAF73481E938C54003D4B25 /* Main.storyboard */,
 				ADE9409D1E90C3C9002DA4C1 /* Assets.xcassets */,
 				ADE9409F1E90C3C9002DA4C1 /* LaunchScreen.storyboard */,
 				ADE940A21E90C3C9002DA4C1 /* Info.plist */,
@@ -214,6 +226,23 @@
 			path = MBProgressHUD;
 			sourceTree = "<group>";
 		};
+		C6562F41D99E320AAA586028 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5AF4B200D3E0B3CA14F64153 /* Pods-LED_Zheng.debug.xcconfig */,
+				A16984C0F7B66CBEB91ADDA0 /* Pods-LED_Zheng.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		E97A18D1DF5A60AD13D428B7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4CCEA1143E523C759054CCF7 /* libPods-LED_Zheng.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -221,9 +250,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = ADE940A51E90C3C9002DA4C1 /* Build configuration list for PBXNativeTarget "LED_Zheng" */;
 			buildPhases = (
+				5F013214E86535E7DBA0B18F /* [CP] Check Pods Manifest.lock */,
 				ADE9408A1E90C3C9002DA4C1 /* Sources */,
 				ADE9408B1E90C3C9002DA4C1 /* Frameworks */,
 				ADE9408C1E90C3C9002DA4C1 /* Resources */,
+				6CB1E896C4B8FCA0F403A9E1 /* [CP] Embed Pods Frameworks */,
+				4F9890D95438F06A6F99F73F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -274,15 +306,63 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADE9D82B1E93756E00D64AC1 /* chinese_word.txt in Resources */,
+				ADAF73471E937C67003D4B25 /* CollectionViewCell.xib in Resources */,
 				ADE940A11E90C3C9002DA4C1 /* LaunchScreen.storyboard in Resources */,
+				ADAF734A1E938C54003D4B25 /* Main.storyboard in Resources */,
 				ADE9409E1E90C3C9002DA4C1 /* Assets.xcassets in Resources */,
-				ADAF73421E9379C5003D4B25 /* Main.storyboard in Resources */,
-				ADE9409C1E90C3C9002DA4C1 /* Main.storyboard in Resources */,
 				ADE9D82C1E93756E00D64AC1 /* enlish_word.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4F9890D95438F06A6F99F73F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LED_Zheng/Pods-LED_Zheng-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5F013214E86535E7DBA0B18F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		6CB1E896C4B8FCA0F403A9E1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LED_Zheng/Pods-LED_Zheng-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		ADE9408A1E90C3C9002DA4C1 /* Sources */ = {
@@ -295,6 +375,7 @@
 				ADE940961E90C3C9002DA4C1 /* AppDelegate.m in Sources */,
 				ADE9D8381E9378E300D64AC1 /* MBProgressHUD.m in Sources */,
 				ADE940931E90C3C9002DA4C1 /* main.m in Sources */,
+				ADAF73461E937C67003D4B25 /* CollectionViewCell.m in Sources */,
 				ADE9D8281E93756E00D64AC1 /* DFMatrixLedView.m in Sources */,
 				ADE9D8261E93756E00D64AC1 /* NSData+ToString.m in Sources */,
 				ADE9D8371E9378E300D64AC1 /* MBProgressHUD+Add.m in Sources */,
@@ -306,10 +387,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		ADE9409A1E90C3C9002DA4C1 /* Main.storyboard */ = {
+		ADAF73481E938C54003D4B25 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				ADE9409B1E90C3C9002DA4C1 /* Base */,
+				ADAF73491E938C54003D4B25 /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -415,6 +496,7 @@
 		};
 		ADE940A61E90C3C9002DA4C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5AF4B200D3E0B3CA14F64153 /* Pods-LED_Zheng.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 6EM7RHL4TV;
@@ -429,6 +511,7 @@
 		};
 		ADE940A71E90C3C9002DA4C1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A16984C0F7B66CBEB91ADDA0 /* Pods-LED_Zheng.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 6EM7RHL4TV;

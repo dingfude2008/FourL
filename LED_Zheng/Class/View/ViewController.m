@@ -9,19 +9,29 @@
 #import "ViewController.h"
 #import "FontDataTool.h"
 #import "DFMatrixLedContainerView.h"
+#import <UIKit/UITextView.h>
+#import "CollectionViewCell.h"
 
-static const NSUInteger SIZE_HEIGHT = 12;
+static NSString *cellID = @"CollectionViewCell";
 
-static const NSUInteger SIZE_WIDTH  = SIZE_HEIGHT * 4;
-
-@interface ViewController (){
-    NSMutableArray *arrView;
-    __weak IBOutlet UITextField *texxField;
+@interface ViewController () <UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UIPickerViewDataSource, UIPickerViewDelegate>{
     
+    
+    __weak IBOutlet UITextView *textView;
     __weak IBOutlet DFMatrixLedContainerView *containerView;
     
-    NSTimer *timer;
+    __weak IBOutlet UIView *colectionContainerView;
+    
+    
+    UICollectionView *_collectionView;
+    NSArray *arrViewData;       // _collectionView的数据源
+    
+    NSArray *arraySelected;     // 用户选中的选项在数据源中的集合的索引的集合
+    
+    NSInteger editIndex;        // 要修改的是第几个选项
 }
+
+@property (nonatomic, strong) UIPickerView                  *pickView;
 
 @end
 
@@ -30,52 +40,70 @@ static const NSUInteger SIZE_WIDTH  = SIZE_HEIGHT * 4;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
-    
     [FontDataTool setupData];
     
-    NSString *string = @"黑固好";
+    textView.delegate = self;
     
+    /*
+     00：随机
+     01：立即显示
+     02：连续左移
+     03：连续右移
+     04：左移
+     05：右移
+     06：上移
+     07：下移
+     08：水平展开
+     09：飘雪
+     0A；闪烁
+     0B：抖动
+     */
+    arrViewData = @[@{@"特效":@[@"随机",@"立即显示",@"连续左移",@"连续右移",@"左移",@"右移",@"上移",@"下移",@"水平展开",@"飘雪",@"闪烁",@"抖动"]},
+                    @{@"字体":@[@"Default"]},
+                    @{@"速度":@[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"10",@"11",@"12",@"13",@"14",@"15",@"16",@"17",@"18",@"19",@"20"]},
+                    @{@"大小":@"12"},
+                    @{@"停留时间":@[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"10",@"11",@"12",@"13",@"14",@"15",@"16",@"17",@"18",@"19",@"20",@"21",@"22",@"23",@"24",@"25",@"26",@"27",@"28",@"29",@"30",@"31",@"32"]},
+                    @{@"颜色":@[@"红"]}];
     
-    
-    
-    
-    // [FontDataTool getLatticeDataArray:string];
-    
-    
-//    matrixLedView.row = SIZE_HEIGHT;
-//    matrixLedView.column = SIZE_WIDTH;
-    
-    
-    
-    
-//    return;
-//    int tag = 2;
-//    arrView = [NSMutableArray array];
-//    
-//    for (int i = 0 ; i < SIZE_HEIGHT * SIZE_WIDTH; i++) {
-//        
-//        int row = i / SIZE_WIDTH;
-//        int column = i % SIZE_WIDTH;
-//        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(column * tag, row * tag, tag, tag)];
-//        
-//        view.tag = i;
-//        
-//        [arrView addObject:view];
-//        view.backgroundColor = [UIColor blackColor];
-//        [containerView addSubview:view];
-//    }
+    arraySelected = @[@2, @0, @9, @0, @0, @0];
+ 
+    [self setupCollection];
 
 }
 
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+- (void)setupCollection{
     
-    if (!timer) {
-        timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(changeView) userInfo:nil repeats:YES];
-    }else{
-        [timer invalidate];
-        timer = nil;
-    }
+    CGFloat margin = 5;
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    
+    layout.minimumInteritemSpacing = 0;
+    layout.minimumLineSpacing = 0;
+    CGFloat width = (ScreenWidth - 3 * margin) / 2.0;
+    layout.itemSize = CGSizeMake(width, 50);
+    
+    
+    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 150) collectionViewLayout:layout];
+    _collectionView.backgroundColor = self.view.backgroundColor;
+    _collectionView.dataSource = self;
+    _collectionView.delegate = self;
+    _collectionView.scrollEnabled = NO;
+    [colectionContainerView addSubview:_collectionView];
+    
+    [_collectionView registerNib:[UINib nibWithNibName:cellID bundle:nil] forCellWithReuseIdentifier:cellID];
+    
+}
+
+- (void)initPickerView{
+    _pickView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, ScreenHeight, ScreenWidth, 256)];
+    _pickView.backgroundColor = DWhite;
+    
+    [self.view addSubview:_pickView];
+    _pickView.dataSource        = self;
+    _pickView.delegate          = self;
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [self.view endEditing:YES];
 }
 
 - (void)changeView{
@@ -84,15 +112,63 @@ static const NSUInteger SIZE_WIDTH  = SIZE_HEIGHT * 4;
     
     string = [string substringWithRange:NSMakeRange(arc4random() % (string.length - 4), 4)];
     
-    texxField.text = string;
-    
+    textView.text = string;
     
     NSArray <NSArray <NSDictionary *>*>* arrayColumnRowData = [FontDataTool getRowColumnDataFromText:string];
     [containerView setupData:arrayColumnRowData];
-
 }
 
 
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    [collectionView deselectItemAtIndexPath:indexPath animated:NO];
+    
+//    FRDiscoverViewModel *viewModel = self.listViewModel.discoverViewModelList[indexPath.row];
+//    FRUserInfoController *vc = [[FRUserInfoController alloc] initWithUserAccount:viewModel.userAccount];
+//    [self.navigationController pushViewController:vc animated:YES];
+}
+
+#pragma mark UICollectionViewDataSource
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
+    return 1;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView
+     numberOfItemsInSection:(NSInteger)section{
+    return 6;
+}
+
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
+                  cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    
+    CollectionViewCell *cell = (CollectionViewCell *)
+    [collectionView dequeueReusableCellWithReuseIdentifier:cellID
+                                              forIndexPath:indexPath];
+    NSDictionary *dictionary = arrViewData[indexPath.row];
+    cell.titleLabel.text = [dictionary.allKeys.firstObject description];
+    cell.tag = indexPath.row;
+    return cell;
+}
+
+#pragma mark UIPickerViewDataSource;
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
+    NSDictionary *dictionary = arrViewData[editIndex];
+    return dictionary.allValues.count;
+}
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
+    return 1;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
+    NSDictionary *dictionary = arrViewData[editIndex];
+    return [dictionary.allValues[row] description];
+}
+
+//选中某一行
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
+    
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
