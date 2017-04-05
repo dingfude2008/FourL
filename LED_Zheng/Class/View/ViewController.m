@@ -11,6 +11,7 @@
 #import "DFMatrixLedContainerView.h"
 #import <UIKit/UITextView.h>
 #import "CollectionViewCell.h"
+#import "FRSearchDeviceController.h"
 
 static NSString *cellID = @"CollectionViewCell";
 
@@ -42,7 +43,7 @@ static NSString *cellID = @"CollectionViewCell";
     
     [FontDataTool setupData];
     
-    textView.delegate = self;
+    // textView.delegate = self;
     
     /*
      00：随机
@@ -68,7 +69,19 @@ static NSString *cellID = @"CollectionViewCell";
     arraySelected = @[@2, @0, @9, @0, @0, @0];
  
     [self setupCollection];
+    
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(textChanged:)
+                                                 name:UITextViewTextDidChangeNotification
+                                               object:textView];
+}
 
+
+
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)setupCollection{
@@ -104,18 +117,34 @@ static NSString *cellID = @"CollectionViewCell";
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [self.view endEditing:YES];
+    
+    [self changeView];
 }
 
 - (void)changeView{
     
-    NSString *string = @"国标码+查询;汉#字国?家标准B编码:GB2312GBKGB18030floatpowfA因此我登上了 IRC (Internet Relay Chat)，在那里我遇到了一个很有意思的挑战。它是以 Clarus the dog cow 的形式出现的（译者注：一只像牛的狗，这个卡通形象由苹果传奇图形设计师 SusanKare 设计，在早期的 Mac 系统中，用来显示打印页面的朝向）。这只狗狗是以点阵图 (bitmap) 的形式出现的，通常情况下将其转换为 UIImage 并不是一件很容易的事。当然我觉得，应该有一种通用的方法能够将其转换为可重复使用的路径。";
+//    NSString *string = @"国标码+查询;汉#字国?家标准B编码:GB2312GBKGB18030floatpowfA因此我登上了 IRC (Internet Relay Chat)，在那里我遇到了一个很有意思的挑战。它是以 Clarus the dog cow 的形式出现的（译者注：一只像牛的狗，这个卡通形象由苹果传奇图形设计师 SusanKare 设计，在早期的 Mac 系统中，用来显示打印页面的朝向）。这只狗狗是以点阵图 (bitmap) 的形式出现的，通常情况下将其转换为 UIImage 并不是一件很容易的事。当然我觉得，应该有一种通用的方法能够将其转换为可重复使用的路径。";
+//    
+//    string = [string substringWithRange:NSMakeRange(arc4random() % (string.length - 4), 4)];
     
-    string = [string substringWithRange:NSMakeRange(arc4random() % (string.length - 4), 4)];
+//    textView.text = string;
     
-    textView.text = string;
+    NSString *string = textView.text;
     
-    NSArray <NSArray <NSDictionary *>*>* arrayColumnRowData = [FontDataTool getRowColumnDataFromText:string];
+    // 点阵信息
+    NSArray<NSArray <NSNumber*>*> * arrayNumbers = [FontDataTool getLatticeDataArray:string];
+    
+    // 行列信息
+    NSArray <NSArray <NSDictionary *>*>* arrayColumnRowData = [FontDataTool getRowColumnDataFromLatticeData:arrayNumbers];;
     [containerView setupData:arrayColumnRowData];
+    
+    //[DDBLE postTextData:arrayNumbers];
+    [DDBLE postTextData:0 speed:1 residenceTime:1 border:0 viewStyle:1 logoData:nil textData:arrayNumbers];
+}
+
+- (IBAction)buttonClick {
+    FRSearchDeviceController *vc = [[FRSearchDeviceController alloc] init];
+    [self presentViewController:vc animated:YES completion:NULL];
 }
 
 
@@ -171,7 +200,16 @@ static NSString *cellID = @"CollectionViewCell";
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
+}
+
+- (void)textChanged:(NSNotification *)obj{
+    UITextView *textField = (UITextView *)obj.object;
+    NSString *toBeString = textField.text;
+    
+    textView.text = toBeString;
+    
+    [self changeView];
 }
 
 

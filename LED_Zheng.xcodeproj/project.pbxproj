@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		9530AC38A2073F27E5E2D718 /* libPods-LED_Zheng.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CCEA1143E523C759054CCF7 /* libPods-LED_Zheng.a */; };
+		AD61E9D91E952A0A00A584CE /* FRSearchDeviceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD61E9D41E952A0A00A584CE /* FRSearchDeviceCell.m */; };
+		AD61E9DA1E952A0A00A584CE /* FRSearchDeviceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD61E9D51E952A0A00A584CE /* FRSearchDeviceCell.xib */; };
+		AD61E9DB1E952A0A00A584CE /* FRSearchDeviceController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD61E9D71E952A0A00A584CE /* FRSearchDeviceController.m */; };
+		AD61E9DC1E952A0A00A584CE /* FRSearchDeviceController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD61E9D81E952A0A00A584CE /* FRSearchDeviceController.xib */; };
+		AD61E9E01E952A2F00A584CE /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD61E9DF1E952A2F00A584CE /* BaseViewController.m */; };
+		AD61E9E31E952BEC00A584CE /* UIImage+LogN.m in Sources */ = {isa = PBXBuildFile; fileRef = AD61E9E21E952BEC00A584CE /* UIImage+LogN.m */; };
 		ADAF73461E937C67003D4B25 /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ADAF73441E937C67003D4B25 /* CollectionViewCell.m */; };
 		ADAF73471E937C67003D4B25 /* CollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADAF73451E937C67003D4B25 /* CollectionViewCell.xib */; };
 		ADAF734A1E938C54003D4B25 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADAF73481E938C54003D4B25 /* Main.storyboard */; };
@@ -32,6 +38,16 @@
 		4CCEA1143E523C759054CCF7 /* libPods-LED_Zheng.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LED_Zheng.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5AF4B200D3E0B3CA14F64153 /* Pods-LED_Zheng.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LED_Zheng.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LED_Zheng/Pods-LED_Zheng.debug.xcconfig"; sourceTree = "<group>"; };
 		A16984C0F7B66CBEB91ADDA0 /* Pods-LED_Zheng.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LED_Zheng.release.xcconfig"; path = "Pods/Target Support Files/Pods-LED_Zheng/Pods-LED_Zheng.release.xcconfig"; sourceTree = "<group>"; };
+		AD61E9D31E952A0A00A584CE /* FRSearchDeviceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRSearchDeviceCell.h; sourceTree = "<group>"; };
+		AD61E9D41E952A0A00A584CE /* FRSearchDeviceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRSearchDeviceCell.m; sourceTree = "<group>"; };
+		AD61E9D51E952A0A00A584CE /* FRSearchDeviceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FRSearchDeviceCell.xib; sourceTree = "<group>"; };
+		AD61E9D61E952A0A00A584CE /* FRSearchDeviceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRSearchDeviceController.h; sourceTree = "<group>"; };
+		AD61E9D71E952A0A00A584CE /* FRSearchDeviceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRSearchDeviceController.m; sourceTree = "<group>"; };
+		AD61E9D81E952A0A00A584CE /* FRSearchDeviceController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FRSearchDeviceController.xib; sourceTree = "<group>"; };
+		AD61E9DE1E952A2F00A584CE /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		AD61E9DF1E952A2F00A584CE /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		AD61E9E11E952BEC00A584CE /* UIImage+LogN.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+LogN.h"; sourceTree = "<group>"; };
+		AD61E9E21E952BEC00A584CE /* UIImage+LogN.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+LogN.m"; sourceTree = "<group>"; };
 		ADAF73431E937C67003D4B25 /* CollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
 		ADAF73441E937C67003D4B25 /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
 		ADAF73451E937C67003D4B25 /* CollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionViewCell.xib; sourceTree = "<group>"; };
@@ -80,6 +96,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AD61E9D21E952A0A00A584CE /* SerachViewController */ = {
+			isa = PBXGroup;
+			children = (
+				AD61E9D31E952A0A00A584CE /* FRSearchDeviceCell.h */,
+				AD61E9D41E952A0A00A584CE /* FRSearchDeviceCell.m */,
+				AD61E9D51E952A0A00A584CE /* FRSearchDeviceCell.xib */,
+				AD61E9D61E952A0A00A584CE /* FRSearchDeviceController.h */,
+				AD61E9D71E952A0A00A584CE /* FRSearchDeviceController.m */,
+				AD61E9D81E952A0A00A584CE /* FRSearchDeviceController.xib */,
+			);
+			path = SerachViewController;
+			sourceTree = "<group>";
+		};
+		AD61E9DD1E952A2F00A584CE /* BaseViewController */ = {
+			isa = PBXGroup;
+			children = (
+				AD61E9DE1E952A2F00A584CE /* BaseViewController.h */,
+				AD61E9DF1E952A2F00A584CE /* BaseViewController.m */,
+			);
+			path = BaseViewController;
+			sourceTree = "<group>";
+		};
 		ADE940851E90C3C9002DA4C1 = {
 			isa = PBXGroup;
 			children = (
@@ -131,6 +169,8 @@
 			children = (
 				ADE9D80F1E93756D00D64AC1 /* NSData+ToString.h */,
 				ADE9D8101E93756D00D64AC1 /* NSData+ToString.m */,
+				AD61E9E11E952BEC00A584CE /* UIImage+LogN.h */,
+				AD61E9E21E952BEC00A584CE /* UIImage+LogN.m */,
 			);
 			path = Additions;
 			sourceTree = "<group>";
@@ -190,6 +230,8 @@
 		ADE9D8231E93756E00D64AC1 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				AD61E9DD1E952A2F00A584CE /* BaseViewController */,
+				AD61E9D21E952A0A00A584CE /* SerachViewController */,
 				ADE9D8241E93756E00D64AC1 /* ViewController.h */,
 				ADE9D8251E93756E00D64AC1 /* ViewController.m */,
 				ADAF73431E937C67003D4B25 /* CollectionViewCell.h */,
@@ -308,9 +350,11 @@
 				ADE9D82B1E93756E00D64AC1 /* chinese_word.txt in Resources */,
 				ADAF73471E937C67003D4B25 /* CollectionViewCell.xib in Resources */,
 				ADE940A11E90C3C9002DA4C1 /* LaunchScreen.storyboard in Resources */,
+				AD61E9DA1E952A0A00A584CE /* FRSearchDeviceCell.xib in Resources */,
 				ADAF734A1E938C54003D4B25 /* Main.storyboard in Resources */,
 				ADE9409E1E90C3C9002DA4C1 /* Assets.xcassets in Resources */,
 				ADE9D82C1E93756E00D64AC1 /* enlish_word.txt in Resources */,
+				AD61E9DC1E952A0A00A584CE /* FRSearchDeviceController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,14 +414,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADE9D82E1E93756E00D64AC1 /* ViewController.m in Sources */,
+				AD61E9E01E952A2F00A584CE /* BaseViewController.m in Sources */,
 				ADE9D82D1E93756E00D64AC1 /* FontDataTool.m in Sources */,
 				ADE9D82A1E93756E00D64AC1 /* CBPeripheral+Additon.m in Sources */,
 				ADE940961E90C3C9002DA4C1 /* AppDelegate.m in Sources */,
+				AD61E9E31E952BEC00A584CE /* UIImage+LogN.m in Sources */,
 				ADE9D8381E9378E300D64AC1 /* MBProgressHUD.m in Sources */,
+				AD61E9DB1E952A0A00A584CE /* FRSearchDeviceController.m in Sources */,
 				ADE940931E90C3C9002DA4C1 /* main.m in Sources */,
 				ADAF73461E937C67003D4B25 /* CollectionViewCell.m in Sources */,
 				ADE9D8281E93756E00D64AC1 /* DFMatrixLedView.m in Sources */,
 				ADE9D8261E93756E00D64AC1 /* NSData+ToString.m in Sources */,
+				AD61E9D91E952A0A00A584CE /* FRSearchDeviceCell.m in Sources */,
 				ADE9D8371E9378E300D64AC1 /* MBProgressHUD+Add.m in Sources */,
 				ADE9D8271E93756E00D64AC1 /* DFMatrixLedContainerView.m in Sources */,
 				ADE9D8291E93756E00D64AC1 /* BLEManager.m in Sources */,

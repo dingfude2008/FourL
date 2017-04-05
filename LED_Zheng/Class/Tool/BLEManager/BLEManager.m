@@ -10,29 +10,33 @@
 
 #define ST_ERROR(description) [NSError errorWithDomain:@"com.xinyi" code:0 userInfo:@{NSLocalizedDescriptionKey:description}]
 
+
+typedef NS_ENUM(NSUInteger, PostCommondState){
+    PostCommondState_Handshake = 0,
+    PostCommondState_PostHeadData,
+    PostCommondState_PostBigData,
+    PostCommondState_PostEndData,
+    PostCommondState_PostSetPassword,
+};
+
+
+
 static BLEManager *bleManager;
 @interface BLEManager()<CBCentralManagerDelegate,CBPeripheralDelegate>{
     dispatch_queue_t __syncQueueMangerDidUpdate;
     NSMutableArray* _knownPeripherals; // 记住原来已经连接过的设备，强引用  // = [NSMutableArray array];
 }
 
-// 视频缓冲相关
-@property (nonatomic, assign) BOOL          isVideoBuffer;          // 记录当前的数据写入方式 视频缓冲
 
-@property (nonatomic, copy  ) NSArray *     videoBufferArray;       // 视频缓冲数组
+@property (nonatomic, assign) NSUInteger    textDataOffset;       //  已经写入的数据长度
 
-@property (nonatomic, assign) int           videoBufferSingleLength;// 视频缓冲数组中每几个是一组
+@property (nonatomic, strong) NSData *      textData;               //
 
-@property (nonatomic, assign) int           videoBufferTagValue;    // 视频缓冲保留值，用于记录 (上一次移动的最后位置)
 
-@property (nonatomic, assign) int           videoBufferOffest;      // 已经拼接的视频缓存组数 (一个动作算一个)
+@property (nonatomic, assign) PostCommondState postCommondState;    // 当前的发送状态
 
-// OTA 相关
-@property (nonatomic, assign) BOOL          isOTA;                  //  记录当前的数据写入方式  OTA升级
 
-@property (nonatomic, assign) NSUInteger    otaSubDataOffset;       //  已经写入的数据长度
-
-@property (nonatomic, copy  ) NSData *      otaData;                // 记录 ota 传输的 data
+@property (nonatomic, copy) NSArray *arrayPassword;    //当前的密码位
 
 @end
 
@@ -321,10 +325,11 @@ static BLEManager *bleManager;
     if (characteristic.isNotifying){
         NSLog(@"外围特性通知开始");
         
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_global_queue(0, 0), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_global_queue(0, 0), ^{
            
             NSLog(@"发送获取设备信息的指令");
             
+            // [self handshake];
         });
     }else{
         NSLog(@"外围设备特性通知结束，也就是用户要下线或者离开%@",characteristic);
@@ -361,17 +366,6 @@ static BLEManager *bleManager;
     
 }
 
-// 通知回调
-- (void)setData:(NSData *)data peripheral:(CBPeripheral *)peripheral charaUUID:(NSString *)charaUUID{
-    NSString *uuid = [[peripheral identifier] UUIDString];
-    Byte *bytes = (Byte *)data.bytes;
-    
-    if ([self checkData:data]){
-        if ([charaUUID isEqualToString:RW_Control_UUID]){
-            
-        }
-    }
-}
 
 
 
@@ -386,7 +380,7 @@ static BLEManager *bleManager;
         return;
     }
     for (CBService *ser in arry){
-        NSString *serverUUIDTag = ServerUUID;
+        NSString *serverUUIDTag = ServerReceiveUUID;
         if ([[ser.UUID UUIDString] isEqualToString:serverUUIDTag]){
             for (CBCharacteristic *chara in [ser characteristics]){
                 if ([[chara.UUID UUIDString] isEqualToString:charUUID]){
@@ -400,9 +394,12 @@ static BLEManager *bleManager;
 }
 
 
+
+
+
 - (void)Command:(NSData *)data uuidString:(NSString *)uuidString charaUUID:(NSString *)charaUUID{
     if(!self.per || !data){
-      return;
+        return;
     }
     NSArray *arry = [self.per services];
     if (!arry.count){
@@ -411,7 +408,7 @@ static BLEManager *bleManager;
     }
     for (CBService *ser in arry){
         NSString *serverUUID = [ser.UUID UUIDString];
-        NSString *serverUUIDTag = ServerUUID;
+        NSString *serverUUIDTag = ServerSendUUID;
         if ([serverUUID isEqualToString:serverUUIDTag]){
             for (CBCharacteristic *chara in [ser characteristics]){
                 if ([[chara.UUID UUIDString] isEqualToString:charaUUID]){
@@ -428,23 +425,61 @@ static BLEManager *bleManager;
     }
 }
 
-
-// 验证数据是否正确
-- (BOOL)checkData:(NSData *)data{
-    if (!data) {
-        return  NO;
-    }
-    NSUInteger count = data.length;
-    Byte *bytes = (Byte *)data.bytes;
-    int sum = 0;
+// 通知回调
+- (void)setData:(NSData *)data peripheral:(CBPeripheral *)peripheral charaUUID:(NSString *)charaUUID{
     
-    for (int i = 0; i < count - 1; i++) {
-        sum += bytes[i];
+    Byte *bytes = (Byte *)data.bytes;
+    if ([self checkData:data] == CommondCheckType_Correct){
+        if ([charaUUID isEqualToString:R_Receive_UUID]){
+            NSLog(@"这里正确");
+            
+            switch (self.postCommondState) {
+                    case PostCommondState_Handshake:{
+                        [self postHeadData];
+                    }break;
+                    case PostCommondState_PostHeadData:{
+                        [self postBigData];
+                    }break;
+                    case PostCommondState_PostBigData:{
+                        
+                        NSLog(@"是否已经发送完成了");
+                        
+                        
+                        
+                        
+                        
+                    }break;
+                    case PostCommondState_PostEndData:{
+                        
+                    }break;
+                    case PostCommondState_PostSetPassword:{
+                        
+                    }break;
+            }
+            
+        }
+        
+        
     }
-    BOOL isTrue = (sum & 0xFF) == bytes[count - 1];
-    return isTrue;
 }
 
+
+//// 验证数据是否正确
+//- (BOOL)checkData:(NSData *)data{
+//    if (!data) {
+//        return  NO;
+//    }
+//    NSUInteger count = data.length;
+//    Byte *bytes = (Byte *)data.bytes;
+//    int sum = 0;
+//    
+//    for (int i = 0; i < count - 1; i++) {
+//        sum += bytes[i];
+//    }
+//    BOOL isTrue = (sum & 0xFF) == bytes[count - 1];
+//    return isTrue;
+//}
+//
 - (Byte)getCheck:(char[])chars
           length:(int)length{
     int sum = 0;
@@ -454,6 +489,166 @@ static BLEManager *bleManager;
     return sum & 0xFF;
 }
 
+
+
+
+
+/**
+ 发送点阵数据
+ 
+ @param textData 点阵数据的数组
+ */
+- (void)postTextData:(NSArray *)textData{
+    
+    for (int i = 0; i < textData.count; i++) {
+        NSArray *arrSimple = textData[i];
+        NSLog(@"第 %d 字： %@", i, [arrSimple componentsJoinedByString:@","]);
+    }
+    
+    
+    
+    
+//    NSLog(@"")
+    
+}
+
+
+
+/**
+ 设置数据
+ 
+ @param specialEffects 特效
+ @param speed 速度
+ @param residenceTime 停留时间
+ @param border 边框
+ @param viewStyle 显示类型
+ @param logoData logo数据
+ @param textData 点阵数据
+ */
+- (void)postTextData:(int)specialEffects
+               speed:(int)speed
+       residenceTime:(int)residenceTime
+              border:(int)border
+           viewStyle:(int)viewStyle
+            logoData:(NSArray *)logoData
+            textData:(NSArray *)textData{
+
+    [self resetTextData:textData];
+    
+    // 首先发送握手指令， 然后发送数据指令，然后具体数据发送指令，最后发送结束指令
+    
+    [self handshake];
+}
+
+- (void)resetTextData:(NSArray *)textData{
+    
+    int lengh = 0;
+    for (int i = 0; i < textData.count; i++) {
+        NSArray *arraySimpleText = textData[i];
+        lengh += arraySimpleText.count;
+    }
+    
+    char bytes[lengh];
+    int index = 0;
+    for (int i = 0; i < textData.count; i++) {
+        NSArray *arraySimpleText = textData[i];
+        for (int j = 0; j < arraySimpleText.count; j++) {
+            bytes[index] = [arraySimpleText[j] intValue] & 0xFF;
+            index++;
+        }
+    }
+    self.textData = [NSData dataWithBytes:bytes length:lengh];
+}
+
+
+- (CommondCheckType)checkData:(NSData *)data{
+    Byte *bytes = (Byte *)data.bytes;
+    if (bytes[0] == DataHead1 &&
+        bytes[1] == DataHead2 &&
+        bytes[2] == DataHead3
+        ) {
+        switch (bytes[3] ) {
+            case DataHeadCheck_Correct:             return CommondCheckType_Correct;
+            case DataHeadCheck_WrongData:           return CommondCheckType_WrongData;
+            case DataHeadCheck_WrongPassword:       return CommondCheckType_WrongPassword;
+            case DataHeadCheck_NeedAgain:           return CommondCheckType_NeedAgain;
+        }
+        return CommondCheckType_Error;
+    }else{
+        return CommondCheckType_Error;
+    }
+}
+
+
+
+
+/**
+ 握手
+ */
+- (void)handshake{
+    
+    if (self.per == nil || self.isOn == NO) {
+        return;
+    }
+    // 0x4C+0x43+0x59+0xF2+0x00+0x00+0x00+0x00+0x00+0xF2+0x4C+0x43+0x59
+    char chars[13] =  { 0x4C, 0x43, 0x59, 0xF2, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF2, 0x4C, 0x43, 0x59 };;
+    
+    NSData *dataPush = [NSData dataWithBytes:chars length:13];
+    
+    self.postCommondState = PostCommondState_Handshake;
+    [self Command:dataPush
+       uuidString:self.per.identifier.UUIDString
+        charaUUID:W_SentData_UUID];
+}
+
+
+
+- (void)postHeadData{
+    
+    // 1 的 ASC = 49
+    // 6 的 ASC = 54
+    // 8 的 ASC = 56
+    
+    self.arrayPassword = @[@49, @54, @56];
+    
+    char chars[16];
+    chars[0] = DataHead1;
+    chars[1] = DataHead2;
+    chars[2] = DataHead3;
+    chars[3] = 0xDD;
+    chars[4] = [self.arrayPassword[0] intValue] & 0xFF;
+    chars[5] = [self.arrayPassword[1] intValue] & 0xFF;
+    chars[6] = [self.arrayPassword[2] intValue] & 0xFF;
+    
+    int packageCount = (int)ceil(self.textData.length / 64.0);
+    chars[7] = packageCount >> 8 & 0xFF;
+    chars[8] = packageCount & 0xFF;;
+    chars[9] = DataOOOO;
+    chars[10] = DataOOOO;
+    
+    int checkSum =  [self getCheck:chars length:11];
+    chars[11] = checkSum >> 8 & 0xFF;
+    chars[12] = checkSum & 0xFF;
+    chars[13] = DataHead1;
+    chars[14] = DataHead2;
+    chars[15] = DataHead3;
+    
+    NSData *dataPush = [NSData dataWithBytes:chars length:16];
+    self.postCommondState = PostCommondState_PostHeadData;
+    [self Command:dataPush
+       uuidString:self.per.identifier.UUIDString
+        charaUUID:W_SentData_UUID];
+}
+
+- (void)postBigData{
+    
+    
+    
+}
+
+- (void)postEndData{
+    
+}
 
 
 @end

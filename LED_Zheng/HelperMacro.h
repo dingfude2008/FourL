@@ -100,8 +100,11 @@
 #define DBlack                  [UIColor blackColor]
 #define DClear                  [UIColor clearColor]
 #define DLightGray              [UIColor lightGrayColor]
+#define DBackgroundColor        [UIColor lightGrayColor]
 #define DWhiteA(_k)             [[UIColor whiteColor] colorWithAlphaComponent:_k]
 #define DBlackA(_k)             [[UIColor blackColor] colorWithAlphaComponent:_k]
+
+
 
 
 #define DBlackTextColor                     [UIColor cz_colorWithHex:0x333333]  // 导航栏 标题 黑框按钮文字

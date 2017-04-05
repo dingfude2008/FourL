@@ -48,15 +48,22 @@
                                     <constraint firstAttribute="height" constant="150" id="h0c-NI-j8P"/>
                                 </constraints>
                             </view>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="欢迎使用" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="0Hv-5P-QbA">
-                                <rect key="frame" x="5" y="288" width="365" height="128"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="好AA" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="0Hv-5P-QbA">
+                                <rect key="frame" x="5" y="288" width="365" height="50"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="128" id="gbZ-FS-kqq"/>
+                                    <constraint firstAttribute="height" constant="50" id="gbZ-FS-kqq"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CNA-cf-Ze2">
+                                <rect key="frame" x="329" y="637" width="46" height="30"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="buttonClick" destination="YwK-EP-1Re" eventType="touchUpInside" id="3BC-Il-2nW"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.92156862745098034" green="0.92156862745098034" blue="0.92156862745098034" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -67,8 +74,10 @@
                             <constraint firstItem="utw-pb-a9s" firstAttribute="top" secondItem="H6c-ro-fM6" secondAttribute="top" id="dFD-Zt-tOw"/>
                             <constraint firstAttribute="trailing" secondItem="utw-pb-a9s" secondAttribute="trailing" constant="5" id="eq5-gP-Xbf"/>
                             <constraint firstAttribute="trailing" secondItem="0Hv-5P-QbA" secondAttribute="trailing" constant="5" id="kib-nM-rWo"/>
+                            <constraint firstAttribute="trailing" secondItem="CNA-cf-Ze2" secondAttribute="trailing" id="knP-mG-JJn"/>
                             <constraint firstAttribute="trailing" secondItem="MIZ-Yh-eVh" secondAttribute="trailing" id="yif-0j-GNQ"/>
                             <constraint firstItem="0Hv-5P-QbA" firstAttribute="top" secondItem="MIZ-Yh-eVh" secondAttribute="bottom" constant="5" id="zB2-5Y-0NM"/>
+                            <constraint firstItem="KSf-pU-tM1" firstAttribute="top" secondItem="CNA-cf-Ze2" secondAttribute="bottom" id="zBH-HG-Bdy"/>
                         </constraints>
                     </view>
                     <connections>

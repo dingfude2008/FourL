@@ -16,13 +16,18 @@
 //*************************************************************************************
 
 
-#define ServerUUID                                      @"FFE5"             // 主服务UUID
+#define ServerSendUUID                                  @"FFE5"             // 主服务UUID
 
-#define RW_Control_UUID                                 @"FFE0"             // 读取设备名称
+#define W_SentData_UUID                                 @"FFE9"             // 读取设备名称
+
+
+#define ServerReceiveUUID                               @"FFE0"             // 主服务UUID
+
+#define R_Receive_UUID                                  @"FFE4"             // 读取设备名称
 
 
 // 下面是全部的集合
-#define Arr_R_UUID                                      @[RW_Control_UUID]
+#define Arr_R_UUID                                      @[R_Receive_UUID]
 
 
 //*************************************************************************************
@@ -34,7 +39,7 @@
 
 #define Filter_Name                                    @"Vitafun"
 
-#define OtherFilter_Name                               @"Vf_for_chen"
+#define OtherFilter_Name                               @"Tv221u"
 
 #define dataInterval                                    1.2                // 时间间隔
 
@@ -47,7 +52,19 @@
 
 
 
-#define DataFirst                                       0xA5
+#define DataHead1                                       0x4C
+#define DataHead2                                       0x43
+#define DataHead3                                       0x59
+
+#define DataHeadCheck_Correct                           0xCC
+#define DataHeadCheck_WrongData                         0xEE
+#define DataHeadCheck_WrongPassword                     0xEB
+#define DataHeadCheck_NeedAgain                         0xEC
+
+
+
+
+
 #define DataOOOO                                        0x00
 
 #define DDSearchTime                                    10
@@ -77,6 +94,21 @@ typedef NS_ENUM(NSUInteger, BussinessCode){
     Bussiness_TurnOFF_OK,                           // 关闭设备回调
     Bussiness_SetLightState_OK,                     // 灯光生效后回调
 };
+
+
+
+
+
+typedef NS_ENUM(NSUInteger, CommondCheckType){
+    
+    CommondCheckType_Correct = 0,
+    CommondCheckType_WrongData,
+    CommondCheckType_WrongPassword,
+    CommondCheckType_NeedAgain,
+    CommondCheckType_Error,
+};
+
+
 
 
 

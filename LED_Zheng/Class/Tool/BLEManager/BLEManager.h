@@ -144,6 +144,39 @@
 - (void)retrievePeripheral:(NSString *)uuidString;
 
 
+/**
+ 握手
+ */
+- (void)handshake;
+
+
+/**
+ 发送点阵数据
+
+ @param textData 点阵数据的数组
+ */
+- (void)postTextData:(NSArray *)textData;
+
+
+/**
+ 设置数据
+
+ @param specialEffects 特效
+ @param speed 速度
+ @param residenceTime 停留时间
+ @param border 边框
+ @param viewStyle 显示类型
+ @param logoData logo数据
+ @param textData 点阵数据
+ */
+- (void)postTextData:(int)specialEffects
+               speed:(int)speed
+       residenceTime:(int)residenceTime
+              border:(int)border
+           viewStyle:(int)viewStyle
+            logoData:(NSArray *)logoData
+            textData:(NSArray *)textData;
+
 @end
 
 
