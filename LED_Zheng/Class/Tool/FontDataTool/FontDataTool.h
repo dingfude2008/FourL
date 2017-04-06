@@ -43,4 +43,7 @@
  */
 + (NSArray<NSArray <NSDictionary*>*> *)getRowColumnDataFromLatticeData:(NSArray<NSArray <NSNumber*>*> *)arrayM;
 
+
+
+
 @end

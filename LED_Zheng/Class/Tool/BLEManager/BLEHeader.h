@@ -66,6 +66,7 @@
 
 
 #define DataOOOO                                        0x00
+#define Data00FF                                        0xFF
 
 #define DDSearchTime                                    10
 

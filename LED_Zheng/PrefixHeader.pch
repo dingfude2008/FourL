@@ -20,5 +20,7 @@
 
 #import "BLEManager.h"
 
+#import "NSObject+Combine.h"
+
 
 #endif /* PrefixHeader_pch */

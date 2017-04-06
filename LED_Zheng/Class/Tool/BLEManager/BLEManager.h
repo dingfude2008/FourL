@@ -157,25 +157,16 @@
  */
 - (void)postTextData:(NSArray *)textData;
 
-
 /**
  设置数据
 
- @param specialEffects 特效
- @param speed 速度
- @param residenceTime 停留时间
- @param border 边框
- @param viewStyle 显示类型
- @param logoData logo数据
- @param textData 点阵数据
+ @param arrayAdditional arrayAdditional 每一条节目的附加数据集合的数组
+    里面的数组为一条节目的附加信息， 暂定为6个 0:特效 1:速度 2:停留时间 3:边框 4:显示类型 5:logo数据
+ @param textDataArray 每一条点阵数据的点阵数据的集合
+    里面的数组为一条节目的完整点阵信息，所有的字、字母、数字都在一起
  */
-- (void)postTextData:(int)specialEffects
-               speed:(int)speed
-       residenceTime:(int)residenceTime
-              border:(int)border
-           viewStyle:(int)viewStyle
-            logoData:(NSArray *)logoData
-            textData:(NSArray *)textData;
+- (void)postTextArrayAdditional:(NSArray<NSArray *> *)arrayAdditional
+                  textDataArray:(NSArray<NSArray *> *)textDataArray;
 
 @end
 

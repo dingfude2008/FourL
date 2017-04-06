@@ -138,8 +138,14 @@ static NSString *cellID = @"CollectionViewCell";
     NSArray <NSArray <NSDictionary *>*>* arrayColumnRowData = [FontDataTool getRowColumnDataFromLatticeData:arrayNumbers];;
     [containerView setupData:arrayColumnRowData];
     
-    //[DDBLE postTextData:arrayNumbers];
-    [DDBLE postTextData:0 speed:1 residenceTime:1 border:0 viewStyle:1 logoData:nil textData:arrayNumbers];
+    
+    NSArray <NSNumber *> * arrayNumbersConbines = [NSObject conbineArray:arrayNumbers];
+    
+    NSMutableArray * arrayAdditional = [NSMutableArray array];
+    [arrayAdditional addObject:@[@1, @2, @1, @0, @1, @[]]];
+    
+    [DDBLE postTextArrayAdditional:arrayAdditional
+                     textDataArray:@[arrayNumbersConbines]];
 }
 
 - (IBAction)buttonClick {

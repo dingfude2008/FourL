@@ -14,6 +14,7 @@
 		AD61E9DC1E952A0A00A584CE /* FRSearchDeviceController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD61E9D81E952A0A00A584CE /* FRSearchDeviceController.xib */; };
 		AD61E9E01E952A2F00A584CE /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD61E9DF1E952A2F00A584CE /* BaseViewController.m */; };
 		AD61E9E31E952BEC00A584CE /* UIImage+LogN.m in Sources */ = {isa = PBXBuildFile; fileRef = AD61E9E21E952BEC00A584CE /* UIImage+LogN.m */; };
+		AD63BBD01E9698F600B01CA3 /* NSObject+Combine.m in Sources */ = {isa = PBXBuildFile; fileRef = AD63BBCF1E9698F600B01CA3 /* NSObject+Combine.m */; };
 		ADAF73461E937C67003D4B25 /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ADAF73441E937C67003D4B25 /* CollectionViewCell.m */; };
 		ADAF73471E937C67003D4B25 /* CollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADAF73451E937C67003D4B25 /* CollectionViewCell.xib */; };
 		ADAF734A1E938C54003D4B25 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADAF73481E938C54003D4B25 /* Main.storyboard */; };
@@ -48,6 +49,8 @@
 		AD61E9DF1E952A2F00A584CE /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		AD61E9E11E952BEC00A584CE /* UIImage+LogN.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+LogN.h"; sourceTree = "<group>"; };
 		AD61E9E21E952BEC00A584CE /* UIImage+LogN.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+LogN.m"; sourceTree = "<group>"; };
+		AD63BBCE1E9698F600B01CA3 /* NSObject+Combine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Combine.h"; sourceTree = "<group>"; };
+		AD63BBCF1E9698F600B01CA3 /* NSObject+Combine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Combine.m"; sourceTree = "<group>"; };
 		ADAF73431E937C67003D4B25 /* CollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
 		ADAF73441E937C67003D4B25 /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
 		ADAF73451E937C67003D4B25 /* CollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionViewCell.xib; sourceTree = "<group>"; };
@@ -171,6 +174,8 @@
 				ADE9D8101E93756D00D64AC1 /* NSData+ToString.m */,
 				AD61E9E11E952BEC00A584CE /* UIImage+LogN.h */,
 				AD61E9E21E952BEC00A584CE /* UIImage+LogN.m */,
+				AD63BBCE1E9698F600B01CA3 /* NSObject+Combine.h */,
+				AD63BBCF1E9698F600B01CA3 /* NSObject+Combine.m */,
 			);
 			path = Additions;
 			sourceTree = "<group>";
@@ -429,6 +434,7 @@
 				ADE9D8371E9378E300D64AC1 /* MBProgressHUD+Add.m in Sources */,
 				ADE9D8271E93756E00D64AC1 /* DFMatrixLedContainerView.m in Sources */,
 				ADE9D8291E93756E00D64AC1 /* BLEManager.m in Sources */,
+				AD63BBD01E9698F600B01CA3 /* NSObject+Combine.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

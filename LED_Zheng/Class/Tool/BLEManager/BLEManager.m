@@ -28,10 +28,18 @@ static BLEManager *bleManager;
 }
 
 
-@property (nonatomic, assign) NSUInteger    textDataOffset;       //  已经写入的数据长度
 
-@property (nonatomic, strong) NSData *      textData;               //
 
+// 0:
+@property (nonatomic, copy  ) NSArray<NSArray *> *arrayAdditional;  //  最近一次的除了点阵信息职位的其他信息
+
+@property (nonatomic, copy  ) NSArray<NSArray *> *textDataArray;  //  里面存放的一条节目的完整点阵信息的集合
+
+@property (nonatomic, strong) NSData *      textData; //  真正的文本数据，全部在一起的, 前200个是头信息
+
+@property (nonatomic, assign) NSUInteger    textDataAllCount; // 真正的文本数据的条数
+
+@property (nonatomic, assign) NSUInteger    textDataOffset; //  已经写入的数据长度 一次写入64个，额外加校验和
 
 @property (nonatomic, assign) PostCommondState postCommondState;    // 当前的发送状态
 
@@ -328,8 +336,6 @@ static BLEManager *bleManager;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_global_queue(0, 0), ^{
            
             NSLog(@"发送获取设备信息的指令");
-            
-            // [self handshake];
         });
     }else{
         NSLog(@"外围设备特性通知结束，也就是用户要下线或者离开%@",characteristic);
@@ -429,37 +435,72 @@ static BLEManager *bleManager;
 - (void)setData:(NSData *)data peripheral:(CBPeripheral *)peripheral charaUUID:(NSString *)charaUUID{
     
     Byte *bytes = (Byte *)data.bytes;
-    if ([self checkData:data] == CommondCheckType_Correct){
-        if ([charaUUID isEqualToString:R_Receive_UUID]){
-            NSLog(@"这里正确");
-            
-            switch (self.postCommondState) {
-                    case PostCommondState_Handshake:{
+
+    if ([charaUUID isEqualToString:R_Receive_UUID]){
+        
+        switch (self.postCommondState) {
+                case PostCommondState_Handshake:{
+                    if (([self checkData:data] == CommondCheckType_Correct)) {
+                        NSLog(@"写入头数据");
                         [self postHeadData];
-                    }break;
-                    case PostCommondState_PostHeadData:{
+                    }
+                }break;
+                case PostCommondState_PostHeadData:{
+                    
+                    if (([self checkData:data] == CommondCheckType_Correct)) {
+                        NSLog(@"写入头数据成功，写入播放列表数据");
+                        
                         [self postBigData];
-                    }break;
-                    case PostCommondState_PostBigData:{
-                        
-                        NSLog(@"是否已经发送完成了");
-                        
-                        
-                        
-                        
-                        
-                    }break;
-                    case PostCommondState_PostEndData:{
-                        
-                    }break;
-                    case PostCommondState_PostSetPassword:{
-                        
-                    }break;
-            }
-            
+                    }
+                }break;
+            case PostCommondState_PostBigData:{
+                    /*
+                     CommondCheckType_Correct = 0,
+                     CommondCheckType_WrongData,
+                     CommondCheckType_WrongPassword,
+                     CommondCheckType_NeedAgain,
+                     CommondCheckType_Error,
+                     */
+                    NSLog(@"写入文本数据回调");
+                    CommondCheckType checkType = [self checkData:data];
+                    switch (checkType) {
+                        case CommondCheckType_Correct:{
+                            if (self.textDataOffset + 1 < self.textDataAllCount) {
+                                
+                                NSLog(@"文本数据的第 %d/%d 条发送成功", (int)self.textDataOffset, (int)self.textDataAllCount);
+                                self.textDataOffset++;
+                                [self postBigData];
+                            }else if(self.textDataOffset + 1 == self.textDataAllCount){
+                                NSLog(@"文本数据发送完成了");
+                                [self postEndData];
+                            }
+                        }break;
+                        case CommondCheckType_WrongData:{
+                            NSLog(@"数据错误");
+                        }break;
+                        case CommondCheckType_WrongPassword:{
+                            NSLog(@"密码错误错误");
+                        }break;
+                        case CommondCheckType_NeedAgain:{
+                            NSLog(@"当前包错误，重新发送一遍");
+                            [self postBigData];
+                        }break;
+                        case CommondCheckType_Error:{
+                            NSLog(@"其他未知错误");
+                        }break;
+                    }
+                }break;
+                case PostCommondState_PostEndData:{
+                    if ([self checkData:data] == CommondCheckType_Correct) {
+                        NSLog(@"所有的都发送完成了");
+                    }
+                    
+                }break;
+                case PostCommondState_PostSetPassword:{
+                    
+                }break;
+        
         }
-        
-        
     }
 }
 
@@ -493,73 +534,6 @@ static BLEManager *bleManager;
 
 
 
-/**
- 发送点阵数据
- 
- @param textData 点阵数据的数组
- */
-- (void)postTextData:(NSArray *)textData{
-    
-    for (int i = 0; i < textData.count; i++) {
-        NSArray *arrSimple = textData[i];
-        NSLog(@"第 %d 字： %@", i, [arrSimple componentsJoinedByString:@","]);
-    }
-    
-    
-    
-    
-//    NSLog(@"")
-    
-}
-
-
-
-/**
- 设置数据
- 
- @param specialEffects 特效
- @param speed 速度
- @param residenceTime 停留时间
- @param border 边框
- @param viewStyle 显示类型
- @param logoData logo数据
- @param textData 点阵数据
- */
-- (void)postTextData:(int)specialEffects
-               speed:(int)speed
-       residenceTime:(int)residenceTime
-              border:(int)border
-           viewStyle:(int)viewStyle
-            logoData:(NSArray *)logoData
-            textData:(NSArray *)textData{
-
-    [self resetTextData:textData];
-    
-    // 首先发送握手指令， 然后发送数据指令，然后具体数据发送指令，最后发送结束指令
-    
-    [self handshake];
-}
-
-- (void)resetTextData:(NSArray *)textData{
-    
-    int lengh = 0;
-    for (int i = 0; i < textData.count; i++) {
-        NSArray *arraySimpleText = textData[i];
-        lengh += arraySimpleText.count;
-    }
-    
-    char bytes[lengh];
-    int index = 0;
-    for (int i = 0; i < textData.count; i++) {
-        NSArray *arraySimpleText = textData[i];
-        for (int j = 0; j < arraySimpleText.count; j++) {
-            bytes[index] = [arraySimpleText[j] intValue] & 0xFF;
-            index++;
-        }
-    }
-    self.textData = [NSData dataWithBytes:bytes length:lengh];
-}
-
 
 - (CommondCheckType)checkData:(NSData *)data{
     Byte *bytes = (Byte *)data.bytes;
@@ -577,6 +551,90 @@ static BLEManager *bleManager;
     }else{
         return CommondCheckType_Error;
     }
+}
+
+/**
+ 设置数据
+ 
+ @param arrayAdditional arrayAdditional 每一条节目的附加数据集合的数组
+ 里面的数组为一条节目的附加信息， 暂定为6个 0:特效 1:速度 2:停留时间 3:边框 4:显示类型 5:logo数据
+ @param textDataArray 每一条点阵数据的点阵数据的集合
+ 里面的数组为一条节目的完整点阵信息，所有的字、字母、数字都在一起
+ */
+- (void)postTextArrayAdditional:(NSArray<NSArray *> *)arrayAdditional
+                  textDataArray:(NSArray<NSArray *> *)textDataArray{
+    self.arrayAdditional = [arrayAdditional copy];
+    self.textDataArray = [textDataArray copy];
+    
+    // 获取总共的长度
+    int lengh = 0;
+    for (int i = 0; i < textDataArray.count; i++) {
+        NSArray *arraySimpleText = textDataArray[i];
+        lengh += arraySimpleText.count;
+    }
+    NSLog(@"文本信息的总长度:%d", lengh);
+    
+    char bytes[lengh + 200];
+    for (int i = 0; i < 10; i++) {
+        
+        int headOffest = i * 20;
+        
+        if (i < self.textDataArray.count) {
+            NSArray *simpleAdditianal = self.arrayAdditional[i];
+            NSArray *simpleTextData = self.textDataArray[i];
+            
+            bytes[0 + headOffest] =
+            bytes[1 + headOffest] =
+            bytes[2 + headOffest] =
+            bytes[3 + headOffest] =
+            bytes[4 + headOffest] =
+            bytes[5 + headOffest] =
+            bytes[6 + headOffest] = DataOOOO;
+            bytes[7 + headOffest] = 0x01;
+            bytes[8 + headOffest] = [simpleAdditianal[0] intValue] & 0xFF;   // 动作特效
+            bytes[9 + headOffest] = [simpleAdditianal[1] intValue] & 0xFF;   // 速度
+            bytes[10 + headOffest] = [simpleAdditianal[2] intValue] & 0xFF;  // 停留时间
+            bytes[11 + headOffest] = [simpleAdditianal[3] intValue] & 0xFF;  // 环形边框
+            
+            int screenCount = (int)ceil(simpleTextData.count / 72.0);
+            bytes[12 + headOffest] = screenCount & 0xFF;
+            bytes[13 + headOffest] = bytes[14 + headOffest] = bytes[15 + headOffest] = DataOOOO;
+            
+            long beginAddress;
+            if (i == 0) {
+                beginAddress = 200;
+            }else{
+                beginAddress = 200 + self.textDataArray[i - 1].count;
+            }
+            
+            bytes[16 + headOffest] = beginAddress >> 32 & 0xFF;
+            bytes[17 + headOffest] = beginAddress >> 16 & 0xFF;
+            bytes[18 + headOffest] = beginAddress >> 8  & 0xFF;
+            bytes[19 + headOffest] = beginAddress       & 0xFF;
+        }else{
+            for (int j = 0; j < 20; j++) {
+                bytes[j + headOffest] = Data00FF;
+            }
+        }
+    }
+    
+    int index = 200;
+    for (int i = 0; i < textDataArray.count; i++) {
+        NSArray *arraySimpleProgram = textDataArray[i];
+        for (int j = 0; j < arraySimpleProgram.count; j++) {
+            bytes[index] = [arraySimpleProgram[j] intValue] & 0xFF;
+            index++;
+        }
+    }
+    
+    self.textData = [NSData dataWithBytes:bytes length:lengh + 200];
+    
+    self.textDataAllCount = (int)ceil(self.textData.length / 64.0);
+    
+    self.textDataOffset = 0;
+    
+    // 首先发送握手指令， 然后发送数据指令，然后具体数据发送指令，最后发送结束指令
+    [self handshake];
 }
 
 
@@ -602,7 +660,7 @@ static BLEManager *bleManager;
 }
 
 
-
+// 发送头数据
 - (void)postHeadData{
     
     // 1 的 ASC = 49
@@ -620,6 +678,7 @@ static BLEManager *bleManager;
     chars[5] = [self.arrayPassword[1] intValue] & 0xFF;
     chars[6] = [self.arrayPassword[2] intValue] & 0xFF;
     
+    // 总包数，一个包是64个字节
     int packageCount = (int)ceil(self.textData.length / 64.0);
     chars[7] = packageCount >> 8 & 0xFF;
     chars[8] = packageCount & 0xFF;;
@@ -640,14 +699,55 @@ static BLEManager *bleManager;
         charaUUID:W_SentData_UUID];
 }
 
+
+#pragma mark 发送文本点阵信息
 - (void)postBigData{
     
+    // 发送大数据的时候，可以一次发送66个字节， 前64个字节为图文信息，最后两个为校验
+    NSInteger totalLength = self.textData.length;
+    NSInteger remainLength = totalLength - self.textDataOffset;
+    NSData *dataSimple;
+    if (remainLength >= 64) {
+        dataSimple = [self.textData subdataWithRange:NSMakeRange(self.textDataOffset, 64)];
+    }else{
+        dataSimple = [self.textData subdataWithRange:NSMakeRange(self.textDataOffset, remainLength)];
+        char *chars = (char *)dataSimple.bytes;
+        for (int i = 0; i < 64 - remainLength; i++) {
+            chars[remainLength + i] = DataOOOO;
+        }
+    }
     
+    char *chars64 = (char *)dataSimple.bytes;
     
+    int sum = 0;
+    for (int i = 0; i < 64; i++) {
+        sum += chars64[i];
+    }
+    
+    chars64[64] = sum >> 8 & 0xFF;
+    chars64[65] = sum & 0xFF;
+    
+    dataSimple = [NSData dataWithBytes:chars64 length:66];
+    [self Command:dataSimple
+       uuidString:self.per.identifier.UUIDString
+        charaUUID:W_SentData_UUID];
 }
 
 - (void)postEndData{
+    //
     
+    if (self.per == nil || self.isOn == NO) {
+        return;
+    }
+    // 0x4C+0x43+0x59+0xF2+0x00+0x00+0x00+0x00+0x00+0xF2+0x4C+0x43+0x59
+    char chars[13] =  { 0x4C, 0x43, 0x59, 0x99, 0x00, 0x00, 0x00, 0x00, 0x00, 0x99, 0x4C, 0x43, 0x59 };;
+    
+    NSData *dataPush = [NSData dataWithBytes:chars length:13];
+    
+    self.postCommondState = PostCommondState_Handshake;
+    [self Command:dataPush
+       uuidString:self.per.identifier.UUIDString
+        charaUUID:W_SentData_UUID];
 }
 
 
