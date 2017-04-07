@@ -7,76 +7,71 @@
 //
 
 #import "ViewController.h"
-#import "FontDataTool.h"
 #import "DFMatrixLedContainerView.h"
 #import <UIKit/UITextView.h>
 #import "CollectionViewCell.h"
-#import "FRSearchDeviceController.h"
 
 static NSString *cellID = @"CollectionViewCell";
 
-@interface ViewController () <UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UIPickerViewDataSource, UIPickerViewDelegate>{
-    
+@interface ViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UIPickerViewDataSource, UIPickerViewDelegate>{
     
     __weak IBOutlet UITextView *textView;
     __weak IBOutlet DFMatrixLedContainerView *containerView;
     
     __weak IBOutlet UIView *colectionContainerView;
     
-    
     UICollectionView *_collectionView;
     NSArray *arrViewData;       // _collectionView的数据源
     
     NSArray *arraySelected;     // 用户选中的选项在数据源中的集合的索引的集合
     
-    NSInteger editIndex;        // 要修改的是第几个选项
+    NSArray *arrPickView;       // pickView的数据源
 }
 
-@property (nonatomic, strong) UIPickerView                  *pickView;
+@property (nonatomic, strong) UIPickerView          *pickView;
+@property (nonatomic, strong) UIView              * ViewCover;        // 输入时的视图覆盖
+@property (nonatomic, strong) UIVisualEffectView *  ViewEffectBody;   // 输入时的视图覆盖  里面的毛玻璃
+@property (nonatomic, strong) UIVisualEffectView *  ViewEffectHead;   // 毛玻璃头部
 
 @end
 
 @implementation ViewController
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [FontDataTool setupData];
+    if (!self.model) {
+        self.model = [[Program alloc] init];
+    }
     
-    // textView.delegate = self;
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:({
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setImage:[UIImage imageNamed:@"nav_back"] forState:UIControlStateNormal];
+        [button sizeToFit];
+        [button addTarget:self action:@selector(barbuttonItemLeftClick) forControlEvents:UIControlEventTouchUpInside];
+        button;
+    })];
     
-    /*
-     00：随机
-     01：立即显示
-     02：连续左移
-     03：连续右移
-     04：左移
-     05：右移
-     06：上移
-     07：下移
-     08：水平展开
-     09：飘雪
-     0A；闪烁
-     0B：抖动
-     */
     arrViewData = @[@{@"特效":@[@"随机",@"立即显示",@"连续左移",@"连续右移",@"左移",@"右移",@"上移",@"下移",@"水平展开",@"飘雪",@"闪烁",@"抖动"]},
-                    @{@"字体":@[@"Default"]},
                     @{@"速度":@[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"10",@"11",@"12",@"13",@"14",@"15",@"16",@"17",@"18",@"19",@"20"]},
-                    @{@"大小":@"12"},
-                    @{@"停留时间":@[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"10",@"11",@"12",@"13",@"14",@"15",@"16",@"17",@"18",@"19",@"20",@"21",@"22",@"23",@"24",@"25",@"26",@"27",@"28",@"29",@"30",@"31",@"32"]},
-                    @{@"颜色":@[@"红"]}];
+                    @{@"停留时间":@[@"0", @"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"10",@"11",@"12",@"13",@"14",@"15",@"16",@"17",@"18",@"19",@"20",@"21",@"22",@"23",@"24",@"25",@"26",@"27",@"28",@"29",@"30", @"31", @"32"]},
+                    @{@"边框": @[@"无", @"有"]},
+                    @{@"显示类型":@[@"正常",@"竖立"]},
+                    @{@"Logo":@[@"图片"]}];
     
     arraySelected = @[@2, @0, @9, @0, @0, @0];
  
     [self setupCollection];
     
     
+    [self initViewCover];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(textChanged:)
-                                                 name:UITextViewTextDidChangeNotification
-                                               object:textView];
+    [self initPickerView];
+    
+    
 }
+
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
@@ -86,9 +81,6 @@ static NSString *cellID = @"CollectionViewCell";
     
 }
 
-- (void)dealloc{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
 
 - (void)setupCollection{
     
@@ -97,11 +89,11 @@ static NSString *cellID = @"CollectionViewCell";
     
     layout.minimumInteritemSpacing = 0;
     layout.minimumLineSpacing = 0;
-    CGFloat width = (ScreenWidth - 3 * margin) / 2.0;
+    CGFloat width = (ScreenWidth - 20 - 3 * margin) / 2.0;
     layout.itemSize = CGSizeMake(width, 50);
     
     
-    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 150) collectionViewLayout:layout];
+    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(10, 0, ScreenWidth-20, 150) collectionViewLayout:layout];
     _collectionView.backgroundColor = self.view.backgroundColor;
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
@@ -114,17 +106,16 @@ static NSString *cellID = @"CollectionViewCell";
 
 - (void)initPickerView{
     _pickView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, ScreenHeight, ScreenWidth, 256)];
-    _pickView.backgroundColor = DWhite;
-    
-    [self.view addSubview:_pickView];
-    _pickView.dataSource        = self;
-    _pickView.delegate          = self;
+    _pickView.backgroundColor = DRed;
+    _pickView.tintColor = [UIColor darkGrayColor];
+    Border(_pickView, DRed);
+    [self.ViewCover addSubview:_pickView];
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [self.view endEditing:YES];
-    
-    [self changeView];
+ 
+    [self toolCancelBtnClick];
 }
 
 - (void)changeView{
@@ -176,23 +167,23 @@ static NSString *cellID = @"CollectionViewCell";
     }
     
     
-    
     [DDBLE postTextArrayAdditional:arrayAdditional
                      textDataArray:arrayNumbers];
 }
 
-- (IBAction)buttonClick {
-    FRSearchDeviceController *vc = [[FRSearchDeviceController alloc] init];
-    [self presentViewController:vc animated:YES completion:NULL];
-}
-
-
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     [collectionView deselectItemAtIndexPath:indexPath animated:NO];
     
-//    FRDiscoverViewModel *viewModel = self.listViewModel.discoverViewModelList[indexPath.row];
-//    FRUserInfoController *vc = [[FRUserInfoController alloc] initWithUserAccount:viewModel.userAccount];
-//    [self.navigationController pushViewController:vc animated:YES];
+    NSDictionary *dictionary = arrViewData[indexPath.row];
+    arrPickView = dictionary.allValues.firstObject;
+    
+    
+    
+    self.pickView.delegate =self;
+    self.pickView.dataSource = self;
+    [self.pickView reloadAllComponents];
+    
+    [self showViewCover];
 }
 
 #pragma mark UICollectionViewDataSource
@@ -213,15 +204,14 @@ static NSString *cellID = @"CollectionViewCell";
     [collectionView dequeueReusableCellWithReuseIdentifier:cellID
                                               forIndexPath:indexPath];
     NSDictionary *dictionary = arrViewData[indexPath.row];
-    cell.titleLabel.text = [dictionary.allKeys.firstObject description];
-    cell.tag = indexPath.row;
+    cell.titleLabel.text = kString([dictionary.allKeys.firstObject description]);
     return cell;
 }
 
 #pragma mark UIPickerViewDataSource;
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
-    NSDictionary *dictionary = arrViewData[editIndex];
-    return dictionary.allValues.count;
+    
+    return arrPickView.count;
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
@@ -229,27 +219,78 @@ static NSString *cellID = @"CollectionViewCell";
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
-    NSDictionary *dictionary = arrViewData[editIndex];
-    return [dictionary.allValues[row] description];
+    NSLog(@"%@", [arrPickView[row] description]);
+    return [arrPickView[row] description];
 }
 
 //选中某一行
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
-    
-}
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    
+    NSLog(@"选中某一行");
 }
 
-- (void)textChanged:(NSNotification *)obj{
-    UITextView *textField = (UITextView *)obj.object;
-    NSString *toBeString = textField.text;
+-(void)initViewCover{
+    self.ViewCover = [[UIView alloc]initWithFrame:CGRectMake(0, ScreenHeight, ScreenWidth, ScreenHeight)];
+    self.ViewCover.backgroundColor = DClear;
     
-    textView.text = toBeString;
+    if(SystemVersion >= 8){
+        self.ViewEffectBody = [[UIVisualEffectView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+        self.ViewEffectBody.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+        self.ViewEffectBody.alpha = 0;
+        [self.view addSubview:self.ViewEffectBody];
+        
+        self.ViewEffectHead = [[UIVisualEffectView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 65)];
+        self.ViewEffectHead.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+        self.ViewEffectHead.alpha = 0;
+        
+        [[UIApplication sharedApplication].keyWindow addSubview:self.ViewEffectHead];
+    }
     
-    [self changeView];
+    UIView *toolBarView = [[UIView alloc]initWithFrame:CGRectMake(0, self.ViewCover.bounds.size.height - 300, ScreenWidth, 44)];
+    toolBarView.backgroundColor = [UIColor lightGrayColor];
+    UIButton *CancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [CancelButton setTitle:kString(@"取消") forState:UIControlStateNormal];
+    [CancelButton addTarget:self action:@selector(toolCancelBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    CancelButton.frame = CGRectMake(10, 0, 80, 44);
+    [toolBarView addSubview:CancelButton];
+    
+    UIButton *confirmButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [confirmButton setTitle:kString(@"确定") forState:UIControlStateNormal];
+    confirmButton.frame = CGRectMake(ScreenWidth - 90, 0, 80, 44);
+    [confirmButton addTarget:self action:@selector(toolOKBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [toolBarView addSubview:confirmButton];
+    [self.ViewCover addSubview:toolBarView];
+    
+    Border(self.ViewCover, DYellow)
+    
+    [self.view addSubview:self.ViewCover];
 }
+
+// 显示覆盖图层
+-(void)showViewCover{
+    [UIView animateWithDuration:0.5 animations:^{
+        [self.ViewCover setFrame:CGRectMake(0 , 0, ScreenWidth, ScreenHeight)];
+        self.ViewEffectBody.alpha = self.ViewEffectHead.alpha = 0.8;
+    } completion:^(BOOL finished) {}];
+}
+
+-(void)toolCancelBtnClick{
+    [UIView animateWithDuration:0.5 animations:^{
+        if (self.ViewCover) {
+            [self.ViewCover setFrame:CGRectMake(0 , ScreenHeight, ScreenWidth, ScreenHeight)];
+            self.ViewEffectBody.alpha = self.ViewEffectHead.alpha = 0;
+        }
+    } completion:^(BOOL finished) {
+    }];
+}
+
+-(void)toolOKBtnClick{
+    [UIView animateWithDuration:0.5 animations:^{
+        [self.ViewCover setFrame:CGRectMake(0 , ScreenHeight, ScreenWidth, ScreenHeight)];
+        self.ViewEffectBody.alpha = self.ViewEffectHead.alpha = 0;
+    } completion:^(BOOL finished) {
+    }];
+}
+
 
 
 @end

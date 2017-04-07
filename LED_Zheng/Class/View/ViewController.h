@@ -6,10 +6,11 @@
 //  Copyright © 2017年 DFD. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : BaseViewController
 
+@property (nonatomic, strong) Program *                     model;
 
 @end
 

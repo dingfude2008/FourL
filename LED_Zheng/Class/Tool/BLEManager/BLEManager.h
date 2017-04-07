@@ -150,12 +150,6 @@
 - (void)handshake;
 
 
-/**
- 发送点阵数据
-
- @param textData 点阵数据的数组
- */
-- (void)postTextData:(NSArray *)textData;
 
 /**
  设置数据

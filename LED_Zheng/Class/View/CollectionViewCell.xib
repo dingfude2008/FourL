@@ -25,17 +25,22 @@
                         <color key="textColor" red="0.72156862745098038" green="0.72156862745098038" blue="0.72156862745098038" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vki-o8-MBT">
+                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vki-o8-MBT">
                         <rect key="frame" x="0.0" y="35.5" width="219" height="49.5"/>
                         <color key="backgroundColor" red="0.8784313725490196" green="0.8784313725490196" blue="0.8784313725490196" alpha="1" colorSpace="calibratedRGB"/>
-                        <state key="normal" title="ddd" image="navigationbar_arrow_down">
+                        <state key="normal">
                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
-                        <state key="highlighted" image="navigationbar_arrow_up"/>
-                        <connections>
-                            <action selector="buttonClick" destination="gTV-IL-0wX" eventType="touchUpInside" id="hSt-KS-Rkk"/>
-                        </connections>
                     </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SBF-V0-Y49">
+                        <rect key="frame" x="5" y="50" width="42" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="navigationbar_arrow_down" translatesAutoresizingMaskIntoConstraints="NO" id="ZVN-0b-WqO">
+                        <rect key="frame" x="201" y="57" width="13" height="7"/>
+                    </imageView>
                 </subviews>
             </view>
             <constraints>
@@ -43,9 +48,13 @@
                 <constraint firstAttribute="bottom" secondItem="Vki-o8-MBT" secondAttribute="bottom" id="0ae-Lc-kN3"/>
                 <constraint firstItem="kWg-H2-SFZ" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="3YM-sH-3Cs"/>
                 <constraint firstAttribute="trailing" secondItem="kWg-H2-SFZ" secondAttribute="trailing" id="74x-Kl-Yff"/>
+                <constraint firstItem="SBF-V0-Y49" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="D11-fU-dY4"/>
                 <constraint firstItem="Vki-o8-MBT" firstAttribute="top" secondItem="kWg-H2-SFZ" secondAttribute="bottom" id="IvG-IE-tNY"/>
+                <constraint firstAttribute="trailing" secondItem="ZVN-0b-WqO" secondAttribute="trailing" constant="5" id="bIU-mx-fnR"/>
                 <constraint firstItem="Vki-o8-MBT" firstAttribute="height" secondItem="kWg-H2-SFZ" secondAttribute="height" multiplier="1.4" id="ffy-Q8-ZhF"/>
                 <constraint firstAttribute="trailing" secondItem="Vki-o8-MBT" secondAttribute="trailing" id="gjE-08-NZE"/>
+                <constraint firstItem="SBF-V0-Y49" firstAttribute="centerY" secondItem="Vki-o8-MBT" secondAttribute="centerY" id="ic5-OY-SPG"/>
+                <constraint firstItem="ZVN-0b-WqO" firstAttribute="centerY" secondItem="Vki-o8-MBT" secondAttribute="centerY" id="xTS-k0-CYd"/>
                 <constraint firstItem="Vki-o8-MBT" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="yUW-tO-cch"/>
             </constraints>
             <size key="customSize" width="219" height="85"/>
@@ -58,6 +67,5 @@
     </objects>
     <resources>
         <image name="navigationbar_arrow_down" width="13" height="7"/>
-        <image name="navigationbar_arrow_up" width="13" height="7"/>
     </resources>
 </document>

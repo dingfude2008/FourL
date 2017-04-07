@@ -17,11 +17,12 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    [FontDataTool setupData];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-    UIViewController *view = mainStoryboard.instantiateInitialViewController;
-    self.window.rootViewController = view;
+    UINavigationController *nav = mainStoryboard.instantiateInitialViewController;
+    self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];
     
     

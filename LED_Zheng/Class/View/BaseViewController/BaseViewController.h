@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface BaseViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
+@interface BaseViewController : UIViewController
 
 /**
  自定义的导航条目 - 以后设置导航栏内容，统一使用 navItem

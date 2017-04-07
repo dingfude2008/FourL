@@ -6,6 +6,7 @@ target 'LED_Zheng' do
   # use_frameworks!
 
     pod 'IQKeyboardManager'
+    pod 'YYModel'
     #Pods for LED_Zheng
 
 end

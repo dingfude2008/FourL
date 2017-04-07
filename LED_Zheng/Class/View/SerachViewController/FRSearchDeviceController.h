@@ -8,7 +8,7 @@
 
 #import "BaseViewController.h"
 
-@interface FRSearchDeviceController : BaseViewController
+@interface FRSearchDeviceController : BaseViewController<UITableViewDelegate, UITableViewDataSource>
 
 - (instancetype)initWithRegister;
 

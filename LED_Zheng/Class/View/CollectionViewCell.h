@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface CollectionViewCell : UICollectionViewCell
+
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIButton *button;
 
-@property (nonatomic, copy) void (^blockClick)();
+//@property (nonatomic, copy) void (^blockClick)(NSUInteger);
 
 @end

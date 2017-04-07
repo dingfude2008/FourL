@@ -22,5 +22,10 @@
 
 #import "NSObject+Combine.h"
 
+#import "Program.h"
+
+#import "YYModel.h"
+
+#import "FontDataTool.h"
 
 #endif /* PrefixHeader_pch */

@@ -82,6 +82,8 @@
 #define MBShow(_k)       [MBProgressHUD show:kString(_k) toView:[[UIApplication sharedApplication].delegate window]];
 
 #define DefaultUUIDString                   @"DefaultUUIDString"
+#define ListDataLocal                       @"ListDataLocal"
+
 
 
 //    #define TESTACCOUNT                         @"dingfude@qq.com"
@@ -118,10 +120,6 @@
 #define DChatBorderColor                    [UIColor cz_colorWithHex:0xe5e5e5]  // 聊天消息的边框色
 
 
-
-// --------------------------------------------- 配置类
-#define VFIP                                @"192.168.0.236"
-#define VFClient                            @"VitaFun"
 
 
 

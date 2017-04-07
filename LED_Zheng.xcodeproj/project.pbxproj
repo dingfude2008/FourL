@@ -15,6 +15,10 @@
 		AD61E9E01E952A2F00A584CE /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD61E9DF1E952A2F00A584CE /* BaseViewController.m */; };
 		AD61E9E31E952BEC00A584CE /* UIImage+LogN.m in Sources */ = {isa = PBXBuildFile; fileRef = AD61E9E21E952BEC00A584CE /* UIImage+LogN.m */; };
 		AD63BBD01E9698F600B01CA3 /* NSObject+Combine.m in Sources */ = {isa = PBXBuildFile; fileRef = AD63BBCF1E9698F600B01CA3 /* NSObject+Combine.m */; };
+		AD7E1B771E97D346004AD038 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7E1B761E97D346004AD038 /* ListViewController.m */; };
+		AD7E1B7C1E97D45A004AD038 /* ListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7E1B7A1E97D45A004AD038 /* ListViewCell.m */; };
+		AD7E1B7D1E97D45A004AD038 /* ListViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD7E1B7B1E97D45A004AD038 /* ListViewCell.xib */; };
+		AD7E1B811E97D780004AD038 /* Program.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7E1B801E97D780004AD038 /* Program.m */; };
 		ADAF73461E937C67003D4B25 /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ADAF73441E937C67003D4B25 /* CollectionViewCell.m */; };
 		ADAF73471E937C67003D4B25 /* CollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADAF73451E937C67003D4B25 /* CollectionViewCell.xib */; };
 		ADAF734A1E938C54003D4B25 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADAF73481E938C54003D4B25 /* Main.storyboard */; };
@@ -51,6 +55,13 @@
 		AD61E9E21E952BEC00A584CE /* UIImage+LogN.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+LogN.m"; sourceTree = "<group>"; };
 		AD63BBCE1E9698F600B01CA3 /* NSObject+Combine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Combine.h"; sourceTree = "<group>"; };
 		AD63BBCF1E9698F600B01CA3 /* NSObject+Combine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Combine.m"; sourceTree = "<group>"; };
+		AD7E1B751E97D345004AD038 /* ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
+		AD7E1B761E97D346004AD038 /* ListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewController.m; sourceTree = "<group>"; };
+		AD7E1B791E97D45A004AD038 /* ListViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewCell.h; sourceTree = "<group>"; };
+		AD7E1B7A1E97D45A004AD038 /* ListViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewCell.m; sourceTree = "<group>"; };
+		AD7E1B7B1E97D45A004AD038 /* ListViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ListViewCell.xib; sourceTree = "<group>"; };
+		AD7E1B7F1E97D780004AD038 /* Program.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Program.h; sourceTree = "<group>"; };
+		AD7E1B801E97D780004AD038 /* Program.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Program.m; sourceTree = "<group>"; };
 		ADAF73431E937C67003D4B25 /* CollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
 		ADAF73441E937C67003D4B25 /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
 		ADAF73451E937C67003D4B25 /* CollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionViewCell.xib; sourceTree = "<group>"; };
@@ -121,6 +132,25 @@
 			path = BaseViewController;
 			sourceTree = "<group>";
 		};
+		AD7E1B781E97D43C004AD038 /* ListViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				AD7E1B791E97D45A004AD038 /* ListViewCell.h */,
+				AD7E1B7A1E97D45A004AD038 /* ListViewCell.m */,
+				AD7E1B7B1E97D45A004AD038 /* ListViewCell.xib */,
+			);
+			name = ListViewCell;
+			sourceTree = "<group>";
+		};
+		AD7E1B7E1E97D756004AD038 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				AD7E1B7F1E97D780004AD038 /* Program.h */,
+				AD7E1B801E97D780004AD038 /* Program.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		ADE940851E90C3C9002DA4C1 = {
 			isa = PBXGroup;
 			children = (
@@ -159,6 +189,7 @@
 		ADE9D80D1E93756D00D64AC1 /* Class */ = {
 			isa = PBXGroup;
 			children = (
+				AD7E1B7E1E97D756004AD038 /* Model */,
 				ADE9D80E1E93756D00D64AC1 /* Additions */,
 				ADE9D8111E93756D00D64AC1 /* Third */,
 				ADE9D8171E93756D00D64AC1 /* Tool */,
@@ -235,8 +266,11 @@
 		ADE9D8231E93756E00D64AC1 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				AD7E1B781E97D43C004AD038 /* ListViewCell */,
 				AD61E9DD1E952A2F00A584CE /* BaseViewController */,
 				AD61E9D21E952A0A00A584CE /* SerachViewController */,
+				AD7E1B751E97D345004AD038 /* ListViewController.h */,
+				AD7E1B761E97D346004AD038 /* ListViewController.m */,
 				ADE9D8241E93756E00D64AC1 /* ViewController.h */,
 				ADE9D8251E93756E00D64AC1 /* ViewController.m */,
 				ADAF73431E937C67003D4B25 /* CollectionViewCell.h */,
@@ -357,6 +391,7 @@
 				ADE940A11E90C3C9002DA4C1 /* LaunchScreen.storyboard in Resources */,
 				AD61E9DA1E952A0A00A584CE /* FRSearchDeviceCell.xib in Resources */,
 				ADAF734A1E938C54003D4B25 /* Main.storyboard in Resources */,
+				AD7E1B7D1E97D45A004AD038 /* ListViewCell.xib in Resources */,
 				ADE9409E1E90C3C9002DA4C1 /* Assets.xcassets in Resources */,
 				ADE9D82C1E93756E00D64AC1 /* enlish_word.txt in Resources */,
 				AD61E9DC1E952A0A00A584CE /* FRSearchDeviceController.xib in Resources */,
@@ -418,11 +453,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD7E1B811E97D780004AD038 /* Program.m in Sources */,
 				ADE9D82E1E93756E00D64AC1 /* ViewController.m in Sources */,
 				AD61E9E01E952A2F00A584CE /* BaseViewController.m in Sources */,
+				AD7E1B771E97D346004AD038 /* ListViewController.m in Sources */,
 				ADE9D82D1E93756E00D64AC1 /* FontDataTool.m in Sources */,
 				ADE9D82A1E93756E00D64AC1 /* CBPeripheral+Additon.m in Sources */,
 				ADE940961E90C3C9002DA4C1 /* AppDelegate.m in Sources */,
+				AD7E1B7C1E97D45A004AD038 /* ListViewCell.m in Sources */,
 				AD61E9E31E952BEC00A584CE /* UIImage+LogN.m in Sources */,
 				ADE9D8381E9378E300D64AC1 /* MBProgressHUD.m in Sources */,
 				AD61E9DB1E952A0A00A584CE /* FRSearchDeviceController.m in Sources */,
