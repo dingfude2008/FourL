@@ -156,7 +156,7 @@ static NSArray<NSString *> * enlishEmpty;                                   // �
     }
     
     int ascCode = [string characterAtIndex:0];
-    if (ascCode > enlishGBKMin && ascCode < enlishGBKMax) {
+    if (ascCode >= enlishGBKMin && ascCode < enlishGBKMax) {
         NSLog(@"%@:  ->非汉字", string);
         *isChinese = NO;
         return ascCode;

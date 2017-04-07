@@ -48,7 +48,7 @@
                                     <constraint firstAttribute="height" constant="150" id="h0c-NI-j8P"/>
                                 </constraints>
                             </view>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="好AA" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="0Hv-5P-QbA">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="靖靖 I Love You " textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="0Hv-5P-QbA">
                                 <rect key="frame" x="5" y="288" width="365" height="50"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>

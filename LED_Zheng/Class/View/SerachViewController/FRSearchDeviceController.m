@@ -231,8 +231,8 @@ typedef NS_ENUM(NSUInteger, ViewState) {
         dispatch_async(dispatch_get_main_queue(), ^{
             DDStrongVV
             
-            self.dicData = [recivedTxt mutableCopy];
-            if (self.dicData.count > 0 && [[NSDate date] timeIntervalSinceDate:beginDate] > 1.5){
+            if (self.dicData.count != recivedTxt.count || (recivedTxt > 0 && [[NSDate date] timeIntervalSinceDate:beginDate] > 0.5)) {
+                self.dicData = [recivedTxt mutableCopy];
                 self.tabView.userInteractionEnabled = YES;
                 NSLog(@"刷新界面");
                 if (self.viewState != ViewState_Select) {

@@ -129,23 +129,82 @@ static NSString *cellID = @"CollectionViewCell";
     
 //    textView.text = string;
     
-    NSString *string = textView.text;
     
-    // 点阵信息
-    NSArray<NSArray <NSNumber*>*> * arrayNumbers = [FontDataTool getLatticeDataArray:string];
+//    NSString *string = textView.text;
+    NSString *string1;
+    NSString *string2;
+    NSString *string3;
     
-    // 行列信息
-    NSArray <NSArray <NSDictionary *>*>* arrayColumnRowData = [FontDataTool getRowColumnDataFromLatticeData:arrayNumbers];;
-    [containerView setupData:arrayColumnRowData];
+    static int test1 = 0;
+    test1++;
+    switch (test1 % 3 ) {
+        case 0:
+            string1 = @"自由的乌鸦飞呀飞";
+            break;
+        case 1:
+            string1 = @"神乎其技的二";
+            break;
+        case 2:
+            string1 = @"卖女孩的小火柴";
+            break;
+    }
     
+    static int test2 = 0;
+    test2++;
+    switch (test2 % 3 ) {
+        case 0:
+            string2 = @"JPEG compression";
+            break;
+        case 1:
+            string2 = @"123456789";
+            break;
+        case 2:
+            string2 = @"@#$%$#@!@#$$%$$##";
+            break;
+    }
     
-    NSArray <NSNumber *> * arrayNumbersConbines = [NSObject conbineArray:arrayNumbers];
+    static int test3 = 0;
+    test3++;
+    switch (test3 % 3 ) {
+        case 0:
+            string3 = @"也对自己的身世有了更多的了解。";
+            break;
+        case 1:
+            string3 = @"在向父亲证明自己的过程中，";
+            break;
+        case 2:
+            string3 = @"浪却意外的卷入";
+            break;
+    }
+    
+    NSArray *arrayText = @[string1, string2, string3];
     
     NSMutableArray * arrayAdditional = [NSMutableArray array];
-    [arrayAdditional addObject:@[@1, @2, @1, @0, @1, @[]]];
+    NSMutableArray * arrayNumbers = [NSMutableArray array];
+    
+    for (int i = 0; i < 3; i++) {
+        
+        NSString *string = arrayText[i];
+        // 点阵信息
+        NSArray<NSArray <NSNumber*>*> * arrayNumbersSimple = [FontDataTool getLatticeDataArray:string];
+        
+        // 行列信息
+        NSArray <NSArray <NSDictionary *>*>* arrayColumnRowData = [FontDataTool getRowColumnDataFromLatticeData:arrayNumbers];;
+        [containerView setupData:arrayColumnRowData];
+        
+        
+        //
+        [arrayNumbers addObject:[NSObject conbineArray:arrayNumbersSimple]];
+        
+        if (i == 1) {
+            [arrayAdditional addObject:@[@2, @2, @1, @0, @1, @[]]];
+        }else{
+            [arrayAdditional addObject:@[@4, @2, @1, @0, @1, @[]]];
+        }
+    }
     
     [DDBLE postTextArrayAdditional:arrayAdditional
-                     textDataArray:@[arrayNumbersConbines]];
+                     textDataArray:arrayNumbers];
 }
 
 - (IBAction)buttonClick {
