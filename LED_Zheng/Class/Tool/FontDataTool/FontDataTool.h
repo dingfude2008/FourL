@@ -35,6 +35,18 @@
  */
 + (NSArray<NSArray <NSNumber*>*> *)getLatticeDataArray:(NSString *)string;
 
+
+/**
+ 组装点阵数据，方便发送给硬件
+
+ @param array 纯文本的点阵数据
+ @param isJustLast 是否只用在最后补
+ 
+ @return 返回组装好的点阵数据
+ */
++ (NSArray<NSNumber*> *)combineLatticeDataArray:(NSArray<NSArray <NSNumber*>*> *)array
+                                  isJustAddLast:(BOOL)isJustLast;
+
 /**
  通过字模数组信息，获取到行列数据信息
  

@@ -78,7 +78,13 @@ static NSString *cellID = @"CollectionViewCell";
                                                object:textView];
 }
 
-
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    
+    
+    [DDBLE retrievePeripheral:GetUserDefault(DefaultUUIDString)];
+    
+}
 
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -123,72 +129,19 @@ static NSString *cellID = @"CollectionViewCell";
 
 - (void)changeView{
     
-//    NSString *string = @"国标码+查询;汉#字国?家标准B编码:GB2312GBKGB18030floatpowfA因此我登上了 IRC (Internet Relay Chat)，在那里我遇到了一个很有意思的挑战。它是以 Clarus the dog cow 的形式出现的（译者注：一只像牛的狗，这个卡通形象由苹果传奇图形设计师 SusanKare 设计，在早期的 Mac 系统中，用来显示打印页面的朝向）。这只狗狗是以点阵图 (bitmap) 的形式出现的，通常情况下将其转换为 UIImage 并不是一件很容易的事。当然我觉得，应该有一种通用的方法能够将其转换为可重复使用的路径。";
-//    
-//    string = [string substringWithRange:NSMakeRange(arc4random() % (string.length - 4), 4)];
-    
-//    textView.text = string;
-    
-//    
-////    NSString *string = textView.text;
-//    NSString *string1;
-//    NSString *string2;
-//    NSString *string3;
-//    
-//    static int test1 = 0;
-//    test1++;
-//    switch (test1 % 3 ) {
-//        case 0:
-//            string1 = @"自由的乌鸦飞呀飞";
-//            break;
-//        case 1:
-//            string1 = @"神乎其技的二";
-//            break;
-//        case 2:
-//            string1 = @"卖女孩的小火柴";
-//            break;
-//    }
-//    
-//    static int test2 = 0;
-//    test2++;
-//    switch (test2 % 3 ) {
-//        case 0:
-//            string2 = @"JPEG compression";
-//            break;
-//        case 1:
-//            string2 = @"123456789";
-//            break;
-//        case 2:
-//            string2 = @"@#$%$#@!@#$$%$$##";
-//            break;
-//    }
-//    
-//    static int test3 = 0;
-//    test3++;
-//    switch (test3 % 3 ) {
-//        case 0:
-//            string3 = @"也对自己的身世有了更多的了解。";
-//            break;
-//        case 1:
-//            string3 = @"在向父亲证明自己的过程中，";
-//            break;
-//        case 2:
-//            string3 = @"浪却意外的卷入";
-//            break;
-//    }
-//    
     NSArray *arrayText;
     static int test = 0;
     test++;
+    test = 1;
     switch (test % 3 ) {
         case 0:
-            arrayText = @[@"自由的乌鸦飞呀飞", @"JPEG compression", @"也对自己的身世有了更多的了解。"];
+            arrayText = @[@"自由的a乌鸦飞呀飞f", @"JP我的你的EG compression", @"也对自D己的身DEF世有了更多的了解。"];
             break;
         case 1:
-            arrayText = @[@"神乎其技的二", @"@#$%$#@!@#$$%$$##", @"在向父亲证明自己的过程中，"];
+            arrayText = @[@"神乎其A技的B二我的", @"ABCDEFT我擦", @"在向父S亲证明A自己的过程中，"];
             break;
         case 2:
-            arrayText = @[@"卖女孩的小火柴", @"123456789", @"浪却意外的卷入"];
+            arrayText = @[@"卖女孩A的小火柴", @"12345我ABD6789", @"浪却意?外的卷入"];
             break;
     }
     
@@ -197,24 +150,32 @@ static NSString *cellID = @"CollectionViewCell";
     
     for (int i = 0; i < 3; i++) {
         
-        NSString *string = arrayText[i];
-        // 点阵信息
-        NSArray<NSArray <NSNumber*>*> * arrayNumbersSimple = [FontDataTool getLatticeDataArray:string];
-        
-        // 行列信息
-        NSArray <NSArray <NSDictionary *>*>* arrayColumnRowData = [FontDataTool getRowColumnDataFromLatticeData:arrayNumbers];;
-        [containerView setupData:arrayColumnRowData];
-        
-        
-        //
-        [arrayNumbers addObject:[NSObject conbineArray:arrayNumbersSimple]];
-        
         if (i == 1) {
             [arrayAdditional addObject:@[@2, @2, @1, @0, @1, @[]]];
         }else{
             [arrayAdditional addObject:@[@4, @2, @1, @0, @1, @[]]];
         }
+        
+        int specialEffects = [((NSArray *)arrayAdditional.lastObject)[0] intValue];
+        BOOL isJustAdditonal = specialEffects == 2 || specialEffects == 3;
+        
+        
+        NSString *string = arrayText[i];
+        // 点阵信息
+        NSArray<NSArray <NSNumber*>*> * arrayNumbersSimple = [FontDataTool getLatticeDataArray:string];
+        
+        // 行列信息
+        NSArray <NSArray <NSDictionary *>*>* arrayColumnRowData = [FontDataTool getRowColumnDataFromLatticeData:arrayNumbers];
+        
+        // [containerView setupData:arrayColumnRowData];
+        
+        // 补好每一屏幕的点阵数组，每一条都是整屏幕的, 补成72的倍数
+        NSArray<NSNumber*> *arrayCombineNumbersSimple = [FontDataTool combineLatticeDataArray:arrayNumbersSimple isJustAddLast:isJustAdditonal];
+        //
+        [arrayNumbers addObject:arrayCombineNumbersSimple];
     }
+    
+    
     
     [DDBLE postTextArrayAdditional:arrayAdditional
                      textDataArray:arrayNumbers];

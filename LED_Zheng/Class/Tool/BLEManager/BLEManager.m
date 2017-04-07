@@ -551,7 +551,7 @@ static BLEManager *bleManager;
     self.textDataArray = [textDataArray copy];
     
     // 每一条节目要补满的个数
-    int additonArray[textDataArray.count];
+    // int additonArray[textDataArray.count];
     
     // 获取文本+补码的总长度,  每一个节目 + 补码 + 下一条节目 + 补码
     int lengh = 0;
@@ -559,17 +559,12 @@ static BLEManager *bleManager;
     for (int i = 0; i < textDataArray.count; i++) {
         NSArray *arraySimpleText = textDataArray[i];
         int specialEffects = [self.arrayAdditional[i][0] intValue];
-        int additonSimple = 0;
-        if (specialEffects != 2 && specialEffects != 3) {
-            additonSimple = 72 - (arraySimpleText.count % 72);
-        }
-        NSLog(@"第 %d 条节目的补码个数 :%d", i, additonSimple);
-        additonArray[i] = additonSimple;
-        lengh += arraySimpleText.count + additonSimple;
+        NSLog(@"第 %d 条节目的个数为：%d  特效:%d", i, (int)arraySimpleText.count, specialEffects);
+        lengh += arraySimpleText.count;
     }
+//
     
-    
-    NSLog(@"文本信息+补码的总长度:%d", lengh);
+    NSLog(@"文本信息的总长度:%d", lengh);
     
     char bytes[lengh + 200];
     for (int i = 0; i < 10; i++) {
@@ -580,6 +575,7 @@ static BLEManager *bleManager;
             NSArray *simpleAdditianal = self.arrayAdditional[i];
             NSArray *simpleTextData = self.textDataArray[i];
             
+            NSLog(@"");
             bytes[0 + headOffest] =
             bytes[1 + headOffest] =
             bytes[2 + headOffest] =
@@ -588,6 +584,7 @@ static BLEManager *bleManager;
             bytes[5 + headOffest] =
             bytes[6 + headOffest] = DataOOOO;
             bytes[7 + headOffest] = 0x01;
+            NSLog(@"第 %d 个节目的特效是 %d", i, [simpleAdditianal[0] intValue]);
             bytes[8 + headOffest] = [simpleAdditianal[0] intValue] & 0xFF;   // 动作特效
             bytes[9 + headOffest] = [simpleAdditianal[1] intValue] & 0xFF;   // 速度
             bytes[10 + headOffest] = [simpleAdditianal[2] intValue] & 0xFF;  // 停留时间
@@ -597,16 +594,17 @@ static BLEManager *bleManager;
             bytes[12 + headOffest] = screenCount & 0xFF;
             bytes[13 + headOffest] = bytes[14 + headOffest] = bytes[15 + headOffest] = DataOOOO;
             
-            long beginAddress;
+            long beginAddress = 0;
             if (i == 0) {
                 beginAddress = 200;
             }else{
                 // 上一个节目的 文本数量 + 补码数量
-                NSArray *lastTextArray = self.textDataArray[i - 1];
-                int lastTextCount = (int)lastTextArray.count;
-                int lastTextAdditonCount = additonArray[i - 1];
-                NSLog(@"上一条数据的图文数量是 %d, 补码数量是 %d", lastTextCount, lastTextAdditonCount);
-                beginAddress = 200 + lastTextCount + lastTextAdditonCount;
+                for (int j = 0; j < i; j++) {
+                    NSArray *eachTextArray = self.textDataArray[j];
+                    int eachTextArrayCount = (int)eachTextArray.count;
+                    beginAddress += eachTextArrayCount;
+                }
+                beginAddress += 200;
                 NSLog(@"这条图文的起始地址:%d", (int)beginAddress);
             }
             
@@ -629,13 +627,6 @@ static BLEManager *bleManager;
         NSArray *arraySimpleProgram = textDataArray[i];
         for (int j = 0; j < arraySimpleProgram.count; j++) {
             bytes[countTextData + 200] = [arraySimpleProgram[j] intValue] & 0xFF;
-            countTextData++;
-        }
-        
-        // 这个是补码数据
-        int additonSimple = additonArray[i];
-        for (int i = 0; i < additonSimple; i++) {
-            bytes[countTextData + 200] = DataOOOO;
             countTextData++;
         }
     }

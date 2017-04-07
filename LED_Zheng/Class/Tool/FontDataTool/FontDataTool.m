@@ -120,8 +120,62 @@ static NSArray<NSString *> * enlishEmpty;                                   // �
             [arrResult addObject:arraySimpleNumber];
         }
     }
-    return arrResult;
+    return [arrResult mutableCopy];;
 }
+
+/**
+ 组装点阵数据，方便发送给硬件
+ 
+ @param array 纯文本的点阵数据
+ @param isJustLast 是否只用在最后补
+ 
+ @return 返回组装好的点阵数据
+ */
++ (NSArray<NSNumber*> *)combineLatticeDataArray:(NSArray<NSArray <NSNumber*>*> *)array
+                                  isJustAddLast:(BOOL)isJustLast{
+    NSMutableArray *arrayResult = [NSMutableArray array];
+    int count = 0;
+    if (isJustLast) {
+        for (int i = 0; i < array.count; i++) {
+            NSArray *arraySimpleWord = array[i];
+            count += arraySimpleWord.count;
+            [arrayResult addObjectsFromArray:arraySimpleWord];
+        }
+    }else{
+        int countSimple = 0;    //记录72个的标记
+        for (int i = 0; i < array.count; i++) {
+            NSArray *arraySimpleWord = array[i];
+            [arrayResult addObjectsFromArray:arraySimpleWord];
+            
+            count += arraySimpleWord.count;
+            countSimple += arraySimpleWord.count;
+            if (countSimple == 72) {
+                countSimple = 0;
+            }else if (i + 1 != array.count && countSimple == 63){
+                NSArray *arrayNext = (NSArray *)array[i+1];
+                if (arrayNext.count == 9) {
+                    [arrayResult addObjectsFromArray:arrayNext];
+                    count += arrayNext.count;
+                }else{
+                    [arrayResult addObjectsFromArray:@[@0,@0,@0,@0,@0,@0,@0,@0,@0]];
+                    count += 9;
+                }
+                countSimple = 0;
+            }
+        }
+        
+    }
+    
+    if (count % 72 != 0) {
+        int needAddAddtionCount = 72 - (count % 72);
+        for (int i = 0; i < needAddAddtionCount; i++) {
+            [arrayResult addObject:@0];
+        }
+    }
+    
+    return [arrayResult mutableCopy];
+}
+
 
 /**
  获取文本文字的机内码（GBK码）
@@ -137,7 +191,7 @@ static NSArray<NSString *> * enlishEmpty;                                   // �
                                      isChinese:&isChinese];
         [arrayResult addObject:@{(isChinese ? @"1" : @"0") : @(gbk)}];
     }
-    return arrayResult;
+    return [arrayResult mutableCopy];
 }
 
 /**
@@ -382,7 +436,7 @@ static NSArray<NSString *> * enlishEmpty;                                   // �
  @return 行列数据信息。 数组中为行列的键值对。 Key: 是否有数据(@"1":有点  @"0":没有点) Value:NSArray 0:列，1:行
  */
 + (NSArray<NSArray <NSDictionary*>*> *)getRowColumnDataFromLatticeData:(NSArray<NSArray <NSNumber*>*> *)arrayM{
-    
+    arrayM = [arrayM mutableCopy];
     NSMutableArray *arrayResult = [NSMutableArray array];
     NSMutableArray *arraySimple;
     for (int w = 0; w < arrayM.count; w++) {
