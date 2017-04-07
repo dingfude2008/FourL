@@ -129,55 +129,68 @@ static NSString *cellID = @"CollectionViewCell";
     
 //    textView.text = string;
     
-    
-//    NSString *string = textView.text;
-    NSString *string1;
-    NSString *string2;
-    NSString *string3;
-    
-    static int test1 = 0;
-    test1++;
-    switch (test1 % 3 ) {
+//    
+////    NSString *string = textView.text;
+//    NSString *string1;
+//    NSString *string2;
+//    NSString *string3;
+//    
+//    static int test1 = 0;
+//    test1++;
+//    switch (test1 % 3 ) {
+//        case 0:
+//            string1 = @"自由的乌鸦飞呀飞";
+//            break;
+//        case 1:
+//            string1 = @"神乎其技的二";
+//            break;
+//        case 2:
+//            string1 = @"卖女孩的小火柴";
+//            break;
+//    }
+//    
+//    static int test2 = 0;
+//    test2++;
+//    switch (test2 % 3 ) {
+//        case 0:
+//            string2 = @"JPEG compression";
+//            break;
+//        case 1:
+//            string2 = @"123456789";
+//            break;
+//        case 2:
+//            string2 = @"@#$%$#@!@#$$%$$##";
+//            break;
+//    }
+//    
+//    static int test3 = 0;
+//    test3++;
+//    switch (test3 % 3 ) {
+//        case 0:
+//            string3 = @"也对自己的身世有了更多的了解。";
+//            break;
+//        case 1:
+//            string3 = @"在向父亲证明自己的过程中，";
+//            break;
+//        case 2:
+//            string3 = @"浪却意外的卷入";
+//            break;
+//    }
+//    
+    NSArray *arrayText;
+    static int test = 0;
+    test++;
+    switch (test % 3 ) {
         case 0:
-            string1 = @"自由的乌鸦飞呀飞";
+            arrayText = @[@"自由的乌鸦飞呀飞", @"JPEG compression", @"也对自己的身世有了更多的了解。"];
             break;
         case 1:
-            string1 = @"神乎其技的二";
+            arrayText = @[@"神乎其技的二", @"@#$%$#@!@#$$%$$##", @"在向父亲证明自己的过程中，"];
             break;
         case 2:
-            string1 = @"卖女孩的小火柴";
+            arrayText = @[@"卖女孩的小火柴", @"123456789", @"浪却意外的卷入"];
             break;
     }
-    
-    static int test2 = 0;
-    test2++;
-    switch (test2 % 3 ) {
-        case 0:
-            string2 = @"JPEG compression";
-            break;
-        case 1:
-            string2 = @"123456789";
-            break;
-        case 2:
-            string2 = @"@#$%$#@!@#$$%$$##";
-            break;
-    }
-    
-    static int test3 = 0;
-    test3++;
-    switch (test3 % 3 ) {
-        case 0:
-            string3 = @"也对自己的身世有了更多的了解。";
-            break;
-        case 1:
-            string3 = @"在向父亲证明自己的过程中，";
-            break;
-        case 2:
-            string3 = @"浪却意外的卷入";
-            break;
-    }
-    
-    NSArray *arrayText = @[string1, string2, string3];
     
     NSMutableArray * arrayAdditional = [NSMutableArray array];
     NSMutableArray * arrayNumbers = [NSMutableArray array];
