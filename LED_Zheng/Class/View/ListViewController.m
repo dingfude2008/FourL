@@ -104,6 +104,9 @@ static NSString *cellID = @"ListViewCell";
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex != alertView.cancelButtonIndex) {
         NSLog(@"删除这条节目");
+        
+        
+        
     }
 }
 

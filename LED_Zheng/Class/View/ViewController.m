@@ -75,12 +75,15 @@ static NSString *cellID = @"CollectionViewCell";
     [self initPickerView];
     
     if (self.model) {
+        arraySelected = @[@(self.model.specialEffects),
+                          @(self.model.speed),
+                          @(self.model.residenceTime),
+                          @(self.model.border),
+                          @(self.model.showType),
+                          @(self.model.logo)];
         
-        
-        
-        
+        textView.text = self.model.text;
     }else{
-        
         arraySelected = @[@2, @0, @9, @0, @0, @0];
     }
     
