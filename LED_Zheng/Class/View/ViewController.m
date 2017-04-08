@@ -26,6 +26,8 @@ static NSString *cellID = @"CollectionViewCell";
     NSArray *arraySelected;     // 用户选中的选项在数据源中的集合的索引的集合
     
     NSArray *arrPickView;       // pickView的数据源
+    
+    int editRow;
 }
 
 @property (nonatomic, strong) UIPickerView          *pickView;
@@ -37,19 +39,24 @@ static NSString *cellID = @"CollectionViewCell";
 
 @implementation ViewController
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    if (!self.model) {
-        self.model = [[Program alloc] init];
-    }
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:({
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         [button setImage:[UIImage imageNamed:@"nav_back"] forState:UIControlStateNormal];
         [button sizeToFit];
         [button addTarget:self action:@selector(barbuttonItemLeftClick) forControlEvents:UIControlEventTouchUpInside];
+        button;
+    })];
+    
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:({
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setTitle:kString(@"OK") forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+        [button sizeToFit];
+        [button addTarget:self action:@selector(barbuttonItemRightClick) forControlEvents:UIControlEventTouchUpInside];
         button;
     })];
     
@@ -60,15 +67,22 @@ static NSString *cellID = @"CollectionViewCell";
                     @{@"显示类型":@[@"正常",@"竖立"]},
                     @{@"Logo":@[@"图片"]}];
     
-    arraySelected = @[@2, @0, @9, @0, @0, @0];
  
     [self setupCollection];
-    
     
     [self initViewCover];
     
     [self initPickerView];
     
+    if (self.model) {
+        
+        
+        
+        
+    }else{
+        
+        arraySelected = @[@2, @0, @9, @0, @0, @0];
+    }
     
 }
 
@@ -78,7 +92,25 @@ static NSString *cellID = @"CollectionViewCell";
     
     
     [DDBLE retrievePeripheral:GetUserDefault(DefaultUUIDString)];
+}
+
+- (void)barbuttonItemRightClick{
     
+    if (!self.model) {
+        self.model = [[Program alloc] init];
+        self.model.Id = [[NSDate date] timeIntervalSince1970];
+    }
+    
+    self.model.text                 = textView.text;
+    self.model.specialEffects       = [arraySelected[0] intValue];
+    self.model.speed                = [arraySelected[1] intValue];
+    self.model.residenceTime        = [arraySelected[2] intValue];
+    self.model.border               = [arraySelected[3] intValue];
+    self.model.showType             = [arraySelected[4] intValue];
+    self.model.logo                 = [arraySelected[5] intValue];
+    
+    [self.model save];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 
@@ -92,7 +124,6 @@ static NSString *cellID = @"CollectionViewCell";
     CGFloat width = (ScreenWidth - 20 - 3 * margin) / 2.0;
     layout.itemSize = CGSizeMake(width, 50);
     
-    
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(10, 0, ScreenWidth-20, 150) collectionViewLayout:layout];
     _collectionView.backgroundColor = self.view.backgroundColor;
     _collectionView.dataSource = self;
@@ -105,10 +136,13 @@ static NSString *cellID = @"CollectionViewCell";
 }
 
 - (void)initPickerView{
-    _pickView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, ScreenHeight, ScreenWidth, 256)];
-    _pickView.backgroundColor = DRed;
+    
+    _pickView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, ScreenHeight - 20 - 256, ScreenWidth, 256)];
+    _pickView.backgroundColor = DClear;
     _pickView.tintColor = [UIColor darkGrayColor];
-    Border(_pickView, DRed);
+    
+    self.pickView.delegate = self;
+    self.pickView.dataSource = self;
     [self.ViewCover addSubview:_pickView];
 }
 
@@ -150,7 +184,6 @@ static NSString *cellID = @"CollectionViewCell";
         int specialEffects = [((NSArray *)arrayAdditional.lastObject)[0] intValue];
         BOOL isJustAdditonal = specialEffects == 2 || specialEffects == 3;
         
-        
         NSString *string = arrayText[i];
         // 点阵信息
         NSArray<NSArray <NSNumber*>*> * arrayNumbersSimple = [FontDataTool getLatticeDataArray:string];
@@ -166,7 +199,6 @@ static NSString *cellID = @"CollectionViewCell";
         [arrayNumbers addObject:arrayCombineNumbersSimple];
     }
     
-    
     [DDBLE postTextArrayAdditional:arrayAdditional
                      textDataArray:arrayNumbers];
 }
@@ -174,13 +206,11 @@ static NSString *cellID = @"CollectionViewCell";
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     [collectionView deselectItemAtIndexPath:indexPath animated:NO];
     
-    NSDictionary *dictionary = arrViewData[indexPath.row];
+    editRow = (int)indexPath.row;
+    
+    NSDictionary *dictionary = arrViewData[editRow];
     arrPickView = dictionary.allValues.firstObject;
     
-    
-    
-    self.pickView.delegate =self;
-    self.pickView.dataSource = self;
     [self.pickView reloadAllComponents];
     
     [self showViewCover];
@@ -205,6 +235,12 @@ static NSString *cellID = @"CollectionViewCell";
                                               forIndexPath:indexPath];
     NSDictionary *dictionary = arrViewData[indexPath.row];
     cell.titleLabel.text = kString([dictionary.allKeys.firstObject description]);
+    
+    
+    NSArray *arrValues = dictionary.allValues.firstObject;
+    
+    cell.valueLabel.text = [arrValues[[arraySelected[indexPath.row] intValue]] description];
+    
     return cell;
 }
 
@@ -219,13 +255,17 @@ static NSString *cellID = @"CollectionViewCell";
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
-    NSLog(@"%@", [arrPickView[row] description]);
     return [arrPickView[row] description];
 }
 
 //选中某一行
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
-    NSLog(@"选中某一行");
+    
+    NSMutableArray *arrNew = [arraySelected mutableCopy];
+    arrNew[editRow] = @(row);
+    arraySelected = [arrNew mutableCopy];
+    [_collectionView reloadData];
+    NSLog(@"选中某一行 - >%@", arrPickView[row]);
 }
 
 -(void)initViewCover{
@@ -244,24 +284,6 @@ static NSString *cellID = @"CollectionViewCell";
         
         [[UIApplication sharedApplication].keyWindow addSubview:self.ViewEffectHead];
     }
-    
-    UIView *toolBarView = [[UIView alloc]initWithFrame:CGRectMake(0, self.ViewCover.bounds.size.height - 300, ScreenWidth, 44)];
-    toolBarView.backgroundColor = [UIColor lightGrayColor];
-    UIButton *CancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [CancelButton setTitle:kString(@"取消") forState:UIControlStateNormal];
-    [CancelButton addTarget:self action:@selector(toolCancelBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    CancelButton.frame = CGRectMake(10, 0, 80, 44);
-    [toolBarView addSubview:CancelButton];
-    
-    UIButton *confirmButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [confirmButton setTitle:kString(@"确定") forState:UIControlStateNormal];
-    confirmButton.frame = CGRectMake(ScreenWidth - 90, 0, 80, 44);
-    [confirmButton addTarget:self action:@selector(toolOKBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [toolBarView addSubview:confirmButton];
-    [self.ViewCover addSubview:toolBarView];
-    
-    Border(self.ViewCover, DYellow)
-    
     [self.view addSubview:self.ViewCover];
 }
 

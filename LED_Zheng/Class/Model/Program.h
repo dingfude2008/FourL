@@ -10,9 +10,13 @@
 
 @interface Program : NSObject
 
+@property (nonatomic, assign) double  Id;               // 编号
+
 @property (nonatomic, copy  ) NSString *text;           // 文字
 
 @property (nonatomic, assign) int specialEffects;       // 特效  0x00 - 0xAB
+
+@property (nonatomic, copy) NSString * specialEffectsString;    // 特效  0x00 - 0xAB
 
 @property (nonatomic, assign) int speed;                // 速度  0x01 - 0x20
 
@@ -20,6 +24,18 @@
 
 @property (nonatomic, assign) int border;               // 边框      0：不带边框  1：带
 
-@property (nonatomic, copy) NSString * specialEffectsString;    // 特效  0x00 - 0xAB
+@property (nonatomic, copy) NSString * borderString;    //
+
+@property (nonatomic, assign) int showType;             // 边框      0：正常显示  1：竖显示
+
+@property (nonatomic, copy) NSString * showTypeString;  //
+
+@property (nonatomic, assign) int logo;                 // logo 的索引
+
+@property (nonatomic, copy) NSString * logoString;      //
+
+
+- (void)save;
+
 
 @end

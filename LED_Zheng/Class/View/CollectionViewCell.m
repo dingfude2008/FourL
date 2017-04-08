@@ -12,27 +12,11 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-//    
-//    CGRect rectButton = self.button.titleLabel.frame;
-//    rectButton.origin.x = 5;
-//    self.button.titleLabel.frame = rectButton;
-//    
-//    CGRect rectImage = self.button.imageView.frame;
-//    rectImage.origin.x = self.bounds.size.width - 10;
-//    self.button.imageView.frame = rectImage;
-//    
+    
     self.button.layer.borderWidth = 1;
     self.button.layer.cornerRadius = 3;
     self.button.layer.masksToBounds = YES;
-    
-    self.button.titleLabel.textAlignment = NSTextAlignmentLeft;
 }
-
-//- (IBAction)buttonClick {
-//    if (self.blockClick) {
-//        self.blockClick(self.tag);
-//    }
-//}
 
 
 @end

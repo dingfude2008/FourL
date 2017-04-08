@@ -12,7 +12,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIButton *button;
+@property (weak, nonatomic) IBOutlet UILabel *valueLabel;
 
-//@property (nonatomic, copy) void (^blockClick)(NSUInteger);
 
 @end

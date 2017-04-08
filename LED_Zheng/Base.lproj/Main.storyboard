@@ -94,9 +94,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="i73-A5-G9u">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="i73-A5-G9u">
                                 <rect key="frame" x="0.0" y="64" width="375" height="553"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="uE3-k2-LiO" id="T4n-jh-bdx"/>
                                     <outlet property="delegate" destination="uE3-k2-LiO" id="guF-Rk-Fj5"/>
@@ -116,7 +116,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="88J-3j-bBt">
-                                        <rect key="frame" x="345" y="0.0" width="30" height="50"/>
+                                        <rect key="frame" x="360" y="0.0" width="15" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <state key="normal" image="write">
                                             <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -152,7 +152,7 @@
                     <navigationItem key="navigationItem" id="VBB-46-eTN"/>
                     <connections>
                         <outlet property="bleButton" destination="fOm-CI-IES" id="4sb-Gu-qwk"/>
-                        <outlet property="tabView" destination="i73-A5-G9u" id="SE4-vJ-J80"/>
+                        <outlet property="listTabView" destination="i73-A5-G9u" id="J70-Nd-nUb"/>
                         <outlet property="writeButton" destination="88J-3j-bBt" id="7Km-QK-L6z"/>
                         <segue destination="YwK-EP-1Re" kind="show" identifier="aaa" id="kD5-zt-Qqv"/>
                     </connections>
@@ -182,6 +182,6 @@
     </scenes>
     <resources>
         <image name="disconnected" width="15" height="15"/>
-        <image name="write" width="30" height="30"/>
+        <image name="write" width="15" height="15"/>
     </resources>
 </document>

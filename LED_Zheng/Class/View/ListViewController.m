@@ -15,12 +15,12 @@
 static NSString *cellID = @"ListViewCell";
 
 @interface ListViewController ()<UITableViewDelegate, UITableViewDataSource, ListViewCellDelegate, UIAlertViewDelegate>{
-    __weak IBOutlet UITableView *tabView;
     NSArray<Program *> *arrayData;
-    
     __weak IBOutlet UIButton *bleButton;
     __weak IBOutlet UIButton *writeButton;
 }
+
+@property (weak, nonatomic) IBOutlet UITableView *listTabView;
 
 
 
@@ -32,7 +32,6 @@ static NSString *cellID = @"ListViewCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self loadData];
     
     self.title = kString(@"节目列表");
     
@@ -49,32 +48,29 @@ static NSString *cellID = @"ListViewCell";
     [writeButton setTitle:kString(@"发送节目") forState:UIControlStateNormal];
     [writeButton sizeToFit];
     
-    [tabView registerNib:[UINib nibWithNibName:cellID bundle:nil] forCellReuseIdentifier:cellID];
+    [self.listTabView registerNib:[UINib nibWithNibName:cellID bundle:nil] forCellReuseIdentifier:cellID];
     
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    
+    
+    [self loadData];
 }
 
 - (void)loadData{
     NSArray *array = GetUserDefault(ListDataLocal);
     
-//    NSMutableArray *arrTest = [@[] mutableCopy];
-//    for (int i = 0; i < 2; i ++) {
-//        Program *p = [[Program alloc ] init];
-//        p.text = i == 0 ? @"自由的a乌鸦飞呀飞f" : @"JP我的你的EG compression";
-//        p.specialEffects = i == 0 ? 2 : 4;
-//        p.speed = 1;
-//        p.residenceTime = 1;
-//        p.border = 0;
-//        [arrTest addObject:p];
-//    }
-//    
-//    arrayData = arrTest;
-//    return;
-//    
-    if (array) {
-        arrayData = @[];
+    if (!array) {
+        arrayData = [@[] mutableCopy];
     }else{
-        arrayData = [NSArray yy_modelArrayWithClass:[Program class] json:arrayData];
+        arrayData = [NSArray yy_modelArrayWithClass:[Program class] json:array];
     }
+    
+    NSLog(@"----》 %@", @(arrayData.count));
+    
+    [self.listTabView reloadData];
 }
 
 
@@ -83,7 +79,12 @@ static NSString *cellID = @"ListViewCell";
     return 1;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 0;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section;{
+    NSLog(@"个数:%@", @(arrayData.count));
     return arrayData.count;
 }
 

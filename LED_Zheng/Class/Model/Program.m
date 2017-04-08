@@ -51,7 +51,68 @@
             _specialEffectsString = kString(@"抖动");
             break;
     }
+}
+
+
+
+- (void)setBorder:(int)border{
+    _border = border;
+    switch (border) {
+        case 0:
+            _borderString = kString(@"无");
+            break;
+        case 1:
+            _borderString = kString(@"有");
+            break;
+    }
+}
+
+- (void)setShowType:(int)showType{
+    _showType = showType;
+    switch (showType) {
+        case 0:
+            _showTypeString = kString(@"正常显示");
+            break;
+        case 1:
+            _showTypeString = kString(@"竖立显示");
+            break;
+    }
+}
+
+- (NSString *)description{
+    return  [self yy_modelDescription];
+}
+
+- (void)save{
+    NSArray *arrayLocal = GetUserDefault(ListDataLocal);
+    if (!arrayLocal ){
+        arrayLocal = @[];
+    }
+    NSMutableArray *arrayNew = [[NSArray yy_modelArrayWithClass:[Program class] json:arrayLocal] mutableCopy];
     
+    BOOL isNew = YES;;
+    for (int i = 0; i < arrayNew.count; i++) {
+        Program *program = arrayNew[i];
+        if (program.Id == self.Id) {
+            isNew = NO;
+            program = self;
+            break;
+        }
+    }
+    
+    if (isNew) {
+        [arrayNew addObject:self];
+    }
+    
+    NSMutableArray *arrayDictionary = [@[] mutableCopy];
+    
+    for (int i = 0; i < arrayNew.count ; i++) {
+        
+        Program *p = arrayNew[i];
+        NSDictionary *dictionary = [p yy_modelToJSONObject];
+        [arrayDictionary addObject:dictionary];
+    }
+    SetUserDefault(ListDataLocal, arrayDictionary);
 }
 
 @end
