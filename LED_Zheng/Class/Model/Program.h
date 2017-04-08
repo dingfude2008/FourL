@@ -18,9 +18,9 @@
 
 @property (nonatomic, copy) NSString * specialEffectsString;    // 特效  0x00 - 0xAB
 
-@property (nonatomic, assign) int speed;                // 速度  0x01 - 0x20
+@property (nonatomic, assign) int speed;                // 速度  0x01 - 0x20          1-32
 
-@property (nonatomic, assign) int residenceTime;        // 停留时间   0x00 - 0x32
+@property (nonatomic, assign) int residenceTime;        // 停留时间   0x00 - 0x32      0-50
 
 @property (nonatomic, assign) int border;               // 边框      0：不带边框  1：带
 

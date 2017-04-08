@@ -143,14 +143,17 @@
 
 - (void)CallBack_Data:(BussinessCode)type obj:(NSObject *)obj {
     // NSLog(@"控制器收到回调 %d, %@", (int)type, obj);
-    switch (type) {
-        case Bussiness_GetVersion:{                  // 这几个在基类控制器中处理
-
-        }break;
-        case Bussiness_TurnOFF_OK:
-        case Bussiness_SetLightState_OK:
-            break;
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        MBHide;
+        switch (type) {
+            case Bussiness_OK:{                  // 这几个在基类控制器中处理
+                MBShow(@"写入完成");
+            }break;
+            case Bussiness_Error:
+                MBShow(@"写入失败");
+                break;
+        }
+    });
 }
 
 - (void)CallBack_ManageStateChange:(BOOL)isON { }

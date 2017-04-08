@@ -8,21 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol ListViewCellDelegate <NSObject>
-
-- (void)deleteModel:(Program *)model;
-
-- (void)editModel:(Program *)model;
-
-@end
 
 @interface ListViewCell : UITableViewCell
 
 
-@property (nonatomic, assign) id<ListViewCellDelegate> delegate;
-
-
 + (instancetype)cellWithTableView:(UITableView *)tableView;
+
+@property (nonatomic, copy) void (^editBlock)(Program *model);
+
+@property (nonatomic, copy) void (^deleteBlock)(Program *model);
+
+
 
 @property (nonatomic, strong) Program *model;
 

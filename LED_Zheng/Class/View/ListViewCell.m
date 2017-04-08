@@ -26,11 +26,15 @@
 }
 
 - (IBAction)deleteButtonClick {
-    [self.delegate deleteModel:self.model];
+    if (self.deleteBlock) {
+        self.deleteBlock(self.model);
+    }
 }
 
 - (IBAction)editButtonClick {
-    [self.delegate editModel:self.model];
+    if (self.editBlock) {
+        self.editBlock(self.model);
+    }
 }
 
 - (void)setModel:(Program *)model{
@@ -51,7 +55,6 @@
     static NSString *ID = @"ListViewCell";
     ListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     if (!cell) cell = [[[NSBundle mainBundle]loadNibNamed:NSStringFromClass([self class]) owner:nil options:nil] lastObject];
-    return cell;
     return cell;
 }
 

@@ -177,6 +177,54 @@ static NSArray<NSString *> * enlishEmpty;                                   // �
 }
 
 
+
+/**
+ 获取预览的文字
+
+ @param array 一条节目的点阵数据
+ @param endLocation 结束的位置
+  @return 组装好的显示文字
+ */
++ (NSArray<NSArray <NSNumber*>*> *)getShowTextData:(NSArray<NSArray <NSNumber*>*> *)array
+         endLocation:(int)endLocation{
+    
+    // 截断，光标后面的不要了
+    NSArray<NSArray <NSNumber*>*> *arrayTag = [array subarrayWithRange:NSMakeRange(0, endLocation)];
+    
+    int countAll = 0;
+    for (int i = 0; i < arrayTag.count; i++) {
+        NSArray *arrayTag1 = array[i];
+        countAll += arrayTag1.count;
+    }
+    
+    // 不够一屏幕显示的
+    if (countAll <= 72) {
+        return arrayTag;
+    }
+    
+    
+    NSMutableArray *arrayResult = [NSMutableArray array];
+    int countSimple = 0;    //记录72个的标记
+    for(int i = (int)arrayTag.count - 1; i >= 0; i--){
+        NSArray *arraySimple = arrayTag[i];
+        if (countSimple < 63) {
+            [arrayResult addObject:arraySimple];
+            countSimple += arraySimple.count;
+        } else if (countSimple == 63) {
+            if (arraySimple.count == 18) {
+                break;
+            }else{
+                [arrayResult addObject:arraySimple];
+                break;
+            }
+        }
+    }
+    
+    NSArray *arrResult_Flip = [self flipArray:arrayResult];
+    return arrResult_Flip;
+}
+
+
 /**
  获取文本文字的机内码（GBK码）
  
@@ -193,6 +241,16 @@ static NSArray<NSString *> * enlishEmpty;                                   // �
     }
     return [arrayResult mutableCopy];
 }
+
+// 翻转数组
++ (NSArray *)flipArray:(NSArray *)array{
+    NSMutableArray *arrayResult = [NSMutableArray array];
+    for (int i = (int)array.count - 1; i >= 0; i--) {
+        [arrayResult addObject:array[i]];
+    }
+    return arrayResult;
+}
+
 
 /**
  获取单个字符的机内码（GBK码）

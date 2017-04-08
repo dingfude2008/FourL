@@ -81,7 +81,7 @@
 
 @interface BLEManager : NSObject
 
-@property (nonatomic, weak) id<BLEManagerDelegate, BLEManagerOTADelegate>     delegate;
+@property (nonatomic, assign) id<BLEManagerDelegate>     delegate;
 
 @property (nonatomic, strong) CBCentralManager *        manager;                // 中心设备实例
 

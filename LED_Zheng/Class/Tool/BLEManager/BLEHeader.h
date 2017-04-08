@@ -82,7 +82,7 @@
 typedef NS_ENUM(NSUInteger, ConnectState) {
     ConnectState_Disconnect = 0,
     ConnectState_Connecting,
-    ConnectState_Connected
+    ConnectState_Connected,
 };
 
 
@@ -91,9 +91,17 @@ typedef NS_ENUM(NSUInteger, ConnectState) {
 typedef NS_ENUM(NSUInteger, BussinessCode){
     
     // ------------------------ 公用
-    Bussiness_GetVersion = 0,                       // 设备版本
-    Bussiness_TurnOFF_OK,                           // 关闭设备回调
-    Bussiness_SetLightState_OK,                     // 灯光生效后回调
+    Bussiness_OK = 0,                       // 设备版本
+    Bussiness_Error,                        // 关闭设备回调
+};
+
+
+typedef NS_ENUM(NSUInteger, BussinessError){
+    
+    // ------------------------ 公用
+    BussinessError_DataError = 0,                       // 设备版本
+    BussinessError_WrongPassword,                        // 关闭设备回调
+    BussinessError_UnknowedError,                        // 关闭设备回调
 };
 
 

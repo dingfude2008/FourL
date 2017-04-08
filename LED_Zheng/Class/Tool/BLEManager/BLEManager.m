@@ -44,6 +44,7 @@ static BLEManager *bleManager;
 @property (nonatomic, assign) PostCommondState postCommondState;    // 当前的发送状态
 
 
+
 @property (nonatomic, copy) NSArray *arrayPassword;    //当前的密码位
 
 @end
@@ -412,7 +413,8 @@ static BLEManager *bleManager;
                 if ([[chara.UUID UUIDString] isEqualToString:charaUUID]){
                     [data LogDataAndPrompt:@"写入" promptOther:charaUUID];
                     
-                    [self.per writeValue:data
+                    NSData *dataCopy = [data mutableCopy];
+                    [self.per writeValue:dataCopy
                        forCharacteristic:chara
                                     type:CBCharacteristicWriteWithResponse];
                     break;
@@ -425,15 +427,13 @@ static BLEManager *bleManager;
 
 // 通知回调
 - (void)setData:(NSData *)data peripheral:(CBPeripheral *)peripheral charaUUID:(NSString *)charaUUID{
-    
-    Byte *bytes = (Byte *)data.bytes;
-
     if ([charaUUID isEqualToString:R_Receive_UUID]){
         
         switch (self.postCommondState) {
                 case PostCommondState_Handshake:{
                     if (([self checkData:data] == CommondCheckType_Correct)) {
                         NSLog(@"写入头数据");
+                        self.isOK = YES;
                         [self postHeadData];
                     }
                 }break;
@@ -463,9 +463,11 @@ static BLEManager *bleManager;
                         }break;
                         case CommondCheckType_WrongData:{
                             NSLog(@"数据错误");
+                            [self.delegate CallBack_Data:Bussiness_Error obj:BussinessError_DataError];
                         }break;
                         case CommondCheckType_WrongPassword:{
                             NSLog(@"密码错误错误");
+                            [self.delegate CallBack_Data:Bussiness_Error obj:@(BussinessError_WrongPassword)];
                         }break;
                         case CommondCheckType_NeedAgain:{
                             NSLog(@"当前包错误，重新发送一遍");
@@ -473,12 +475,16 @@ static BLEManager *bleManager;
                         }break;
                         case CommondCheckType_Error:{
                             NSLog(@"其他未知错误");
+                            [self.delegate CallBack_Data:Bussiness_Error obj:@(BussinessError_UnknowedError)];
+                            
+                            [self.delegate CallBack_Data:Bussiness_OK obj:nil];
                         }break;
                     }
                 }break;
                 case PostCommondState_PostEndData:{
                     if ([self checkData:data] == CommondCheckType_Correct) {
                         NSLog(@"所有的都发送完成了");
+                        [self.delegate CallBack_Data:Bussiness_OK obj:nil];
                     }
                     
                 }break;
@@ -562,8 +568,6 @@ static BLEManager *bleManager;
         NSLog(@"第 %d 条节目的个数为：%d  特效:%d", i, (int)arraySimpleText.count, specialEffects);
         lengh += arraySimpleText.count;
     }
-//
-    
     NSLog(@"文本信息的总长度:%d", lengh);
     
     char bytes[lengh + 200];
@@ -658,9 +662,16 @@ static BLEManager *bleManager;
     NSData *dataPush = [NSData dataWithBytes:chars length:13];
     
     self.postCommondState = PostCommondState_Handshake;
+    NSLog(@"发送握手数据");
     [self Command:dataPush
        uuidString:self.per.identifier.UUIDString
         charaUUID:W_SentData_UUID];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_global_queue(0, 0), ^{
+    
+        if (!self.isOK) {
+            [self handshake];
+        }
+    });
 }
 
 

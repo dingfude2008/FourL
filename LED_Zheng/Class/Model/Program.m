@@ -84,25 +84,27 @@
 }
 
 - (void)save{
-    NSArray *arrayLocal = GetUserDefault(ListDataLocal);
+    NSArray *arrayLocal = [GetUserDefault(ListDataLocal) mutableCopy];
     if (!arrayLocal ){
         arrayLocal = @[];
     }
     NSMutableArray *arrayNew = [[NSArray yy_modelArrayWithClass:[Program class] json:arrayLocal] mutableCopy];
     
-    BOOL isNew = YES;;
+    BOOL isNew = YES;
+    Program *programOld;
     for (int i = 0; i < arrayNew.count; i++) {
-        Program *program = arrayNew[i];
-        if (program.Id == self.Id) {
+        programOld = arrayNew[i];
+        if (programOld.Id == self.Id) {
             isNew = NO;
-            program = self;
             break;
         }
     }
     
-    if (isNew) {
-        [arrayNew addObject:self];
+    if (!isNew) {
+         [arrayNew removeObject:programOld];
     }
+    
+    [arrayNew addObject:self];
     
     NSMutableArray *arrayDictionary = [@[] mutableCopy];
     
@@ -112,6 +114,8 @@
         NSDictionary *dictionary = [p yy_modelToJSONObject];
         [arrayDictionary addObject:dictionary];
     }
+    
+    // RemoveUserDefault(ListDataLocal);
     SetUserDefault(ListDataLocal, arrayDictionary);
 }
 

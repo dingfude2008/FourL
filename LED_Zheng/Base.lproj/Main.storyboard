@@ -75,7 +75,7 @@
                     <connections>
                         <outlet property="colectionContainerView" destination="MIZ-Yh-eVh" id="tIE-Y6-bEq"/>
                         <outlet property="containerView" destination="c8Q-1Z-Q5G" id="ztQ-X9-3HX"/>
-                        <outlet property="textView" destination="0Hv-5P-QbA" id="v72-9n-bD9"/>
+                        <outlet property="myTextView" destination="0Hv-5P-QbA" id="Msg-gf-ACb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2Ev-pF-hcl" userLabel="First Responder" sceneMemberID="firstResponder"/>

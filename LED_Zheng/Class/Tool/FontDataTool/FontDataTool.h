@@ -57,5 +57,17 @@
 
 
 
+/**
+ 获取预览的文字
+ 
+ @param array 一条节目的点阵数据
+ @param endLocation 结束的位置
+ @return 组装好的显示文字
+ */
++ (NSArray<NSArray <NSNumber*>*> *)getShowTextData:(NSArray<NSArray <NSNumber*>*> *)array
+                                    endLocation:(int)endLocation;
+
+
+
 
 @end

@@ -13,9 +13,9 @@
 
 static NSString *cellID = @"CollectionViewCell";
 
-@interface ViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UIPickerViewDataSource, UIPickerViewDelegate>{
+@interface ViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UIPickerViewDataSource, UIPickerViewDelegate, UITextViewDelegate>{
     
-    __weak IBOutlet UITextView *textView;
+    __weak IBOutlet UITextView *myTextView;
     __weak IBOutlet DFMatrixLedContainerView *containerView;
     
     __weak IBOutlet UIView *colectionContainerView;
@@ -47,22 +47,34 @@ static NSString *cellID = @"CollectionViewCell";
         [button setImage:[UIImage imageNamed:@"nav_back"] forState:UIControlStateNormal];
         [button sizeToFit];
         [button addTarget:self action:@selector(barbuttonItemLeftClick) forControlEvents:UIControlEventTouchUpInside];
+        
         button;
     })];
     
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:({
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 50)];
         [button setTitle:kString(@"OK") forState:UIControlStateNormal];
         [button setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-        [button sizeToFit];
+        // [button sizeToFit];
         [button addTarget:self action:@selector(barbuttonItemRightClick) forControlEvents:UIControlEventTouchUpInside];
+        
         button;
     })];
     
+    NSMutableArray *arrSpeed = [NSMutableArray array];
+    for (int i = 1; i <= 32; i++) {
+        [arrSpeed addObject:[@(i) description]];
+    }
+    
+    NSMutableArray *arrTime = [NSMutableArray array];
+    for (int i = 0; i <= 50; i++) {
+        [arrTime addObject:[@(i) description]];
+    }
+    
     arrViewData = @[@{@"特效":@[@"随机",@"立即显示",@"连续左移",@"连续右移",@"左移",@"右移",@"上移",@"下移",@"水平展开",@"飘雪",@"闪烁",@"抖动"]},
-                    @{@"速度":@[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"10",@"11",@"12",@"13",@"14",@"15",@"16",@"17",@"18",@"19",@"20"]},
-                    @{@"停留时间":@[@"0", @"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"10",@"11",@"12",@"13",@"14",@"15",@"16",@"17",@"18",@"19",@"20",@"21",@"22",@"23",@"24",@"25",@"26",@"27",@"28",@"29",@"30", @"31", @"32"]},
+                    @{@"速度":arrSpeed},
+                    @{@"停留时间":arrTime},
                     @{@"边框": @[@"无", @"有"]},
                     @{@"显示类型":@[@"正常",@"竖立"]},
                     @{@"Logo":@[@"图片"]}];
@@ -81,30 +93,29 @@ static NSString *cellID = @"CollectionViewCell";
                           @(self.model.border),
                           @(self.model.showType),
                           @(self.model.logo)];
-        
-        textView.text = self.model.text;
+        myTextView.text = self.model.text;
     }else{
-        arraySelected = @[@2, @0, @9, @0, @0, @0];
+        arraySelected = @[@0, @1, @0, @0, @0, @0];
     }
     
+    myTextView.delegate = self;
 }
 
 
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    
-    
-    [DDBLE retrievePeripheral:GetUserDefault(DefaultUUIDString)];
-}
 
 - (void)barbuttonItemRightClick{
+    
+    if (myTextView.text.length == 0) {
+        MBShow(@"文字不能为空");
+        return;
+    }
     
     if (!self.model) {
         self.model = [[Program alloc] init];
         self.model.Id = [[NSDate date] timeIntervalSince1970];
     }
     
-    self.model.text                 = textView.text;
+    self.model.text                 = myTextView.text;
     self.model.specialEffects       = [arraySelected[0] intValue];
     self.model.speed                = [arraySelected[1] intValue];
     self.model.residenceTime        = [arraySelected[2] intValue];
@@ -153,10 +164,44 @@ static NSString *cellID = @"CollectionViewCell";
     [self.view endEditing:YES];
  
     [self toolCancelBtnClick];
+    
+    // [self changeView];
 }
+
+
+- (void)setText:(NSString *)text range:(NSRange)range{
+    
+    if (text.length == 0) {
+        return;
+    }
+    
+    
+    int endLocation = (int)range.length + (int)range.location;
+    
+    NSLog(@"%@ %@", text, @(endLocation));
+    
+    NSLog(@"要从 %d 的位置往前显示一屏的文字: %@", endLocation, text);
+    
+    // 纯点阵信息
+    NSArray<NSArray <NSNumber*>*> * arrayNumbersSimple = [FontDataTool getLatticeDataArray:text];
+    
+    arrayNumbersSimple = [FontDataTool getShowTextData:arrayNumbersSimple endLocation:endLocation];
+    
+//    NSArray<NSNumber*> *arrayCombineNumbersSimple = [FontDataTool combineLatticeDataArray:arrayNumbersSimple isJustAddLast:NO];
+    
+    // 行列信息
+    NSArray <NSArray <NSDictionary *>*>* arrayColumnRowData = [FontDataTool getRowColumnDataFromLatticeData:arrayNumbersSimple];
+    
+    [containerView setupData:arrayColumnRowData];
+}
+
+//- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+//    [self changeView];
+//}
 
 - (void)changeView{
     
+    // return;
     NSArray *arrayText;
     static int test = 0;
     test++;
@@ -173,15 +218,27 @@ static NSString *cellID = @"CollectionViewCell";
             break;
     }
     
+    arrayText = @[@"我的123你好你好"];
+    
     NSMutableArray * arrayAdditional = [NSMutableArray array];
     NSMutableArray * arrayNumbers = [NSMutableArray array];
     
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 1; i++) {
+//        2,
+//        0,
+//        1,
+//        0,
+//        0,
+//        0
+        
+        // 动作 +        速度 +     停留       + 边框
+        // 0x00-0xAB    0x01-0x20  0x00-0x32   0x00-0x01
         
         if (i == 1) {
             [arrayAdditional addObject:@[@2, @2, @1, @0, @1, @[]]];
         }else{
-            [arrayAdditional addObject:@[@4, @2, @1, @0, @1, @[]]];
+//            [arrayAdditional addObject:@[@2, @2, @1, @0, @1, @[]]];
+            [arrayAdditional addObject:@[@2, @1, @1, @0, @0, @0]];
         }
         
         int specialEffects = [((NSArray *)arrayAdditional.lastObject)[0] intValue];
@@ -190,11 +247,6 @@ static NSString *cellID = @"CollectionViewCell";
         NSString *string = arrayText[i];
         // 点阵信息
         NSArray<NSArray <NSNumber*>*> * arrayNumbersSimple = [FontDataTool getLatticeDataArray:string];
-        
-        // 行列信息
-        NSArray <NSArray <NSDictionary *>*>* arrayColumnRowData = [FontDataTool getRowColumnDataFromLatticeData:arrayNumbers];
-        
-        // [containerView setupData:arrayColumnRowData];
         
         // 补好每一屏幕的点阵数组，每一条都是整屏幕的, 补成72的倍数
         NSArray<NSNumber*> *arrayCombineNumbersSimple = [FontDataTool combineLatticeDataArray:arrayNumbersSimple isJustAddLast:isJustAdditonal];
@@ -207,6 +259,8 @@ static NSString *cellID = @"CollectionViewCell";
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    
+    [self toolCancelBtnClick];
     [collectionView deselectItemAtIndexPath:indexPath animated:NO];
     
     editRow = (int)indexPath.row;
@@ -314,6 +368,15 @@ static NSString *cellID = @"CollectionViewCell";
         self.ViewEffectBody.alpha = self.ViewEffectHead.alpha = 0;
     } completion:^(BOOL finished) {
     }];
+}
+
+
+- (void)textViewDidEndEditing:(UITextView *)textView{
+    
+    NSRange _range = textView.selectedRange;
+//    textView.text = @"我的a世界";
+//    _range = NSMakeRange(0, 5);
+    [self setText:textView.text range:_range];
 }
 
 

@@ -25,8 +25,16 @@
     self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];
     
+    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(runLoopLink) userInfo:nil repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
     
     return YES;
+}
+- (void)runLoopLink{
+    NSString *uuidSting = GetUserDefault(DefaultUUIDString);
+    if (DDBLE.connectState != ConnectState_Connected && uuidSting.length > 0) {
+        [DDBLE retrievePeripheral:uuidSting];
+    }
 }
 
 
