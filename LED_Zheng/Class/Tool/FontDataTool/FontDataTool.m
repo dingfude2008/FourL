@@ -126,6 +126,8 @@ static NSArray<NSString *> * enlishEmpty;                                   // �
 /**
  组装点阵数据，方便发送给硬件
  
+ // 补好每一屏幕的点阵数组，每一条都是整屏幕的, 补成72的倍数
+ 
  @param array 纯文本的点阵数据
  @param isJustLast 是否只用在最后补
  

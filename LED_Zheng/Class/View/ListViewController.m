@@ -206,10 +206,9 @@ static NSString *cellID = @"ListViewCell";
         BOOL isJustAdditonal = specialEffects == 2 || specialEffects == 3;
         
         NSString *string = arrayText[i];
-        // 点阵信息
+        
         NSArray<NSArray <NSNumber*>*> * arrayNumbersSimple = [FontDataTool getLatticeDataArray:string];
         
-        // 补好每一屏幕的点阵数组，每一条都是整屏幕的, 补成72的倍数
         NSArray<NSNumber*> *arrayCombineNumbersSimple = [FontDataTool combineLatticeDataArray:arrayNumbersSimple isJustAddLast:isJustAdditonal];
         //
         [arrayNumbers addObject:arrayCombineNumbersSimple];

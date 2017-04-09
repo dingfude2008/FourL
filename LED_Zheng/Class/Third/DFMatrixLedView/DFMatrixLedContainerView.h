@@ -11,9 +11,6 @@
 @interface DFMatrixLedContainerView : UIView
 
 
-@property (nonatomic, assign) NSUInteger speed;
-
-
 - (void)setupData:(NSArray <NSArray <NSDictionary *>*>*)array;
 
 @end
