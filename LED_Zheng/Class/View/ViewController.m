@@ -353,6 +353,7 @@ static NSString *cellID = @"CollectionViewCell";
 }
 
 -(void)toolCancelBtnClick{
+    [self.view endEditing:YES];
     [UIView animateWithDuration:0.5 animations:^{
         if (self.ViewCover) {
             [self.ViewCover setFrame:CGRectMake(0 , ScreenHeight, ScreenWidth, ScreenHeight)];

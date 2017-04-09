@@ -6,4 +6,4 @@
   Copyright © 2017年 DFD. All rights reserved.
 */
 
-CFBundleDisplayName = "hello world";
+CFBundleDisplayName = "LED";

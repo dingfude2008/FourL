@@ -367,7 +367,7 @@
 					ADE9408D1E90C3C9002DA4C1 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 6EM7RHL4TV;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -628,8 +628,10 @@
 				INFOPLIST_FILE = LED_Zheng/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.dfd.testApp.LED-Zheng";
+				PRODUCT_BUNDLE_IDENTIFIER = com.xinyi.zhengLed;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "c98170ab-d1e3-4912-a559-2ecec83fba16";
+				PROVISIONING_PROFILE_SPECIFIER = zhengLed_deve_0409;
 			};
 			name = Debug;
 		};
@@ -644,8 +646,10 @@
 				INFOPLIST_FILE = LED_Zheng/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.dfd.testApp.LED-Zheng";
+				PRODUCT_BUNDLE_IDENTIFIER = com.xinyi.zhengLed;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "c98170ab-d1e3-4912-a559-2ecec83fba16";
+				PROVISIONING_PROFILE_SPECIFIER = zhengLed_deve_0409;
 			};
 			name = Release;
 		};
