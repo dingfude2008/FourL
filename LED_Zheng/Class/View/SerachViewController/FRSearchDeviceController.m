@@ -82,35 +82,19 @@ typedef NS_ENUM(NSUInteger, ViewState) {
 }
 
 
-- (void)setuFont{
-    
-}
-
 - (void)setUI{
     [super setUI];
     
-    // 设置菊花
-    CGFloat width = RealWidth(380);
-//    self.loadingView = [[SkyLabelWaitingView alloc] initWithFrame:CGRectMake(0, 0, width, width)];
-//    self.loadingView.ringColor = DTipsButtonSwithBackgroundColor;
-//    self.loadingView.ringWidth = 5.f;
-//    self.loadingView.r = (self.loadingView.bounds.size.height - self.loadingView.ringWidth ) / 2 ;
-//    [self.containerView insertSubview:self.loadingView belowSubview:self.middleImageView];
-//    [self.loadingView start];
     
     if (!self.tabView) {
         self.tabView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, RealWidth(611), 180) style:UITableViewStylePlain];
         self.tabView.delegate = self;
         self.tabView.dataSource = self;
         self.tabView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        self.tabView.backgroundColor = DBackgroundColor;
+        self.tabView.backgroundColor = self.view.backgroundColor;
         [self.container2View addSubview:self.tabView];
         [self.tabView registerNib:[UINib nibWithNibName:cellId bundle:nil] forCellReuseIdentifier:cellId];
     }
-    
-//    [self.tryButton setBackgroundImage:[UIImage imageFromColor:DNormalColor] forState:UIControlStateNormal];
-//    [self.tryButton setBackgroundImage:[UIImage imageFromColor:DHighLightColor] forState:UIControlStateHighlighted];
-    
     
     self.tryButton.layer.cornerRadius = 5;
     self.tryButton.layer.masksToBounds = YES;
@@ -139,36 +123,6 @@ typedef NS_ENUM(NSUInteger, ViewState) {
     });
 }
 
-
-- (void)barbuttonItemRightClick{
-    
-    [self postBigData];
-    
-}
-
-- (IBAction)postBigData {
-    
-    // NSArray *arrData = [GlobalTool getPlayerJsonByJsonName:@"subtitle4.json"];
-    // [DDBLE sendVideoBuffer:arrData lenth:4];
-    
-//    NSArray *arrData = [GlobalTool getPlayerJsonByJsonName:@"subtitle_defaultMode3.json"];
-////    [DDBLE sendVideoBuffer:arrData lenth:3];
-//    
-//    [DDBLE sendDefaultModel:1 identificationCode:4 defaultModelArray:arrData lenth:3];
-}
-
-- (void)getUserList{
-    
-//    NSString *str = @"K7148722499475011702100013,Y1148714308587511702300007";
-//    
-//    [DFDN getUserListBySSIDs:str
-//                  completion:^(NSArray * _Nonnull array) {
-//       
-//               NSLog(@"%@", array);
-//        
-//    }];
-    
-}
 
 
 -(void)beginSearchAgain{
@@ -208,10 +162,12 @@ typedef NS_ENUM(NSUInteger, ViewState) {
 
 - (void)checkisLinkAfterConnecting{
     if (DDBLE.connectState != ConnectState_Connected) {
-        MBHide
-        MBShow(@"请尝试重新连接");
-        swtRefresh = NO;
-        [self beginSearchAgain];
+        if (self.view.window) {
+            MBHide
+            MBShow(@"请尝试重新连接");
+            swtRefresh = NO;
+            [self beginSearchAgain];
+        }
     }
 }
 
@@ -249,6 +205,10 @@ typedef NS_ENUM(NSUInteger, ViewState) {
 - (void)CallBack_ConnetedPeripheral:(NSString *)uuidString{
     
     NSLog(@"连接成功了");
+    dispatch_async(dispatch_get_main_queue(), ^{
+        MBHide
+        [self dismissViewControllerAnimated:YES completion:NULL];
+    });
 }
 
 - (void)CallBack_ManageStateChange:(BOOL)isON {
@@ -264,9 +224,7 @@ typedef NS_ENUM(NSUInteger, ViewState) {
 
 
 #pragma mark UITableViewDataSource
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 1;
-}
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section;{
     return self.dicData.count;
@@ -289,14 +247,17 @@ typedef NS_ENUM(NSUInteger, ViewState) {
     
     swtRefresh = YES;
     
-    self.viewState = ViewState_Connecting;
-    [DDBLE retrievePeripheral:cbp.identifier.UUIDString];
-    MBShow(@"Linking..");
+    MBShowAll;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.viewState = ViewState_Connecting;
+        [DDBLE retrievePeripheral:cbp.identifier.UUIDString];
+        
+        [self performSelector:@selector(checkisLinkAfterConnecting) withObject:nil afterDelay:10];
+        // 这里防止用户点击后， 连接不上， 是因为设备已经长时间没有连接停止广播造成的
+        beginDate = [NSDate date];
+        [self.tabView reloadData];
+    });
     
-    [self performSelector:@selector(checkisLinkAfterConnecting) withObject:nil afterDelay:10];
-    // 这里防止用户点击后， 连接不上， 是因为设备已经长时间没有连接停止广播造成的
-    beginDate = [NSDate date];
-    [self.tabView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {

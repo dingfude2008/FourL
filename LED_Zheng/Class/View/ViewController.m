@@ -94,6 +94,7 @@ static NSString *cellID = @"CollectionViewCell";
                           @(self.model.showType),
                           @(self.model.logo)];
         myTextView.text = self.model.text;
+        [self setText:myTextView.text range:NSMakeRange(0, myTextView.text.length)];
     }else{
         arraySelected = @[@0, @1, @0, @0, @0, @0];
     }

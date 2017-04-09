@@ -265,15 +265,8 @@ static BLEManager *bleManager;
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral{
     peripheral.delegate = self;
     [peripheral discoverServices:nil];
-    self.per = peripheral;
     [self.manager stopScan];
     self.isFailToConnectAgain = YES;
-    NSString *uuidString = [peripheral.identifier UUIDString];
-    SetUserDefault(DefaultUUIDString, uuidString);
-    NSLog(@"连接成功 - %@", uuidString);
-    if ([self.delegate respondsToSelector:@selector(CallBack_ConnetedPeripheral:)]) {
-        [self.delegate CallBack_ConnetedPeripheral:uuidString];
-    }
 }
 
 - (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error{
@@ -333,6 +326,11 @@ static BLEManager *bleManager;
     
     if (characteristic.isNotifying){
         NSLog(@"外围特性通知开始");
+        self.per = peripheral;
+        NSString *uuidString = peripheral.identifier.UUIDString;
+        SetUserDefault(DefaultUUIDString, uuidString);
+        NSLog(@"连接成功 - %@", uuidString);
+        [self.delegate CallBack_ConnetedPeripheral:uuidString];
     }else{
         NSLog(@"外围设备特性通知结束，也就是用户要下线或者离开%@",characteristic);
     }
@@ -429,6 +427,34 @@ static BLEManager *bleManager;
 - (void)setData:(NSData *)data peripheral:(CBPeripheral *)peripheral charaUUID:(NSString *)charaUUID{
     if ([charaUUID isEqualToString:R_Receive_UUID]){
         
+        static char checkData[4];
+        static int wroteHalfCount = 0;
+        if (data.length < 4) {
+            char *bytes = (char *)data.bytes;
+            if (data.length < 4) {
+                if (wroteHalfCount != 0) {
+                    for (int i = 0; i < data.length; i++) {
+                        int tag = (int)data.length - i - 1;
+                        checkData[tag + wroteHalfCount] = bytes[tag];
+                    }
+                    data = [NSData dataWithBytes:checkData length:4];
+                    wroteHalfCount = 0;
+                }else{
+                    for (int i = 0; i < data.length; i++) {
+                        checkData[i] = bytes[i];
+                        wroteHalfCount++;
+                    }
+                }
+            }
+        }else{
+            checkData[0] =
+            checkData[1] =
+            checkData[2] =
+            checkData[3] = DataOOOO;
+        }
+        
+        
+        
         switch (self.postCommondState) {
                 case PostCommondState_Handshake:{
                     if (([self checkData:data] == CommondCheckType_Correct)) {
@@ -451,13 +477,14 @@ static BLEManager *bleManager;
                     CommondCheckType checkType = [self checkData:data];
                     switch (checkType) {
                         case CommondCheckType_Correct:{
-                            
                             NSLog(@"文本数据的第 %d/%d 条发送成功", (int)self.textDataOffset, (int)self.textDataAllCount-1);
                             if (self.textDataOffset + 1 < self.textDataAllCount) {
                                 self.textDataOffset++;
                                 [self postBigData];
                             }else if(self.textDataOffset + 1 == self.textDataAllCount){
                                 NSLog(@"文本数据发送完成了");
+                                
+                                self.postCommondState = PostCommondState_PostEndData;
                                 [self postEndData];
                             }
                         }break;
@@ -727,10 +754,15 @@ static BLEManager *bleManager;
     }else{
         dataSimple = [self.textData subdataWithRange:NSMakeRange(self.textDataOffset * 64, remainLength)];
         char *chars = (char *)dataSimple.bytes;
-        for (int i = 0; i < 64 - remainLength; i++) {
-            chars[remainLength + i] = DataOOOO;
+        char chars64Tag[64];
+        for (int i = 0; i < 64; i++) {
+            if (i < dataSimple.length) {
+                chars64Tag[i] = chars[i] ;
+            }else{
+                chars64Tag[i] = DataOOOO;
+            }
         }
-        dataSimple = [NSData dataWithBytes:chars length:64];
+        dataSimple = [NSData dataWithBytes:chars64Tag length:64];
     }
     
     char *chars64 = (char *)dataSimple.bytes;
@@ -765,7 +797,6 @@ static BLEManager *bleManager;
 
     NSData *dataPush = [NSData dataWithBytes:chars length:13];
     
-    self.postCommondState = PostCommondState_Handshake;
     [self Command:dataPush
        uuidString:self.per.identifier.UUIDString
         charaUUID:W_SentData_UUID];

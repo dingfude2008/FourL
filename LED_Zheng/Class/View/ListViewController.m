@@ -51,6 +51,11 @@ static NSString *cellID = @"ListViewCell";
     
     [self.listTabView registerNib:[UINib nibWithNibName:cellID bundle:nil] forCellReuseIdentifier:cellID];
     
+    
+    self.listTabView.tableHeaderView = ({
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 1)];
+        view;
+    });
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -112,18 +117,25 @@ static NSString *cellID = @"ListViewCell";
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (buttonIndex != alertView.cancelButtonIndex) {
-        NSLog(@"删除这条节目");
-        if ([self.arrayData containsObject:selectedModel]) {
-            [self.arrayData removeObject:selectedModel];
-            
-            RemoveUserDefault(ListDataLocal);
-            for (int i = 0; i < self.arrayData.count; i++) {
-                Program *p = self.arrayData[i];
-                [p save];
+    if (alertView.tag == 0) {
+        if (buttonIndex != alertView.cancelButtonIndex) {
+            NSLog(@"删除这条节目");
+            if ([self.arrayData containsObject:selectedModel]) {
+                [self.arrayData removeObject:selectedModel];
+                
+                RemoveUserDefault(ListDataLocal);
+                for (int i = 0; i < self.arrayData.count; i++) {
+                    Program *p = self.arrayData[i];
+                    [p save];
+                }
+                
+                [self.listTabView reloadData];
             }
-            
-            [self.listTabView reloadData];
+        }
+    }else{
+        if (buttonIndex != alertView.cancelButtonIndex) {
+            RemoveUserDefault(DefaultUUIDString);
+            [DDBLE stopLink];
         }
     }
 }
@@ -158,6 +170,10 @@ static NSString *cellID = @"ListViewCell";
     if (DDBLE.connectState != ConnectState_Connected) {
         FRSearchDeviceController *vc = [[FRSearchDeviceController alloc] init];
         [self presentViewController:vc animated:YES completion:NULL];
+    }else{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:kString(@"提示") message:kString(@"连接其他设备?") delegate:self cancelButtonTitle:kString(@"取消") otherButtonTitles:kString(@"确定"), nil];
+        alert.tag = 1;
+        [alert show];
     }
 }
 
@@ -165,6 +181,7 @@ static NSString *cellID = @"ListViewCell";
 - (IBAction)writeButtonClick {
     
     if (self.arrayData.count == 0) {
+        MBShow(@"没有节目");
         return;
     }
     
@@ -199,7 +216,7 @@ static NSString *cellID = @"ListViewCell";
         //
         [arrayNumbers addObject:arrayCombineNumbersSimple];
     }
-    
+    MBShowAll;
     [DDBLE postTextArrayAdditional:arrayAdditional
                      textDataArray:arrayNumbers];
     

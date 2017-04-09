@@ -15,12 +15,9 @@
             <rect key="frame" x="0.0" y="0.0" width="323" height="45"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="323" height="44"/>
+                <rect key="frame" x="0.0" y="0.0" width="323" height="44.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="list_card" highlightedImage="list_card_highlighted" translatesAutoresizingMaskIntoConstraints="NO" id="vzt-Iv-aJ0">
-                        <rect key="frame" x="0.0" y="2" width="323" height="41"/>
-                    </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OHt-NW-JLA">
                         <rect key="frame" x="140" y="12" width="42" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -28,13 +25,10 @@
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 <constraints>
                     <constraint firstItem="OHt-NW-JLA" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="GjE-Uk-W6n"/>
-                    <constraint firstItem="vzt-Iv-aJ0" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="2" id="OL4-W7-d7x"/>
                     <constraint firstItem="OHt-NW-JLA" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Ocj-vj-PGb"/>
-                    <constraint firstItem="vzt-Iv-aJ0" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="ZW2-Yg-OwI"/>
-                    <constraint firstAttribute="trailing" secondItem="vzt-Iv-aJ0" secondAttribute="trailing" id="rxv-0y-LzK"/>
-                    <constraint firstAttribute="bottom" secondItem="vzt-Iv-aJ0" secondAttribute="bottom" constant="2" id="sMB-nh-MLM"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
@@ -43,8 +37,4 @@
             <point key="canvasLocation" x="26.5" y="61.5"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="list_card" width="345" height="80"/>
-        <image name="list_card_highlighted" width="345" height="80"/>
-    </resources>
 </document>
