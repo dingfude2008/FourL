@@ -44,7 +44,7 @@
         self.valueLabel.text = [NSString stringWithFormat:@"%@:%@ %@:%d%@",
                                 kString(@"动画"),
                                 model.specialEffectsString,
-                                kString(@"停留"),
+                                kString(@"停留时间"),
                                 model.residenceTime,
                                 kString(@"秒")];
     }

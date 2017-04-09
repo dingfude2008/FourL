@@ -51,7 +51,6 @@ static NSString *cellID = @"ListViewCell";
     
     [self.listTabView registerNib:[UINib nibWithNibName:cellID bundle:nil] forCellReuseIdentifier:cellID];
     
-    
     self.listTabView.tableHeaderView = ({
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 1)];
         view;
@@ -73,7 +72,6 @@ static NSString *cellID = @"ListViewCell";
         self.arrayData = [NSMutableArray arrayWithArray:arrayTag];
     }
     
-    NSLog(@"----》 %@", @(self.arrayData.count));
     [self.listTabView reloadData];
 }
 
@@ -141,7 +139,7 @@ static NSString *cellID = @"ListViewCell";
 }
 
 - (void)deleteModel:(Program *)model{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:kString(@"提示") message:kString(@"确认删除这条节目吗?") delegate:self cancelButtonTitle:kString(@"取消") otherButtonTitles:kString(@"确定"), nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:kString(@"提示") message:kString(@"确认要删除这条节目吗?") delegate:self cancelButtonTitle:kString(@"取消") otherButtonTitles:kString(@"确定"), nil];
     selectedModel = model;
     [alert show];
 }
@@ -216,10 +214,15 @@ static NSString *cellID = @"ListViewCell";
         //
         [arrayNumbers addObject:arrayCombineNumbersSimple];
     }
+    
+#if TARGET_IPHONE_SIMULATOR
+    NSLog(@"模拟器");
+#elif TARGET_OS_IPHONE
     MBShowAll;
     [DDBLE postTextArrayAdditional:arrayAdditional
                      textDataArray:arrayNumbers];
-    
+#endif
+
 }
 
 

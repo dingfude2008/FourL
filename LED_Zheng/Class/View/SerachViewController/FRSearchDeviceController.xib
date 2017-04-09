@@ -15,7 +15,6 @@
             <connections>
                 <outlet property="container2View" destination="uwJ-nd-ngS" id="Nsm-sW-Eio"/>
                 <outlet property="containerView" destination="eFQ-qv-PAp" id="vfs-l2-hMD"/>
-                <outlet property="middleImageView" destination="ijK-u0-j6g" id="8tB-05-l4p"/>
                 <outlet property="promptLabel" destination="o8u-mg-szr" id="ibe-ik-QTD"/>
                 <outlet property="tryButton" destination="LyE-WD-8yo" id="EEF-hR-1lb"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -34,17 +33,8 @@
                 </label>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eFQ-qv-PAp" userLabel="containerView">
                     <rect key="frame" x="92" y="224" width="190" height="190"/>
-                    <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ijK-u0-j6g">
-                            <rect key="frame" x="5" y="5" width="180" height="180"/>
-                        </imageView>
-                    </subviews>
                     <constraints>
-                        <constraint firstItem="ijK-u0-j6g" firstAttribute="top" secondItem="eFQ-qv-PAp" secondAttribute="top" constant="5" id="L9V-nN-PEy"/>
-                        <constraint firstItem="ijK-u0-j6g" firstAttribute="leading" secondItem="eFQ-qv-PAp" secondAttribute="leading" constant="5" id="O2O-Ec-qga"/>
                         <constraint firstAttribute="width" secondItem="eFQ-qv-PAp" secondAttribute="height" id="WhY-fx-EUb"/>
-                        <constraint firstAttribute="bottom" secondItem="ijK-u0-j6g" secondAttribute="bottom" constant="5" id="guN-7j-10d"/>
-                        <constraint firstAttribute="trailing" secondItem="ijK-u0-j6g" secondAttribute="trailing" constant="5" id="kTS-Ag-xaP"/>
                     </constraints>
                 </view>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uwJ-nd-ngS" userLabel="container2View">
@@ -63,13 +53,13 @@
                         <action selector="tryButtonClick" destination="-1" eventType="touchUpInside" id="hoY-Oy-jH8"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8y5-Lu-yeM">
-                    <rect key="frame" x="20" y="20" width="46" height="30"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8y5-Lu-yeM">
+                    <rect key="frame" x="10" y="20" width="46" height="30"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="m1x-5C-frB"/>
                         <constraint firstAttribute="width" constant="46" id="n5H-4C-seG"/>
                     </constraints>
-                    <state key="normal" title="返回"/>
+                    <state key="normal" image="nav_back"/>
                     <connections>
                         <action selector="backClick" destination="-1" eventType="touchUpInside" id="Z9L-Dw-Fo6"/>
                     </connections>
@@ -84,7 +74,7 @@
                 <constraint firstItem="uwJ-nd-ngS" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="IU3-MS-VWh"/>
                 <constraint firstItem="uwJ-nd-ngS" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="611:750" id="Idy-6W-lvv"/>
                 <constraint firstItem="eFQ-qv-PAp" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="380:750" id="PW7-Wr-FHS"/>
-                <constraint firstItem="8y5-Lu-yeM" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="Pba-BS-7mK"/>
+                <constraint firstItem="8y5-Lu-yeM" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="Pba-BS-7mK"/>
                 <constraint firstItem="eFQ-qv-PAp" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" multiplier="638:668" id="if3-J9-d9u"/>
                 <constraint firstItem="8y5-Lu-yeM" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="m7X-2s-HqV"/>
                 <constraint firstItem="LyE-WD-8yo" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="rN7-h6-nAr"/>
@@ -94,4 +84,7 @@
             <point key="canvasLocation" x="32.5" y="103.5"/>
         </view>
     </objects>
+    <resources>
+        <image name="nav_back" width="28" height="28"/>
+    </resources>
 </document>

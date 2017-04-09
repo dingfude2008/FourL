@@ -106,7 +106,7 @@
                                 <rect key="frame" x="0.0" y="617" width="375" height="50"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fOm-CI-IES">
-                                        <rect key="frame" x="0.0" y="0.0" width="15" height="50"/>
+                                        <rect key="frame" x="5" y="0.0" width="15" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <state key="normal" image="disconnected">
                                             <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -116,7 +116,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="88J-3j-bBt">
-                                        <rect key="frame" x="360" y="0.0" width="15" height="50"/>
+                                        <rect key="frame" x="355" y="0.0" width="15" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <state key="normal" image="write">
                                             <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -129,9 +129,9 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="fOm-CI-IES" firstAttribute="top" secondItem="jEb-mA-723" secondAttribute="top" id="0LO-yf-rrb"/>
-                                    <constraint firstItem="fOm-CI-IES" firstAttribute="leading" secondItem="jEb-mA-723" secondAttribute="leading" id="LXS-Zz-dhI"/>
+                                    <constraint firstItem="fOm-CI-IES" firstAttribute="leading" secondItem="jEb-mA-723" secondAttribute="leading" constant="5" id="LXS-Zz-dhI"/>
                                     <constraint firstItem="88J-3j-bBt" firstAttribute="top" secondItem="jEb-mA-723" secondAttribute="top" id="UI0-6y-Ck5"/>
-                                    <constraint firstAttribute="trailing" secondItem="88J-3j-bBt" secondAttribute="trailing" id="WTo-jG-5X1"/>
+                                    <constraint firstAttribute="trailing" secondItem="88J-3j-bBt" secondAttribute="trailing" constant="5" id="WTo-jG-5X1"/>
                                     <constraint firstAttribute="bottom" secondItem="fOm-CI-IES" secondAttribute="bottom" id="Y1H-GN-fLU"/>
                                     <constraint firstAttribute="bottom" secondItem="88J-3j-bBt" secondAttribute="bottom" id="gLQ-Dw-kfj"/>
                                 </constraints>

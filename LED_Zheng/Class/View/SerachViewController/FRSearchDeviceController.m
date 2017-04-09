@@ -34,9 +34,9 @@ typedef NS_ENUM(NSUInteger, ViewState) {
 @property (weak, nonatomic) IBOutlet UILabel *              promptLabel;
 @property (weak, nonatomic) IBOutlet UIView *               containerView;      // 放 菊花 的容器
 @property (weak, nonatomic) IBOutlet UIView *               container2View;     // 放 tableView 的容器
-@property (weak, nonatomic) IBOutlet UILabel *              promptBottonLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *          middleImageView;
+
 @property (weak, nonatomic) IBOutlet UIButton *tryButton;
+
 
 
 
@@ -99,7 +99,7 @@ typedef NS_ENUM(NSUInteger, ViewState) {
     self.tryButton.layer.cornerRadius = 5;
     self.tryButton.layer.masksToBounds = YES;
     self.tryButton.hidden = YES;
-    [self.tryButton setTitle:kString(@"Try again") forState:UIControlStateNormal];
+    [self.tryButton setTitle:kString(@"重新尝试") forState:UIControlStateNormal];
     
     UIButton *leftBtn = [[UIButton alloc] init];
     [leftBtn setTitle:kString(@"返回") forState:UIControlStateNormal];
@@ -279,31 +279,25 @@ typedef NS_ENUM(NSUInteger, ViewState) {
     
     switch (viewState) {
         case ViewState_BleOff:
-            _promptLabel.text = kString(@"Bluetooth is off");
-            _promptBottonLabel.text = kString(@"Please turn on Bluetooth in settings");
+            _promptLabel.text = kString(@"蓝牙开关已关闭");
             break;
         case ViewState_SearchIng:
-            _promptLabel.text = kString(@"Searching...");
-            _promptBottonLabel.text = kString(@"Power on the device by pressing the bottom on the bottom for 3 sec.");
+            _promptLabel.text = kString(@"搜索中");
             break;
         case ViewState_NOFound:
-            _promptLabel.text = kString(@"No device available");
-            _promptBottonLabel.text = @"";
+            _promptLabel.text = kString(@"没有发现可用设备");
             _tryButton.hidden = NO;
             break;
         case ViewState_Select:
-            _promptLabel.text = kString(@"Devices");
-            _promptBottonLabel.text = @"";
+            _promptLabel.text = kString(@"设备");
             _container2View.hidden = NO;
             break;
         case ViewState_Connecting:{
-            NSString *text = [NSString stringWithFormat:@"Your %@ is connecting", cbp.isAris ? @"Aris":@"Ishtar"];
-            _promptLabel.text = kString(text);
+            _promptLabel.text = kString(@"连接中");
         }
             break;
     }
     [_promptLabel sizeToFit];
-    [_promptBottonLabel sizeToFit];
 }
 - (IBAction)backClick {
     [self dismissViewControllerAnimated:YES completion:NULL];

@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  LED_Zheng
+
+  Created by DFD on 2017/4/9.
+  Copyright © 2017年 DFD. All rights reserved.
+*/
+
+CFBundleDisplayName = "世界 你好";

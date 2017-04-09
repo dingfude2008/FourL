@@ -1,0 +1,58 @@
+/* 
+  Localizable.strings .strings
+  LED_Zheng
+
+  Created by DFD on 2017/4/9.
+  Copyright © 2017年 DFD. All rights reserved.
+*/
+
+
+
+"重新尝试" = "Try again";
+"返回" = "Back";
+"蓝牙开关已关闭" = "Bluetooth is off";
+"搜索中" = "Searching...";
+"没有发现可用设备" = "No device available";
+"设备" = "Devices";
+"连接中" = "Connecting";
+"动画" = "Animation";
+"停留时间" = "Residence time";
+"速度" = "Speed";
+"边框" = "Border";
+"显示类型" = "Show style";
+"秒" = "s";
+"节目列表" = "Program list";
+"点击选择连接的设备" = "Connect other device";
+"发送节目" = "Begin set";
+"提示" = "Prompt";
+"确认要删除这条节目吗?" = "Are you sure you want to delete this program?";
+"确定" = "OK";
+"取消" = "Cancel";
+"连接其他设备?" = "Connect to another devices?";
+"正在加载" = "Loading...";
+"随机" = "Random";
+"立即显示" = "Show immediately";
+"连续左移" = "Continuous left shift";
+"连续右移" = "Continuous right shift";
+"左移" = "Move left";
+"右移" = "Move right";
+"上移" = "Move up";
+"下移" = "Move down";
+"水平展开" = "Horizontal expansion";
+"飘雪" = "Snow";
+"闪烁" = "Flicker";
+"抖动" = "Jitter";
+"无" = "No";
+"有" = "Yes";
+"正常" = "Normal";
+"竖立" = "Stand up";
+"写入完成" = "Set over";
+"写入失败" = "Set error";
+"请尝试重新连接" = "Try reconnecting";
+"没有节目" = "None program";
+"文字不能为空" = "Text cannot be empty";
+"" = "";
+"" = "";
+"" = "";
+"" = "";
+"" = "";

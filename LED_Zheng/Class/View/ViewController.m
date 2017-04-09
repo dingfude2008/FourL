@@ -54,7 +54,7 @@ static NSString *cellID = @"CollectionViewCell";
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:({
         UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 50)];
-        [button setTitle:kString(@"OK") forState:UIControlStateNormal];
+        [button setTitle:kString(@"确定") forState:UIControlStateNormal];
         [button setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
         // [button sizeToFit];
         [button addTarget:self action:@selector(barbuttonItemRightClick) forControlEvents:UIControlEventTouchUpInside];
@@ -72,7 +72,7 @@ static NSString *cellID = @"CollectionViewCell";
         [arrTime addObject:[@(i) description]];
     }
     
-    arrViewData = @[@{@"特效":@[@"随机",@"立即显示",@"连续左移",@"连续右移",@"左移",@"右移",@"上移",@"下移",@"水平展开",@"飘雪",@"闪烁",@"抖动"]},
+    arrViewData = @[@{@"动画":@[@"随机",@"立即显示",@"连续左移",@"连续右移",@"左移",@"右移",@"上移",@"下移",@"水平展开",@"飘雪",@"闪烁",@"抖动"]},
                     @{@"速度":arrSpeed},
                     @{@"停留时间":arrTime},
                     @{@"边框": @[@"无", @"有"]},
@@ -292,12 +292,11 @@ static NSString *cellID = @"CollectionViewCell";
     [collectionView dequeueReusableCellWithReuseIdentifier:cellID
                                               forIndexPath:indexPath];
     NSDictionary *dictionary = arrViewData[indexPath.row];
-    cell.titleLabel.text = kString([dictionary.allKeys.firstObject description]);
-    
+    NSString *string = [dictionary.allKeys.firstObject description];
+    cell.titleLabel.text = kString(string);
     
     NSArray *arrValues = dictionary.allValues.firstObject;
-    
-    cell.valueLabel.text = [arrValues[[arraySelected[indexPath.row] intValue]] description];
+    cell.valueLabel.text = kString([arrValues[[arraySelected[indexPath.row] intValue]] description]);
     
     return cell;
 }
@@ -313,7 +312,7 @@ static NSString *cellID = @"CollectionViewCell";
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
-    return [arrPickView[row] description];
+    return kString([arrPickView[row] description]);
 }
 
 //选中某一行
