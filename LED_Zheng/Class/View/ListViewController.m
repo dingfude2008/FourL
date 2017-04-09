@@ -189,6 +189,9 @@ static NSString *cellID = @"ListViewCell";
     for (int i = 0; i < self.arrayData.count; i++) {
         Program *p = self.arrayData[i];
         [arrayText addObject:p.text];
+        if (p.speed < [Program SpeedMin]) {         // 兼容上个版本
+            p.speed = [Program SpeedMin];
+        }
         [arrayAdditional addObject:@[ @(p.specialEffects),
                                       @(p.speed),
                                       @(p.residenceTime),

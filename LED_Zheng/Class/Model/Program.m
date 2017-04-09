@@ -119,4 +119,26 @@
     SetUserDefault(ListDataLocal, arrayDictionary);
 }
 
+
+
+
+
++ (int)SpeedMax{
+    return 32;
+}
+
++ (int)SpeedMin{
+    return 1;
+}
+
++ (int)ResidenceTimeMax{
+    return 50;
+}
+
++ (int)ResidenceTimeMin{
+    return 0;
+}
+
+
+
 @end

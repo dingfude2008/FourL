@@ -11,6 +11,12 @@
 #import <UIKit/UITextView.h>
 #import "CollectionViewCell.h"
 
+
+
+#define DefaultDeviceValues           @[@0, @1, @0, @0, @0, @0]
+
+
+
 static NSString *cellID = @"CollectionViewCell";
 
 @interface ViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UIPickerViewDataSource, UIPickerViewDelegate, UITextViewDelegate>{
@@ -56,19 +62,18 @@ static NSString *cellID = @"CollectionViewCell";
         UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 50)];
         [button setTitle:kString(@"确定") forState:UIControlStateNormal];
         [button setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-        // [button sizeToFit];
         [button addTarget:self action:@selector(barbuttonItemRightClick) forControlEvents:UIControlEventTouchUpInside];
         
         button;
     })];
     
     NSMutableArray *arrSpeed = [NSMutableArray array];
-    for (int i = 1; i <= 32; i++) {
+    for (int i = [Program SpeedMin]; i <= [Program SpeedMax]; i++) {
         [arrSpeed addObject:[@(i) description]];
     }
     
     NSMutableArray *arrTime = [NSMutableArray array];
-    for (int i = 0; i <= 50; i++) {
+    for (int i = [Program ResidenceTimeMin]; i <= [Program ResidenceTimeMax]; i++) {
         [arrTime addObject:[@(i) description]];
     }
     
@@ -96,7 +101,7 @@ static NSString *cellID = @"CollectionViewCell";
         myTextView.text = self.model.text;
         [self setText:myTextView.text range:NSMakeRange(0, myTextView.text.length)];
     }else{
-        arraySelected = @[@0, @1, @0, @0, @0, @0];
+        arraySelected = DefaultDeviceValues;
     }
     
     myTextView.delegate = self;

@@ -38,4 +38,15 @@
 - (void)save;
 
 
++ (int)SpeedMax;
+
++ (int)SpeedMin;
+
++ (int)ResidenceTimeMax;
+
++ (int)ResidenceTimeMin;
+
+
+
+
 @end
