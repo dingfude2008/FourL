@@ -20,7 +20,6 @@
 
 #define W_SentData_UUID                                 @"FFE9"             // 读取设备名称
 
-
 #define ServerReceiveUUID                               @"FFE0"             // 主服务UUID
 
 #define R_Receive_UUID                                  @"FFE4"             // 读取设备名称
@@ -37,7 +36,7 @@
 //*************************************************************************************
 
 
-#define Filter_Name                                    @"Vitafun"
+#define Filter_Name                                    @"Tv221u"
 
 #define OtherFilter_Name                               @"Tv221u"
 
@@ -60,10 +59,6 @@
 #define DataHeadCheck_WrongData                         0xEE
 #define DataHeadCheck_WrongPassword                     0xEB
 #define DataHeadCheck_NeedAgain                         0xEC
-
-
-
-
 
 #define DataOOOO                                        0x00
 #define Data00FF                                        0xFF
@@ -89,19 +84,15 @@ typedef NS_ENUM(NSUInteger, ConnectState) {
 
 
 typedef NS_ENUM(NSUInteger, BussinessCode){
-    
-    // ------------------------ 公用
-    Bussiness_OK = 0,                       // 设备版本
-    Bussiness_Error,                        // 关闭设备回调
+    Bussiness_OK = 0,
+    Bussiness_Error,
 };
 
 
 typedef NS_ENUM(NSUInteger, BussinessError){
-    
-    // ------------------------ 公用
-    BussinessError_DataError = 0,                       // 设备版本
-    BussinessError_WrongPassword,                        // 关闭设备回调
-    BussinessError_UnknowedError,                        // 关闭设备回调
+    BussinessError_DataError = 0,
+    BussinessError_WrongPassword,
+    BussinessError_UnknowedError,
 };
 
 
@@ -109,7 +100,6 @@ typedef NS_ENUM(NSUInteger, BussinessError){
 
 
 typedef NS_ENUM(NSUInteger, CommondCheckType){
-    
     CommondCheckType_Correct = 0,
     CommondCheckType_WrongData,
     CommondCheckType_WrongPassword,
