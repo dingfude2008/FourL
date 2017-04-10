@@ -86,12 +86,11 @@ static NSString *cellID = @"ListViewCell";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section;{
-    NSLog(@"个数:%@", @(self.arrayData.count));
     return self.arrayData.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 80;
+    return 66;
 }
 
 #pragma mark UITableViewDelegate
@@ -206,23 +205,33 @@ static NSString *cellID = @"ListViewCell";
     for (int i = 0; i < arrayText.count; i++) {
         
         int specialEffects = [((NSArray *)arrayAdditional.lastObject)[0] intValue];
+        BOOL isStandUp = [((NSArray *)arrayAdditional.lastObject)[4] intValue];
         BOOL isJustAdditonal = specialEffects == 2 || specialEffects == 3;
+    
         
         NSString *string = arrayText[i];
         
         NSArray<NSArray <NSNumber*>*> * arrayNumbersSimple = [FontDataTool getLatticeDataArray:string];
         
+        if (isStandUp) {
+            arrayNumbersSimple = [FontDataTool getStandUpDataArray:arrayNumbersSimple];
+        }
+        
         NSArray<NSNumber*> *arrayCombineNumbersSimple = [FontDataTool combineLatticeDataArray:arrayNumbersSimple isJustAddLast:isJustAdditonal];
-        //
+        
         [arrayNumbers addObject:arrayCombineNumbersSimple];
     }
     
 #if TARGET_IPHONE_SIMULATOR
     NSLog(@"模拟器");
 #elif TARGET_OS_IPHONE
-    MBShowAll;
-    [DDBLE postTextArrayAdditional:arrayAdditional
-                     textDataArray:arrayNumbers];
+    
+    if (DDBLE.connectState == ConnectState_Connected) {
+        MBShowAll;
+        [DDBLE postTextArrayAdditional:arrayAdditional
+                         textDataArray:arrayNumbers];
+    }
+    
 #endif
 
 }

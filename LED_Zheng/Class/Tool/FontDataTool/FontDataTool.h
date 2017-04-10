@@ -68,6 +68,12 @@
                                     endLocation:(int)endLocation;
 
 
-
+/**
+ 把原来的纯点阵数据转换为竖立的点阵数据
+ 
+ @param array 纯点阵数据
+ @return 转换后的点阵数据
+ */
++ (NSArray<NSArray <NSNumber*>*> *)getStandUpDataArray:(NSArray<NSArray <NSNumber*>*> *)array;
 
 @end

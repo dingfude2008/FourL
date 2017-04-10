@@ -20,7 +20,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="526" height="99"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="delete" translatesAutoresizingMaskIntoConstraints="NO" id="dqJ-f7-HQg">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="program" translatesAutoresizingMaskIntoConstraints="NO" id="dqJ-f7-HQg">
                         <rect key="frame" x="10" y="25" width="49.5" height="49.5"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="dqJ-f7-HQg" secondAttribute="height" id="f8e-c1-SZE"/>
@@ -37,7 +37,7 @@
                         <constraints>
                             <constraint firstAttribute="width" secondItem="j9e-Mf-twP" secondAttribute="height" multiplier="0.7" id="0If-i8-hQN"/>
                         </constraints>
-                        <state key="normal" backgroundImage="edit"/>
+                        <state key="normal" image="edit"/>
                         <connections>
                             <action selector="editButtonClick" destination="KGk-i7-Jjw" eventType="touchUpInside" id="6F3-gN-xXY"/>
                         </connections>
@@ -85,7 +85,8 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="delete" width="47" height="47"/>
-        <image name="edit" width="25" height="25"/>
+        <image name="delete" width="20" height="20"/>
+        <image name="edit" width="20" height="20"/>
+        <image name="program" width="24" height="24"/>
     </resources>
 </document>

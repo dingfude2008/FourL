@@ -193,7 +193,12 @@ static NSString *cellID = @"CollectionViewCell";
     
     arrayNumbersSimple = [FontDataTool getShowTextData:arrayNumbersSimple endLocation:endLocation];
     
-//    NSArray<NSNumber*> *arrayCombineNumbersSimple = [FontDataTool combineLatticeDataArray:arrayNumbersSimple isJustAddLast:NO];
+    if ([arraySelected[4] intValue] == 1) {
+        arrayNumbersSimple = [FontDataTool getStandUpDataArray:arrayNumbersSimple];
+    }
+    
+    // 测试竖立
+//    arrayNumbersSimple = [FontDataTool getStandUpDataArray:arrayNumbersSimple];
     
     // 行列信息
     NSArray <NSArray <NSDictionary *>*>* arrayColumnRowData = [FontDataTool getRowColumnDataFromLatticeData:arrayNumbersSimple];
@@ -201,9 +206,6 @@ static NSString *cellID = @"CollectionViewCell";
     [containerView setupData:arrayColumnRowData];
 }
 
-//- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-//    [self changeView];
-//}
 
 - (void)changeView{
     
@@ -380,8 +382,10 @@ static NSString *cellID = @"CollectionViewCell";
 - (void)textViewDidEndEditing:(UITextView *)textView{
     
     NSRange _range = textView.selectedRange;
-//    textView.text = @"我的a世界";
-//    _range = NSMakeRange(0, 5);
+//    
+//    textView.text = @"我A则Sbce";
+//    _range = NSMakeRange(0, 1);
+    
     [self setText:textView.text range:_range];
 }
 

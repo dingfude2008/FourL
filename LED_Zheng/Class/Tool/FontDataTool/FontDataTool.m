@@ -123,6 +123,46 @@ static NSArray<NSString *> * enlishEmpty;                                   // �
     return [arrResult mutableCopy];;
 }
 
+
+/**
+ 把原来的纯点阵数据转换为竖立的点阵数据
+
+ @param array 纯点阵数据
+ @return 转换后的点阵数据
+ */
++ (NSArray<NSArray <NSNumber*>*> *)getStandUpDataArray:(NSArray<NSArray <NSNumber*>*> *)array{
+    
+    NSMutableArray *arrResult = [NSMutableArray array];
+    for (int i = 0; i < array.count; i++) {
+        NSArray *arrSimpleText = array[i];
+        unsigned char dataNew[18];
+        int countOld = (int)arrSimpleText.count;
+        unsigned char data[countOld];
+        
+        for (int i = 0; i < 18;  i++) {
+            dataNew[i] = 0;
+        }
+        
+        for (int j = 0; j < arrSimpleText.count; j++) {
+            data[j] = [arrSimpleText[j] intValue]; //  & 0xFF
+        }
+        
+        NSLog(@"老数组:%@", [arrSimpleText componentsJoinedByString:@","]);
+
+        N_S(data, dataNew, countOld);
+        
+        NSMutableArray *arrSimpleTextNew = [NSMutableArray array];
+        for (int i = 0; i < 18; i++) {
+            [arrSimpleTextNew addObject:@(dataNew[i])];
+        }
+        
+        NSLog(@"新数组:%@", [arrSimpleTextNew componentsJoinedByString:@","]);
+        
+        [arrResult addObject:arrSimpleTextNew];
+    }
+    return arrResult;
+}
+
 /**
  组装点阵数据，方便发送给硬件
  
@@ -343,7 +383,7 @@ static NSArray<NSString *> * enlishEmpty;                                   // �
 + (long long)getIndex:(NSArray *)array
            checkArray:(NSArray *)checkArray{
     for (long long i = 0; i < array.count; i++) {
-        NSArray *array1 = [array subarrayWithRange:NSMakeRange(i, checkArray.count)];
+        NSArray *array1 = [array subarrayWithRange:NSMakeRange((NSUInteger)i, checkArray.count)];
         BOOL result = [self checkArrayEqual:array1 array2:checkArray];
         if (result) {
             return i;
@@ -672,12 +712,15 @@ unsigned int ZK_Address_H12X12 (unsigned char c1, unsigned char c2)
 }
 
 
+
+//正常的字库转换为竖立显示的字库，转换之后不管是中文还是英文都变成了12x12点
+//Data:原始字库数据，DataNEW：转换为竖立显示之后的数据，Longs数据长度，中文Longs=18,英文Longs=9
 //正常的字库转换为竖立显示的字库，转换之后不管是中文还是英文都变成了12x12点
 //Data:原始字库数据，DataNEW：转换为竖立显示之后的数据，Longs数据长度，中文Longs=18,英文Longs=9
 void N_S(unsigned char Data[],unsigned char DataNEW[],char Longs)
 {
     int i,j,CS=0;
-    unsigned char LS1,LS2,LS;
+    unsigned char LS1,LS;
     
     unsigned char DataLS[20];
     if(Longs==9)
@@ -720,7 +763,8 @@ void N_S(unsigned char Data[],unsigned char DataNEW[],char Longs)
             LS1=(DataLS[j]>>1)&0x10;//5移到4位置
             LS|=LS1;
             
-            LS=(DataLS[j-3]>>3)&0x08;//6移到3位置
+            LS1=(DataLS[j-3]>>3)&0x08;//6移到3位置
+            LS|=LS1;
             LS1=(DataLS[j-3]>>2)&0x04;//4移到2位置
             LS|=LS1;
             LS1=(DataLS[j-3]>>6)&0x02;//7移到1位置
@@ -737,7 +781,8 @@ void N_S(unsigned char Data[],unsigned char DataNEW[],char Longs)
             LS1=(DataLS[j]<<3)&0x10;//1移到4位置
             LS|=LS1;
             
-            LS=(DataLS[j-3]<<1)&0x08;//2移到3位置
+            LS1=(DataLS[j-3]<<1)&0x08;//2移到3位置
+            LS|=LS1;
             LS1=(DataLS[j-3]<<2)&0x04;//0移到2位置
             LS|=LS1;
             LS1=(DataLS[j-3]>>2)&0x02;//3移到1位置
@@ -750,6 +795,5 @@ void N_S(unsigned char Data[],unsigned char DataNEW[],char Longs)
         CS+=3;
     } 
 }
-
 
 @end
