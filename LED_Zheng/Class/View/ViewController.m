@@ -11,9 +11,8 @@
 #import <UIKit/UITextView.h>
 #import "CollectionViewCell.h"
 
-
-
-#define DefaultDeviceValues           @[@0, @1, @0, @0, @0, @0]
+// 动画， 速度， 停留时间， 边框， 显示类型， Logo
+#define DefaultDeviceValues           @[@0, @1, @3, @0, @0, @0]
 
 
 
@@ -275,8 +274,10 @@ static NSString *cellID = @"CollectionViewCell";
     
     NSDictionary *dictionary = arrViewData[editRow];
     arrPickView = dictionary.allValues.firstObject;
-    
+
     [self.pickView reloadAllComponents];
+    
+    [self.pickView selectRow:[arraySelected[editRow] intValue] inComponent:0 animated:NO];
     
     [self showViewCover];
 }

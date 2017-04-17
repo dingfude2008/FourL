@@ -50,6 +50,8 @@
 "写入失败" = "Set error";
 "请尝试重新连接" = "Try reconnecting";
 "没有节目" = "None program";
+"没有选中的节目" = "No programs selected";
+"没有连接设备" = "No device connected";
 "文字不能为空" = "Text cannot be empty";
 "" = "";
 "" = "";

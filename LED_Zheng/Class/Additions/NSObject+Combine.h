@@ -19,4 +19,9 @@
  */
 + (NSArray <NSNumber *> *)conbineArray:(NSArray<NSArray <NSNumber*>*> *)arrayM;
 
+
+// 排序
++ (void)changeArray:(NSMutableArray *)dicArray
+       orderWithKey:(NSString *)key
+          ascending:(BOOL)yesOrNo;
 @end

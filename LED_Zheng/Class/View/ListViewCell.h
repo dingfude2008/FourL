@@ -17,6 +17,8 @@
 @property (nonatomic, copy) void (^editBlock)(Program *model);
 
 @property (nonatomic, copy) void (^deleteBlock)(Program *model);
+@property (weak, nonatomic) IBOutlet UILabel *indexLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *selectedImv;
 
 
 

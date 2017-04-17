@@ -19,13 +19,12 @@ static NSString *cellID = @"ListViewCell";
     __weak IBOutlet UIButton *writeButton;
     Program * selectedModel;
     BOOL isAdd;
+    NSMutableArray *selectedArray;          // 选中的数组
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *listTabView;
 
 @property (nonatomic, strong) NSMutableArray<Program *> *arrayData;
-
-
 
 
 @end
@@ -72,6 +71,20 @@ static NSString *cellID = @"ListViewCell";
         self.arrayData = [NSMutableArray arrayWithArray:arrayTag];
     }
     
+    // 这里要排序
+    [NSObject changeArray:self.arrayData orderWithKey:@"Id" ascending:YES];
+    
+    // 设置默认选中
+    
+    if (!selectedArray) {
+        selectedArray = [NSMutableArray arrayWithCapacity:self.arrayData.count];
+        for (int i = 0; i < self.arrayData.count; i++) {
+            [selectedArray addObject:@YES];
+        }
+    }else if(selectedArray.count < self.arrayData.count){
+        [selectedArray addObject:@YES];
+    }
+    
     [self.listTabView reloadData];
 }
 
@@ -98,7 +111,9 @@ static NSString *cellID = @"ListViewCell";
     
     ListViewCell *cell = [ListViewCell cellWithTableView:tableView];
     Program *model = self.arrayData[indexPath.row];
+    cell.indexLabel.text = [@(indexPath.row + 1) description];
     cell.model = model;
+    cell.selectedImv.hidden = ![selectedArray[indexPath.row] boolValue];
     
     DDWeakVV
     cell.editBlock = ^(Program *p){
@@ -110,7 +125,15 @@ static NSString *cellID = @"ListViewCell";
         DDStrongVV
         [self deleteModel:p];
     };
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    BOOL isSelected = [selectedArray[indexPath.row] boolValue];
+    selectedArray[indexPath.row] = @(!isSelected);
+    [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -118,15 +141,19 @@ static NSString *cellID = @"ListViewCell";
         if (buttonIndex != alertView.cancelButtonIndex) {
             NSLog(@"删除这条节目");
             if ([self.arrayData containsObject:selectedModel]) {
-                [self.arrayData removeObject:selectedModel];
+                NSUInteger index = [self.arrayData indexOfObject:selectedModel];
+                [selectedArray removeObjectAtIndex:index];
                 
+                [self.arrayData removeObject:selectedModel];
                 RemoveUserDefault(ListDataLocal);
                 for (int i = 0; i < self.arrayData.count; i++) {
                     Program *p = self.arrayData[i];
                     [p save];
                 }
                 
-                [self.listTabView reloadData];
+                [self loadData];
+                
+                // [self.listTabView reloadData];
             }
         }
     }else{
@@ -182,10 +209,32 @@ static NSString *cellID = @"ListViewCell";
         return;
     }
     
+    BOOL isHasSelected = NO;
+    for (int i = 0; i < selectedArray.count; i++) {
+        if ([selectedArray[i] boolValue]) {
+            isHasSelected = YES;
+            break;
+        }
+    }
+    
+    if (!isHasSelected) {
+        MBShow(@"没有选中的节目");
+        return;
+    }
+    
+    if (DDBLE.connectState != ConnectState_Connected) {
+        MBShow(@"没有连接设备");
+        return;
+    }
+    
     NSMutableArray *arrayText = [NSMutableArray array];
     NSMutableArray * arrayAdditional = [NSMutableArray array];
     
     for (int i = 0; i < self.arrayData.count; i++) {
+        // 过滤掉没有选中的
+        if (![selectedArray[i] boolValue]) {
+            continue;
+        }
         Program *p = self.arrayData[i];
         [arrayText addObject:p.text];
         if (p.speed < [Program SpeedMin]) {         // 兼容上个版本
@@ -204,10 +253,11 @@ static NSString *cellID = @"ListViewCell";
     
     for (int i = 0; i < arrayText.count; i++) {
         
-        int specialEffects = [((NSArray *)arrayAdditional.lastObject)[0] intValue];
-        BOOL isStandUp = [((NSArray *)arrayAdditional.lastObject)[4] intValue];
+        int specialEffects = [((NSArray *)arrayAdditional[i])[0] intValue];
+        BOOL isStandUp = [((NSArray *)arrayAdditional[i])[4] intValue];
+        NSLog(@"是否竖立显示:%@", @(isStandUp));
+        
         BOOL isJustAdditonal = specialEffects == 2 || specialEffects == 3;
-    
         
         NSString *string = arrayText[i];
         

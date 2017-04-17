@@ -29,4 +29,13 @@
     return arrayResult;
 }
 
++ (void)changeArray:(NSMutableArray *)dicArray
+       orderWithKey:(NSString *)key
+          ascending:(BOOL)yesOrNo{
+    NSSortDescriptor *distanceDescriptor = [[NSSortDescriptor alloc] initWithKey:key
+                                                                       ascending:yesOrNo];
+    NSArray *descriptors = [NSArray arrayWithObjects:distanceDescriptor,nil];
+    [dicArray sortUsingDescriptors:descriptors];
+}
+
 @end

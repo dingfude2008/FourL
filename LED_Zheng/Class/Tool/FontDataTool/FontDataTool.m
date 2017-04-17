@@ -328,22 +328,19 @@ static NSArray<NSString *> * enlishEmpty;                                   // �
 + (BOOL)isChinese:(NSString *)string{
     
     //
-    //    const char *cString=[string UTF8String];
-    //    size_t length = strlen(cString);
-    //
-    //    if (length == 3){
-    //        return YES;
-    //    }else if(length == 1){
-    //        NSLog(@"--->1");
-    //    }
-    //    return NO;
-    //
-    //
-    int value = [string characterAtIndex:0];
-    if (value > 0x4e00 && value < 0x9fff) {
+    const char *cString=[string UTF8String];
+    size_t length = strlen(cString);
+
+    if (length == 3){
         return YES;
     }
+    NSLog(@"--->不是汉字:%@", string);
     return NO;
+//    int value = [string characterAtIndex:0];
+//    if (value > 0x4e00 && value < 0x9fff) {
+//        return YES;
+//    }
+//    return NO;
 }
 
 
@@ -725,23 +722,43 @@ void N_S(unsigned char Data[],unsigned char DataNEW[],char Longs)
     unsigned char DataLS[20];
     if(Longs==9)
     {
+//        //1.填充开头的2列
+//        DataLS[0]=0;
+//        DataLS[1]=0;
+//        DataLS[2]=0;
+//        //2.中间部分的数据
+//        for(i=0;i<9;i++)
+//        {
+//            DataLS[i+3]=Data[i];
+//        }
+//        //3.填充尾部的4列
+//        DataLS[12]=0;
+//        DataLS[13]=0;
+//        DataLS[14]=0;
+//        
+//        DataLS[15]=0;
+//        DataLS[16]=0;
+//        DataLS[17]=0;
+        
+        
         //1.填充开头的2列
         DataLS[0]=0;
         DataLS[1]=0;
         DataLS[2]=0;
+        DataLS[3]=0;
+        DataLS[4]=0;
+        DataLS[5]=0;
+        
         //2.中间部分的数据
         for(i=0;i<9;i++)
         {
-            DataLS[i+3]=Data[i];
+            DataLS[i+6]=Data[i];
         }
         //3.填充尾部的4列
-        DataLS[12]=0;
-        DataLS[13]=0;
-        DataLS[14]=0;
-        
         DataLS[15]=0;
         DataLS[16]=0;
         DataLS[17]=0;
+        
     }
     else
     {
