@@ -33,6 +33,8 @@ static NSString *cellID = @"CollectionViewCell";
     NSArray *arrPickView;       // pickView的数据源
     
     int editRow;
+    
+    NSRange lastRange;          // 最后生效的区间
 }
 
 @property (nonatomic, strong) UIPickerView          *pickView;
@@ -98,7 +100,8 @@ static NSString *cellID = @"CollectionViewCell";
                           @(self.model.showType),
                           @(self.model.logo)];
         myTextView.text = self.model.text;
-        [self setText:myTextView.text range:NSMakeRange(0, myTextView.text.length)];
+        lastRange = NSMakeRange(0, myTextView.text.length);
+        [self setText:myTextView.text];
     }else{
         arraySelected = DefaultDeviceValues;
     }
@@ -174,14 +177,13 @@ static NSString *cellID = @"CollectionViewCell";
 }
 
 
-- (void)setText:(NSString *)text range:(NSRange)range{
+- (void)setText:(NSString *)text{
     
     if (text.length == 0) {
         return;
     }
     
-    
-    int endLocation = (int)range.length + (int)range.location;
+    int endLocation = (int)lastRange.length + (int)lastRange.location;
     
     NSLog(@"%@ %@", text, @(endLocation));
     
@@ -194,10 +196,16 @@ static NSString *cellID = @"CollectionViewCell";
     
     if ([arraySelected[4] intValue] == 1) {
         arrayNumbersSimple = [FontDataTool getStandUpDataArray:arrayNumbersSimple];
+        
+        if (arrayNumbersSimple.count > 4) {
+            // 截取前4个
+            arrayNumbersSimple = [arrayNumbersSimple subarrayWithRange:NSMakeRange(arrayNumbersSimple.count - 4, 4)];
+        }
     }
     
     // 测试竖立
 //    arrayNumbersSimple = [FontDataTool getStandUpDataArray:arrayNumbersSimple];
+    
     
     // 行列信息
     NSArray <NSArray <NSDictionary *>*>* arrayColumnRowData = [FontDataTool getRowColumnDataFromLatticeData:arrayNumbersSimple];
@@ -331,6 +339,9 @@ static NSString *cellID = @"CollectionViewCell";
     arraySelected = [arrNew mutableCopy];
     [_collectionView reloadData];
     NSLog(@"选中某一行 - >%@", arrPickView[row]);
+    if (editRow == 4) {
+        [self setText:myTextView.text];
+    }
 }
 
 -(void)initViewCover{
@@ -387,7 +398,8 @@ static NSString *cellID = @"CollectionViewCell";
 //    textView.text = @"我A则Sbce";
 //    _range = NSMakeRange(0, 1);
     
-    [self setText:textView.text range:_range];
+    lastRange = _range;
+    [self setText:textView.text];
 }
 
 
