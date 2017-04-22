@@ -78,12 +78,13 @@ static NSString *cellID = @"CollectionViewCell";
         [arrTime addObject:[@(i) description]];
     }
     
+    
     arrViewData = @[@{@"动画":@[@"随机",@"立即显示",@"连续左移",@"连续右移",@"左移",@"右移",@"上移",@"下移",@"水平展开",@"飘雪",@"闪烁",@"抖动"]},
                     @{@"速度":arrSpeed},
                     @{@"停留时间":arrTime},
                     @{@"边框": @[@"无", @"有"]},
                     @{@"显示类型":@[@"正常",@"竖立"]},
-                    @{@"Logo":@[@"图片"]}];
+                    @{@"Logo":[FontDataTool pictureDataArray]}];
     
  
     [self setupCollection];
@@ -239,12 +240,6 @@ static NSString *cellID = @"CollectionViewCell";
     NSMutableArray * arrayNumbers = [NSMutableArray array];
     
     for (int i = 0; i < 1; i++) {
-//        2,
-//        0,
-//        1,
-//        0,
-//        0,
-//        0
         
         // 动作 +        速度 +     停留       + 边框
         // 0x00-0xAB    0x01-0x20  0x00-0x32   0x00-0x01
@@ -310,9 +305,14 @@ static NSString *cellID = @"CollectionViewCell";
     NSDictionary *dictionary = arrViewData[indexPath.row];
     NSString *string = [dictionary.allKeys.firstObject description];
     cell.titleLabel.text = kString(string);
-    
     NSArray *arrValues = dictionary.allValues.firstObject;
-    cell.valueLabel.text = kString([arrValues[[arraySelected[indexPath.row] intValue]] description]);
+    
+    if (indexPath.row != 5) {
+        cell.valueLabel.text = kString([arrValues[[arraySelected[indexPath.row] intValue]] description]);
+    }else{
+        NSDictionary *dictionary = arrValues[[arraySelected[indexPath.row] intValue]];
+        cell.valueLabel.text = [NSString stringWithFormat:@"~%@", dictionary.allKeys.firstObject];
+    }
     
     return cell;
 }
@@ -327,8 +327,27 @@ static NSString *cellID = @"CollectionViewCell";
     return 1;
 }
 
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
-    return kString([arrPickView[row] description]);
+//- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
+//    if(editRow != 5){
+//        return kString([arrPickView[row] description]);
+//    }
+//    return nil;
+//}
+
+- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(nullable UIView *)view {
+    if(editRow == 5){
+        NSDictionary *dictionary = (NSDictionary *)arrPickView[row];
+        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.bmp",[dictionary.allKeys.firstObject description]]];
+        image = [image resizedImage:2];
+        UIImageView *imageV = [[UIImageView alloc] initWithImage:image];
+        return imageV;
+    }else{
+        UILabel *label = [[UILabel alloc] init];
+        label.textColor = [UIColor blackColor];
+        label.text = kString([arrPickView[row] description]);
+        [label sizeToFit];
+        return label;
+    }
 }
 
 //选中某一行

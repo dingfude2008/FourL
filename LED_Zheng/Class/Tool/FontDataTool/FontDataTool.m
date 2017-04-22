@@ -11,9 +11,12 @@
 
 static NSString * const chineseDataArrayName = @"chinese_word.txt";         // 汉字的点阵名称
 static NSString * const enlishDataArrayName = @"enlish_word.txt";           // 英文(符号)的点阵名称
+static NSString * const pictureDataArrayName = @"picture.txt";              // 图片的点阵名称
 
 static NSArray<NSString *> * chineseDataArray;                              // 汉字的点阵数据
 static NSArray<NSString *> *enlishDataArray;                                // 英文(符号)点阵数据
+static NSArray<NSDictionary *> *pictureDataArray;                           // 图片点阵数据
+
 
 static const int chineseDadaLength = 18;                                    // 汉字的字模数据长度
 static const int enlishDadaLength = 9;                                      // 英文的字模数据长度
@@ -59,9 +62,45 @@ static NSArray<NSString *> * enlishEmpty;                                   // �
         enlishDataArray =  [stringData componentsSeparatedByString:@","];
     }
     
+    path = [[NSBundle mainBundle] pathForResource:pictureDataArrayName ofType:nil];
+    stringData = [NSString stringWithContentsOfURL:[NSURL fileURLWithPath:path]
+                                          encoding:NSUTF8StringEncoding
+                                             error:&error];
+    if (error) {
+        NSLog(@"Logo初始化失败!");
+    }else{
+        NSArray<NSString *>* pictureStrings = [stringData componentsSeparatedByString:@"\n"];
+        NSMutableArray *arrTag = [NSMutableArray array];
+        // NSLog(@"%@", pictureStrings);
+        pictureStrings = [pictureStrings subarrayWithRange:NSMakeRange(0, pictureStrings.count - 1)];
+        [pictureStrings enumerateObjectsUsingBlock:^(NSString *simplePicture, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSArray *arrayTag = [simplePicture componentsSeparatedByString:@"//"];
+            NSString *key = arrayTag[1];
+            key = [key substringToIndex:key.length - 1];
+            NSString *stringValue = arrayTag[0];
+            NSArray *arrayValue = [stringValue componentsSeparatedByString:@","];
+            arrayValue = [arrayValue subarrayWithRange:NSMakeRange(0, 18)];
+            [arrTag addObject:@{ key:arrayValue }];
+        }];
+
+        pictureDataArray = [arrTag mutableCopy];
+    }
+    
     chineseEmpty = @[@"0x00",@"0x00",@"0x00",@"0x00",@"0x00",@"0x00",@"0x00",@"0x00",@"0x00",@"0x00",@"0x00",@"0x00",@"0x00",@"0x00",@"0x00",@"0x00",@"0x00",@"0x00"];
     enlishEmpty = @[@"0x00",@"0x00",@"0x00",@"0x00",@"0x00",@"0x00",@"0x00",@"0x00",@"0x00"];
+    
 }
+
+
+/**
+ 获取logo数据
+ 
+ @return logo数据
+ */
++ (NSArray<NSDictionary *> *)pictureDataArray{
+    return pictureDataArray;
+}
+
 
 /**
  获取长文本的点阵数据， 其中包含了英文和中文

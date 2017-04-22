@@ -76,4 +76,19 @@
  */
 + (NSArray<NSArray <NSNumber*>*> *)getStandUpDataArray:(NSArray<NSArray <NSNumber*>*> *)array;
 
+
+
+/**
+ 获取logo数据
+
+ @return logo数据
+ */
++ (NSArray<NSDictionary *> *)pictureDataArray;
+
+
+
+
+
+
+
 @end
