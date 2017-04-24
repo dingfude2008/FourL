@@ -175,6 +175,16 @@ static NSString *cellID = @"ListViewCell";
     selectedModel = model;
     isAdd = NO;
     [self performSegueWithIdentifier:@"aaa" sender:nil];
+    
+    
+    
+//    ViewController *vc = (ViewController *)segue.destinationViewController;
+//    if (!isAdd) {
+//        vc.model = selectedModel;
+//    }
+//    
+//    self presentViewController:<#(nonnull UIViewController *)#> animated:<#(BOOL)#> completion:<#^(void)completion#>
+    
 }
 
 - (void)addProgram{

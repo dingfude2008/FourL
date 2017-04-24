@@ -21,9 +21,22 @@ static NSString *cellID = @"CollectionViewCell";
 @interface ViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UIPickerViewDataSource, UIPickerViewDelegate, UITextViewDelegate>{
     
     __weak IBOutlet UITextView *myTextView;
+    
+    __weak IBOutlet UIView *containerSuperView;
     __weak IBOutlet DFMatrixLedContainerView *containerView;
     
+    __weak IBOutlet UIView *textViewBackgronduView;
+    
+    __weak IBOutlet UILabel *textViewTipLabel;
+    
+    
     __weak IBOutlet UIView *colectionContainerView;
+    
+    
+    __weak IBOutlet UIButton *backButton;
+    
+    __weak IBOutlet UIButton *saveButton;
+    
     
     UICollectionView *_collectionView;
     NSArray *arrViewData;       // _collectionView的数据源
@@ -48,6 +61,9 @@ static NSString *cellID = @"CollectionViewCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+//    self.navigationController.navigationBar
+    
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:({
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -86,7 +102,29 @@ static NSString *cellID = @"CollectionViewCell";
                     @{@"显示类型":@[@"正常",@"竖立"]},
                     @{@"Logo":[FontDataTool pictureDataArray]}];
     
- 
+    containerSuperView.layer.borderColor = [UIColor clearColor].CGColor;
+    containerSuperView.layer.cornerRadius = 5;
+    containerSuperView.layer.masksToBounds = YES;
+    
+    textViewBackgronduView.layer.cornerRadius = 5;
+    textViewBackgronduView.layer.masksToBounds = YES;
+    
+    backButton.layer.borderColor = [UIColor whiteColor].CGColor;
+    backButton.layer.borderWidth = 1;
+    backButton.layer.cornerRadius = 5;
+    backButton.layer.masksToBounds = YES;
+    [backButton setTitle:kString(@"返回") forState:UIControlStateNormal];
+    
+    
+    saveButton.layer.borderColor = [UIColor whiteColor].CGColor;
+    saveButton.layer.borderWidth = 1;
+    saveButton.layer.cornerRadius = 5;
+    saveButton.layer.masksToBounds = YES;
+    [saveButton setTitle:kString(@"保存") forState:UIControlStateNormal];
+    
+    
+    textViewTipLabel.text = kString(@"在这里输入并保存节目信息:");
+    
     [self setupCollection];
     
     [self initViewCover];
@@ -108,6 +146,16 @@ static NSString *cellID = @"CollectionViewCell";
     }
     
     myTextView.delegate = self;
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+//    [self.navigationController setNavigationBarHidden:YES animated:NO];
+}
+
+- (void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+//    [self.navigationController setNavigationBarHidden:NO animated:NO];
 }
 
 
@@ -133,7 +181,8 @@ static NSString *cellID = @"CollectionViewCell";
     self.model.logo                 = [arraySelected[5] intValue];
     
     [self.model save];
-    [self.navigationController popViewControllerAnimated:YES];
+    
+    [self barbuttonItemLeftClick];
 }
 
 
@@ -148,7 +197,7 @@ static NSString *cellID = @"CollectionViewCell";
     layout.itemSize = CGSizeMake(width, 50);
     
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(10, 0, ScreenWidth-20, 150) collectionViewLayout:layout];
-    _collectionView.backgroundColor = self.view.backgroundColor;
+    _collectionView.backgroundColor = [UIColor clearColor];
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
     _collectionView.scrollEnabled = NO;
@@ -373,9 +422,9 @@ static NSString *cellID = @"CollectionViewCell";
         self.ViewEffectBody.alpha = 0;
         [self.view addSubview:self.ViewEffectBody];
         
-        self.ViewEffectHead = [[UIVisualEffectView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 65)];
-        self.ViewEffectHead.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-        self.ViewEffectHead.alpha = 0;
+//        self.ViewEffectHead = [[UIVisualEffectView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 65)];
+//        self.ViewEffectHead.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+//        self.ViewEffectHead.alpha = 0;
         
         [[UIApplication sharedApplication].keyWindow addSubview:self.ViewEffectHead];
     }
@@ -421,6 +470,17 @@ static NSString *cellID = @"CollectionViewCell";
     [self setText:textView.text];
 }
 
+- (void)barbuttonItemLeftClick{
+    [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
+- (IBAction)backButtonClick {
+    [self barbuttonItemLeftClick];
+}
+
+- (IBAction)saveButtonClick {
+    [self barbuttonItemRightClick];
+}
 
 
 @end
