@@ -345,10 +345,12 @@ static NSArray<NSString *> * enlishEmpty;                                   // �
     if ([self isChinese:string]) {
         NSLog(@"%@:  ->汉字", string);
         *isChinese = YES;
+        
         return [self getGBKFromChinese:string];
     }
     
     int ascCode = [string characterAtIndex:0];
+    
     if (ascCode >= enlishGBKMin && ascCode < enlishGBKMax) {
         NSLog(@"%@:  ->非汉字", string);
         *isChinese = NO;
@@ -359,18 +361,17 @@ static NSArray<NSString *> * enlishEmpty;                                   // �
 }
 
 /**
- 判断单个字符是否是中文
+ 判断单个字符是否是中文或者全角符号
  
  @param string 单个字符
  @return 是否
  */
 + (BOOL)isChinese:(NSString *)string{
-    
     //
     const char *cString=[string UTF8String];
     size_t length = strlen(cString);
 
-    if (length == 3){
+    if (length != 1){
         return YES;
     }
     NSLog(@"--->不是汉字:%@", string);
@@ -390,21 +391,44 @@ static NSArray<NSString *> * enlishEmpty;                                   // �
  @return 机内码
  */
 + (int)getGBKFromChinese:(NSString *)string{
-    
-    NSString *urlEncoded = (__bridge_transfer NSString *)
-    CFURLCreateStringByAddingPercentEscapes(NULL,
-                                            (__bridge CFStringRef)string,NULL,
-                                            (CFStringRef)@"!*'\"();:@&=+$,?%#[]%",
-                                            kCFStringEncodingGB_18030_2000);
-    NSString *heigh1 = [urlEncoded substringWithRange:NSMakeRange(1, 1)];
-    NSString *heigh2 = [urlEncoded substringWithRange:NSMakeRange(2, 1)];
-    int heightValue = [self hexToInt:heigh1] * 16 + [self hexToInt:heigh2];
-    
-    NSString *low1 = [urlEncoded substringWithRange:NSMakeRange(4, 1)];
-    NSString *low2 = [urlEncoded substringWithRange:NSMakeRange(5, 1)];
-    int lowValue = [self hexToInt:low1] * 16 + [self hexToInt:low2];
-    int result = heightValue * 256 + lowValue;
-    return result;
+    const char *cString = [string UTF8String];
+    size_t length = strlen(cString);
+    if (length == 3) {  // 中文
+        NSString *urlEncoded = (__bridge_transfer NSString *)
+        CFURLCreateStringByAddingPercentEscapes(NULL,
+                                                (__bridge CFStringRef)string,NULL,
+                                                (CFStringRef)@"!*'\"();:@&=+$,?%#[]% ",
+                                                kCFStringEncodingGB_18030_2000);
+        NSString *heigh1 = [urlEncoded substringWithRange:NSMakeRange(1, 1)];
+        NSString *heigh2 = [urlEncoded substringWithRange:NSMakeRange(2, 1)];
+        int heightValue = [self hexToInt:heigh1] * 16 + [self hexToInt:heigh2];
+        
+        NSString *low1 = [urlEncoded substringWithRange:NSMakeRange(4, 1)];
+        NSString *low2 = [urlEncoded substringWithRange:NSMakeRange(5, 1)];
+        int lowValue = [self hexToInt:low1] * 16 + [self hexToInt:low2];
+        int result = heightValue * 256 + lowValue;
+        return result;
+    }else{  // 全角字符
+        NSMutableString *convertedString = [string mutableCopy];
+        CFStringTransform((CFMutableStringRef)convertedString, NULL, kCFStringTransformFullwidthHalfwidth, true);
+        const char *cString = [convertedString cStringUsingEncoding:NSUTF8StringEncoding];
+        if (cString) {
+            NSString *astr = [[NSString alloc] initWithUTF8String:cString];
+            NSStringEncoding enc = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
+            NSString *urlEncoded = [astr stringByAddingPercentEscapesUsingEncoding:enc];
+            NSString *heigh1 = [urlEncoded substringWithRange:NSMakeRange(1, 1)];
+            NSString *heigh2 = [urlEncoded substringWithRange:NSMakeRange(2, 1)];
+            int heightValue = [self hexToInt:heigh1] * 16 + [self hexToInt:heigh2];
+            
+            NSString *low1 = [urlEncoded substringWithRange:NSMakeRange(4, 1)];
+            NSString *low2 = [urlEncoded substringWithRange:NSMakeRange(5, 1)];
+            int lowValue = [self hexToInt:low1] * 16 + [self hexToInt:low2];
+            int result = heightValue * 256 + lowValue;
+            
+            return result;
+        }
+        return -1;
+    }
 }
 
 
@@ -851,5 +875,10 @@ void N_S(unsigned char Data[],unsigned char DataNEW[],char Longs)
         CS+=3;
     } 
 }
+
+#pragma mark -
+
+#pragma mark Encode Chinese to GB2312 in URL
+
 
 @end

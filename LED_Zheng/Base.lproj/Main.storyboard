@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="tpr-CM-Nqp">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="tpr-CM-Nqp">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -22,6 +22,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="editBackgroundImage" translatesAutoresizingMaskIntoConstraints="NO" id="AHo-hJ-esJ">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="utw-pb-a9s">
                                 <rect key="frame" x="5" y="0.0" width="365" height="128"/>
                                 <subviews>
@@ -60,12 +63,16 @@
                         </subviews>
                         <color key="backgroundColor" red="0.92156862745098034" green="0.92156862745098034" blue="0.92156862745098034" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstAttribute="bottom" secondItem="AHo-hJ-esJ" secondAttribute="bottom" id="6Uu-c3-14b"/>
                             <constraint firstItem="MIZ-Yh-eVh" firstAttribute="leading" secondItem="H6c-ro-fM6" secondAttribute="leading" id="6az-6q-plW"/>
                             <constraint firstItem="utw-pb-a9s" firstAttribute="leading" secondItem="H6c-ro-fM6" secondAttribute="leading" constant="5" id="6ua-Uw-XVn"/>
+                            <constraint firstItem="AHo-hJ-esJ" firstAttribute="leading" secondItem="H6c-ro-fM6" secondAttribute="leading" id="7ld-BX-0nt"/>
                             <constraint firstItem="MIZ-Yh-eVh" firstAttribute="top" secondItem="utw-pb-a9s" secondAttribute="bottom" constant="5" id="LcD-l3-TA1"/>
                             <constraint firstItem="0Hv-5P-QbA" firstAttribute="leading" secondItem="H6c-ro-fM6" secondAttribute="leading" constant="5" id="NXB-Ee-iBg"/>
+                            <constraint firstItem="AHo-hJ-esJ" firstAttribute="top" secondItem="H6c-ro-fM6" secondAttribute="top" id="R4I-Yp-jdO"/>
                             <constraint firstItem="utw-pb-a9s" firstAttribute="top" secondItem="H6c-ro-fM6" secondAttribute="top" id="dFD-Zt-tOw"/>
                             <constraint firstAttribute="trailing" secondItem="utw-pb-a9s" secondAttribute="trailing" constant="5" id="eq5-gP-Xbf"/>
+                            <constraint firstAttribute="trailing" secondItem="AHo-hJ-esJ" secondAttribute="trailing" id="jL9-yQ-SD2"/>
                             <constraint firstAttribute="trailing" secondItem="0Hv-5P-QbA" secondAttribute="trailing" constant="5" id="kib-nM-rWo"/>
                             <constraint firstAttribute="trailing" secondItem="MIZ-Yh-eVh" secondAttribute="trailing" id="yif-0j-GNQ"/>
                             <constraint firstItem="0Hv-5P-QbA" firstAttribute="top" secondItem="MIZ-Yh-eVh" secondAttribute="bottom" constant="5" id="zB2-5Y-0NM"/>
@@ -182,6 +189,7 @@
     </scenes>
     <resources>
         <image name="disconnected" width="15" height="15"/>
+        <image name="editBackgroundImage" width="1025" height="1519"/>
         <image name="write" width="15" height="15"/>
     </resources>
 </document>

@@ -36,12 +36,6 @@ static NSString *cellID = @"ListViewCell";
     
     self.title = kString(@"节目列表");
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:({
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeContactAdd];
-        [button addTarget:self action:@selector(addProgram) forControlEvents:UIControlEventTouchUpInside];
-        button;
-    })];
-    
     [bleButton setTitle:kString(@"点击选择连接的设备") forState:UIControlStateNormal];
     [bleButton sizeToFit];
     
@@ -56,13 +50,17 @@ static NSString *cellID = @"ListViewCell";
     });
 }
 
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     
     [self loadData];
 }
 
 - (void)loadData{
+    
+    [self refreshLeftBarButton];
+    [self refreshRightBarButton];
+    
     NSArray *array = [GetUserDefault(ListDataLocal) mutableCopy];
     if (!array) {
         self.arrayData = [@[] mutableCopy];
@@ -75,7 +73,6 @@ static NSString *cellID = @"ListViewCell";
     [NSObject changeArray:self.arrayData orderWithKey:@"Id" ascending:YES];
     
     // 设置默认选中
-    
     if (!selectedArray) {
         selectedArray = [NSMutableArray arrayWithCapacity:self.arrayData.count];
         for (int i = 0; i < self.arrayData.count; i++) {
@@ -136,8 +133,9 @@ static NSString *cellID = @"ListViewCell";
     [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
 }
 
+#pragma mark UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (alertView.tag == 0) {
+    if (alertView.tag == 0){
         if (buttonIndex != alertView.cancelButtonIndex) {
             NSLog(@"删除这条节目");
             if ([self.arrayData containsObject:selectedModel]) {
@@ -152,14 +150,17 @@ static NSString *cellID = @"ListViewCell";
                 }
                 
                 [self loadData];
-                
-                // [self.listTabView reloadData];
             }
         }
-    }else{
+    }else if (alertView.tag == 1){
         if (buttonIndex != alertView.cancelButtonIndex) {
             RemoveUserDefault(DefaultUUIDString);
             [DDBLE stopLink];
+        }
+    }else if (alertView.tag == 2){
+        if (buttonIndex != alertView.cancelButtonIndex) {
+            RemoveUserDefault(ListDataLocal);
+            [self loadData];
         }
     }
 }
@@ -180,6 +181,14 @@ static NSString *cellID = @"ListViewCell";
     isAdd = YES;
     [self performSegueWithIdentifier:@"aaa" sender:nil];
 }
+
+- (void)clearProgram{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:kString(@"提示") message:kString(@"清除所有节目吗?") delegate:self cancelButtonTitle:kString(@"取消") otherButtonTitles:kString(@"确定"), nil];
+    alert.tag = 2;
+    [alert show];
+}
+
+
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -204,23 +213,23 @@ static NSString *cellID = @"ListViewCell";
 
 - (IBAction)writeButtonClick {
     
-    if (self.arrayData.count == 0) {
-        MBShow(@"没有节目");
-        return;
-    }
-    
-    BOOL isHasSelected = NO;
-    for (int i = 0; i < selectedArray.count; i++) {
-        if ([selectedArray[i] boolValue]) {
-            isHasSelected = YES;
-            break;
-        }
-    }
-    
-    if (!isHasSelected) {
-        MBShow(@"没有选中的节目");
-        return;
-    }
+//    if (self.arrayData.count == 0) {
+//        MBShow(@"没有节目");
+//        return;
+//    }
+//    
+//    BOOL isHasSelected = NO;
+//    for (int i = 0; i < selectedArray.count; i++) {
+//        if ([selectedArray[i] boolValue]) {
+//            isHasSelected = YES;
+//            break;
+//        }
+//    }
+//    
+//    if (!isHasSelected) {
+//        MBShow(@"没有选中的节目");
+//        return;
+//    }
     
     if (DDBLE.connectState != ConnectState_Connected) {
         MBShow(@"没有连接设备");
@@ -284,6 +293,37 @@ static NSString *cellID = @"ListViewCell";
     
 #endif
 
+}
+
+#pragma mark 刷新右上按钮
+- (void)refreshRightBarButton{
+    
+    NSArray *array = GetUserDefault(ListDataLocal);
+    if (array.count < 8) {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:({
+            UIButton *button = [UIButton buttonWithType:UIButtonTypeContactAdd];
+            [button addTarget:self action:@selector(addProgram) forControlEvents:UIControlEventTouchUpInside];
+            button;
+        })];
+    }else{
+        self.navigationItem.rightBarButtonItem = nil;
+    }
+}
+
+#pragma mark 刷新左上按钮
+- (void)refreshLeftBarButton{
+    NSArray *array = GetUserDefault(ListDataLocal);
+    if (array.count == 0) {
+        self.navigationItem.leftBarButtonItem = nil;
+    }else{
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:({
+            UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+            [button setImage:[UIImage imageNamed:@"clear"] forState:UIControlStateNormal];
+            [button addTarget:self action:@selector(clearProgram) forControlEvents:UIControlEventTouchUpInside];
+            [button sizeToFit];
+            button;
+        })];
+    }
 }
 
 

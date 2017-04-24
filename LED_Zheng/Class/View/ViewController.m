@@ -12,7 +12,7 @@
 #import "CollectionViewCell.h"
 
 // 动画， 速度， 停留时间， 边框， 显示类型， Logo
-#define DefaultDeviceValues           @[@0, @1, @3, @0, @0, @0]
+#define DefaultDeviceValues           @[@0, @2, @3, @0, @0, @0]
 
 
 
