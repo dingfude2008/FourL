@@ -91,7 +91,7 @@ typedef NS_ENUM(NSUInteger, ViewState) {
         self.tabView.delegate = self;
         self.tabView.dataSource = self;
         self.tabView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        self.tabView.backgroundColor = self.view.backgroundColor;
+        self.tabView.backgroundColor = [UIColor clearColor];
         [self.container2View addSubview:self.tabView];
         [self.tabView registerNib:[UINib nibWithNibName:cellId bundle:nil] forCellReuseIdentifier:cellId];
     }

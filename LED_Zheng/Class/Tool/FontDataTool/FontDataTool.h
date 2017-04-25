@@ -86,9 +86,22 @@
 + (NSArray<NSDictionary *> *)pictureDataArray;
 
 
+/**
+ 获取图片的点阵数据
+
+ @param logoKey logo的名字
+ @return 点阵数据
+ */
++ (NSArray <NSNumber*>*)getLogoDataFromKey:(NSString *)logoKey;
 
 
+/**
+ 处理文字中的Logo信息
 
-
+ @param text 原始文本
+ @param location 光标所在位置, 方法内根据需要更改
+ @return 最后的数据
+ */
++ (NSArray<NSArray <NSNumber*>*> *)handleLogoDataFromOriginalText:(NSString *)text location:(int*)endLocation;
 
 @end

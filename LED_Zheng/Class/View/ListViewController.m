@@ -9,8 +9,8 @@
 #import "ListViewController.h"
 #import "ListViewCell.h"
 #import "ViewController.h"
-
 #import "FRSearchDeviceController.h"
+
 
 static NSString *cellID = @"ListViewCell";
 
@@ -34,6 +34,9 @@ static NSString *cellID = @"ListViewCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.navigationController.navigationBar.translucent = YES;
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"listBackgroundImage"] forBarMetrics:UIBarMetricsDefault];
+    
     self.title = kString(@"节目列表");
     
     [bleButton setTitle:kString(@"点击选择连接的设备") forState:UIControlStateNormal];
@@ -45,7 +48,7 @@ static NSString *cellID = @"ListViewCell";
     [self.listTabView registerNib:[UINib nibWithNibName:cellID bundle:nil] forCellReuseIdentifier:cellID];
     
     self.listTabView.tableHeaderView = ({
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 1)];
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 0.1)];
         view;
     });
 }
@@ -54,6 +57,17 @@ static NSString *cellID = @"ListViewCell";
     [super viewWillAppear:animated];
     
     [self loadData];
+}
+
+- (void)setNav{
+    
+//    [self.navigationController.navigationBar setValue:@0 forKeyPath:@"backgroundView.alpha"];
+//    
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"listBackgroundImage"] forBarMetrics:UIBarMetricsDefault];
+//    [self.navigationController.navigationBar setShadowImage:[UIImage new]];
+//    
+//    [self.navigationController.navigationBar setTranslucent:YES];
+//    [self.navigationController.navigationBar setBackgroundColor:[UIColor clearColor]];
 }
 
 - (void)loadData{
@@ -278,9 +292,12 @@ static NSString *cellID = @"ListViewCell";
         
         BOOL isJustAdditonal = specialEffects == 2 || specialEffects == 3;
         
-        NSString *string = arrayText[i];
+        NSString *text = arrayText[i];
         
-        NSArray<NSArray <NSNumber*>*> * arrayNumbersSimple = [FontDataTool getLatticeDataArray:string];
+        int length = (int)text.length;
+        
+        // 处理logo
+        NSArray<NSArray <NSNumber*>*> * arrayNumbersSimple = [FontDataTool handleLogoDataFromOriginalText:text location:&length];
         
         if (isStandUp) {
             arrayNumbersSimple = [FontDataTool getStandUpDataArray:arrayNumbersSimple];

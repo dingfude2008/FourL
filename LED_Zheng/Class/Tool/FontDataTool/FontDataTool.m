@@ -9,6 +9,7 @@
 #import "FontDataTool.h"
 #include <string.h>
 
+
 static NSString * const chineseDataArrayName = @"chinese_word.txt";         // 汉字的点阵名称
 static NSString * const enlishDataArrayName = @"enlish_word.txt";           // 英文(符号)的点阵名称
 static NSString * const pictureDataArrayName = @"picture.txt";              // 图片的点阵名称
@@ -80,7 +81,17 @@ static NSArray<NSString *> * enlishEmpty;                                   // �
             NSString *stringValue = arrayTag[0];
             NSArray *arrayValue = [stringValue componentsSeparatedByString:@","];
             arrayValue = [arrayValue subarrayWithRange:NSMakeRange(0, 18)];
-            [arrTag addObject:@{ key:arrayValue }];
+            
+            // arrayValue [ @"0x00", @"0x01"... ] -> [ @0, @1 ...]
+            
+            NSMutableArray *arrayNumberValue = [NSMutableArray arrayWithCapacity:arrayValue.count];
+            for (int i = 0; i < arrayValue.count; i++) {
+                NSString *stringHex = arrayValue[i];
+                int value = [self hexToInt:[stringHex substringFromIndex:2]];
+                [arrayNumberValue addObject:@(value)];
+            }
+            
+            [arrTag addObject:@{ key:arrayNumberValue }];
         }];
 
         pictureDataArray = [arrTag mutableCopy];
@@ -878,7 +889,109 @@ void N_S(unsigned char Data[],unsigned char DataNEW[],char Longs)
 
 #pragma mark -
 
-#pragma mark Encode Chinese to GB2312 in URL
+
+
+/**
+ 获取图片的点阵数据
+ 
+ @param logoKey logo的名字
+ @return 点阵数据
+ */
++ (NSArray <NSNumber*>*)getLogoDataFromKey:(NSString *)logoKey{
+    __block NSArray <NSNumber*>* result = nil;
+    [pictureDataArray enumerateObjectsUsingBlock:^(NSDictionary * dictionary, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([dictionary.allKeys containsObject:logoKey]) {
+            result = dictionary[logoKey];
+            *stop = YES;
+        }
+    }];
+    return result;
+}
+
+
+/**
+ 处理文字中的Logo信息
+ 
+ @param text 原始文本
+ @param location 光标所在位置, 方法内根据需要更改
+ @return 最后的数据
+ */
++ (NSArray<NSArray <NSNumber*>*> *)handleLogoDataFromOriginalText:(NSString *)text location:(int*)endLocation{
+    NSString *newText = [text copy];
+    
+    NSArray<NSTextCheckingResult *> *arrayLogo = [text rangeLogoInString];
+    
+    // 占位汉字的索引位置
+    int logoIndex[arrayLogo.count];
+    
+    // 按索引排序， 对应的索引所对应的Logo点阵数据
+    NSMutableArray<NSArray<NSNumber*>*> *arrayLogoData = [NSMutableArray arrayWithCapacity:arrayLogo.count];
+    
+    if (arrayLogo.count) {
+        // 1, 检测这个光标的位置，是否在表情的中间，如果是，就移动到表情之后
+        NSUInteger startIndex = 0;
+        NSUInteger endIndex = 0;
+        
+        // 防止光标位置在表情中间
+        for (int i = 0; i < arrayLogo.count; i++) {
+            NSTextCheckingResult *resultSimple = arrayLogo[i];
+            startIndex = resultSimple.range.location;
+            endIndex = resultSimple.range.location + resultSimple.range.length;
+            if (startIndex <  *endLocation && endIndex > *endLocation) {
+                NSLog(@"光标位置在表情中间, 设置光标位置在表情后面");
+                *endLocation = (int)endIndex;
+                break;
+            }
+        }
+        
+        // 2, 提取表情，根据表情的个数，改变光标的位置
+        
+        // 2.1 查看光标所在位置前面有几个表情
+        // 光标前的文字
+        NSString *newTextTag = [newText substringToIndex:*endLocation];
+        
+        // 光标前的文字含有的表情个数
+        int countLogoInRange = (int)[newTextTag rangeLogoInString].count;
+        
+        *endLocation = *endLocation - countLogoInRange * 3;        // [01] -> X  4个位置变成了1个一位置
+        
+        // 3, 把表情替换成一个占位汉字的位置，保留这个位置
+        for (int i = 0; i < arrayLogo.count; i++) {
+            NSTextCheckingResult *resultSimple = arrayLogo[i];
+            logoIndex[i] = (int)resultSimple.range.location - i * 3;
+            
+            NSString *logoKeyString = [text substringWithRange:resultSimple.range];
+            logoKeyString = [logoKeyString substringWithRange:NSMakeRange(1, 2)];
+            
+            // 单个字符的点阵数据
+            NSArray<NSNumber*> *arraySimple = [FontDataTool getLogoDataFromKey:logoKeyString];
+            [arrayLogoData addObject:arraySimple];
+        }
+        
+        // 4, 转换表情成相应的点阵数据，替换掉占位汉字的数据
+        for (int i = (int)arrayLogo.count - 1; i >= 0; i--) {
+            NSTextCheckingResult *resultSimple = arrayLogo[i];
+            newText = [newText stringByReplacingCharactersInRange:resultSimple.range withString:@"一"];
+        }
+    }
+    
+    NSLog(@"要从 %d 的位置往前显示一屏的文字: %@", *endLocation, newText);
+    
+    // 纯点阵信息
+    NSArray<NSArray <NSNumber*>*> * arrayNumbersSimple = [FontDataTool getLatticeDataArray:newText];
+    
+    if (arrayLogo.count) {
+        NSLog(@"替换回来");
+        NSMutableArray<NSArray <NSNumber*>*> * arrayNumbersSimpleTag = [arrayNumbersSimple mutableCopy];
+        for (int i = 0; i < arrayLogo.count; i++) {
+            arrayNumbersSimpleTag[logoIndex[i]] = arrayLogoData[i];
+        }
+        arrayNumbersSimple = [arrayNumbersSimpleTag mutableCopy];
+    }
+    
+    return arrayNumbersSimple;
+}
+
 
 
 @end

@@ -10,6 +10,8 @@
 #import "DFMatrixLedContainerView.h"
 #import <UIKit/UITextView.h>
 #import "CollectionViewCell.h"
+#import "LogoCollectionViewCell.h"
+#import "UITextView+DFDelete.h"
 
 // 动画， 速度， 停留时间， 边框， 显示类型， Logo
 #define DefaultDeviceValues           @[@0, @2, @3, @0, @0, @0]
@@ -17,8 +19,10 @@
 
 
 static NSString *cellID = @"CollectionViewCell";
+static NSString *cellIDLogo = @"LogoCollectionViewCell";
 
-@interface ViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UIPickerViewDataSource, UIPickerViewDelegate, UITextViewDelegate>{
+
+@interface ViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UIPickerViewDataSource, UIPickerViewDelegate, UITextViewDelegate, DFTextViewDelegate>{
     
     __weak IBOutlet UITextView *myTextView;
     
@@ -39,6 +43,10 @@ static NSString *cellID = @"CollectionViewCell";
     
     
     UICollectionView *_collectionView;
+    
+    UICollectionView *_logoCollectionView;
+    
+    
     NSArray *arrViewData;       // _collectionView的数据源
     
     NSArray *arraySelected;     // 用户选中的选项在数据源中的集合的索引的集合
@@ -63,7 +71,6 @@ static NSString *cellID = @"CollectionViewCell";
     [super viewDidLoad];
     
 //    self.navigationController.navigationBar
-    
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:({
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -100,7 +107,7 @@ static NSString *cellID = @"CollectionViewCell";
                     @{@"停留时间":arrTime},
                     @{@"边框": @[@"无", @"有"]},
                     @{@"显示类型":@[@"正常",@"竖立"]},
-                    @{@"Logo":[FontDataTool pictureDataArray]}];
+                    @{@"Logo":@"更多"}];
     
     containerSuperView.layer.borderColor = [UIColor clearColor].CGColor;
     containerSuperView.layer.cornerRadius = 5;
@@ -129,6 +136,8 @@ static NSString *cellID = @"CollectionViewCell";
     
     [self initViewCover];
     
+    [self setupLogoCollection];
+    
     [self initPickerView];
     
     if (self.model) {
@@ -146,6 +155,9 @@ static NSString *cellID = @"CollectionViewCell";
     }
     
     myTextView.delegate = self;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textViewWillDeleteBackward:) name:UITextFieldTextDidChangeNotification object:nil];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -153,9 +165,18 @@ static NSString *cellID = @"CollectionViewCell";
 //    [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
 
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+//    [self.navigationController setNavigationBarHidden:NO animated:NO];
+}
+
 - (void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
-//    [self.navigationController setNavigationBarHidden:NO animated:NO];
+}
+
+- (void)dealloc {
+    NSLog(@"%s", __func__);
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 
@@ -184,6 +205,10 @@ static NSString *cellID = @"CollectionViewCell";
     
     [self barbuttonItemLeftClick];
 }
+- (void)barbuttonItemLeftClick{
+    [self dismissViewControllerAnimated:YES completion:NULL];
+//    [self.navigationController popViewControllerAnimated:YES];
+}
 
 
 - (void)setupCollection{
@@ -204,7 +229,25 @@ static NSString *cellID = @"CollectionViewCell";
     [colectionContainerView addSubview:_collectionView];
     
     [_collectionView registerNib:[UINib nibWithNibName:cellID bundle:nil] forCellWithReuseIdentifier:cellID];
+}
+
+- (void)setupLogoCollection{
+    //CGFloat margin = 5;
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     
+    layout.minimumInteritemSpacing = 0;
+    layout.minimumLineSpacing = 0;
+    //CGFloat width = (ScreenWidth - 20 - 3 * margin) / 2.0;
+    layout.itemSize = CGSizeMake(48, 48);
+    
+    _logoCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(10, ScreenHeight - 250, ScreenWidth-20, 250) collectionViewLayout:layout];
+    _logoCollectionView.backgroundColor = [UIColor clearColor];
+    _logoCollectionView.dataSource = self;
+    _logoCollectionView.delegate = self;
+    _logoCollectionView.scrollEnabled = YES;
+    [self.ViewCover addSubview:_logoCollectionView];
+    
+    [_logoCollectionView registerNib:[UINib nibWithNibName:cellIDLogo bundle:nil] forCellWithReuseIdentifier:cellIDLogo];
 }
 
 - (void)initPickerView{
@@ -222,28 +265,25 @@ static NSString *cellID = @"CollectionViewCell";
     [self.view endEditing:YES];
  
     [self toolCancelBtnClick];
-    
-    // [self changeView];
 }
 
-
+#pragma mark 设置文字
 - (void)setText:(NSString *)text{
     
     if (text.length == 0) {
         return;
     }
     
+    // length 选中的范围  location 光标起始位置
     int endLocation = (int)lastRange.length + (int)lastRange.location;
     
     NSLog(@"%@ %@", text, @(endLocation));
     
-    NSLog(@"要从 %d 的位置往前显示一屏的文字: %@", endLocation, text);
-    
-    // 纯点阵信息
-    NSArray<NSArray <NSNumber*>*> * arrayNumbersSimple = [FontDataTool getLatticeDataArray:text];
+    // 处理logo
+    NSArray<NSArray <NSNumber*>*> * arrayNumbersSimple = [FontDataTool handleLogoDataFromOriginalText:text location:&endLocation];
     
     arrayNumbersSimple = [FontDataTool getShowTextData:arrayNumbersSimple endLocation:endLocation];
-    
+
     if ([arraySelected[4] intValue] == 1) {
         arrayNumbersSimple = [FontDataTool getStandUpDataArray:arrayNumbersSimple];
         
@@ -255,7 +295,6 @@ static NSString *cellID = @"CollectionViewCell";
     
     // 测试竖立
 //    arrayNumbersSimple = [FontDataTool getStandUpDataArray:arrayNumbersSimple];
-    
     
     // 行列信息
     NSArray <NSArray <NSDictionary *>*>* arrayColumnRowData = [FontDataTool getRowColumnDataFromLatticeData:arrayNumbersSimple];
@@ -319,19 +358,44 @@ static NSString *cellID = @"CollectionViewCell";
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    [self toolCancelBtnClick];
-    [collectionView deselectItemAtIndexPath:indexPath animated:NO];
-    
-    editRow = (int)indexPath.row;
-    
-    NSDictionary *dictionary = arrViewData[editRow];
-    arrPickView = dictionary.allValues.firstObject;
-
-    [self.pickView reloadAllComponents];
-    
-    [self.pickView selectRow:[arraySelected[editRow] intValue] inComponent:0 animated:NO];
-    
-    [self showViewCover];
+    if ([collectionView isEqual:_collectionView]) {
+        [self toolCancelBtnClick];
+        [collectionView deselectItemAtIndexPath:indexPath animated:NO];
+        
+        editRow = (int)indexPath.row;
+        
+        if (editRow == 5) {
+            _logoCollectionView.hidden = NO;
+            _pickView.hidden = YES;
+            [_logoCollectionView reloadData];
+        }else{
+            _logoCollectionView.hidden = YES;
+            _pickView.hidden = NO;
+            
+            NSDictionary *dictionary = arrViewData[editRow];
+            arrPickView = dictionary.allValues.firstObject;
+            
+            [self.pickView reloadAllComponents];
+            
+            [self.pickView selectRow:[arraySelected[editRow] intValue] inComponent:0 animated:NO];
+        }
+        [self showViewCover];
+    }else{
+        
+        NSDictionary *dictionary = [FontDataTool pictureDataArray][indexPath.row];
+        myTextView.text = [NSString stringWithFormat:@"%@[%@]", myTextView.text, dictionary.allKeys.firstObject];
+        
+        lastRange = NSMakeRange(0, myTextView.text.length);
+        [self setText:myTextView.text];
+        
+        //
+//        NSMutableArray *arrNew = [arraySelected mutableCopy];
+//        arrNew[editRow] = @(indexPath.row);
+//        arraySelected = [arrNew mutableCopy];
+//        [_collectionView reloadData];
+//        
+        [self toolCancelBtnClick];
+    }
 }
 
 #pragma mark UICollectionViewDataSource
@@ -339,49 +403,55 @@ static NSString *cellID = @"CollectionViewCell";
     return 1;
 }
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView
-     numberOfItemsInSection:(NSInteger)section{
-    return 6;
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+    if ([collectionView isEqual:_collectionView]) {
+        return 6;
+    }
+    return [FontDataTool pictureDataArray].count;
 }
 
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
-                  cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    
-    CollectionViewCell *cell = (CollectionViewCell *)
-    [collectionView dequeueReusableCellWithReuseIdentifier:cellID
-                                              forIndexPath:indexPath];
-    NSDictionary *dictionary = arrViewData[indexPath.row];
-    NSString *string = [dictionary.allKeys.firstObject description];
-    cell.titleLabel.text = kString(string);
-    NSArray *arrValues = dictionary.allValues.firstObject;
-    
-    if (indexPath.row != 5) {
-        cell.valueLabel.text = kString([arrValues[[arraySelected[indexPath.row] intValue]] description]);
-    }else{
-        NSDictionary *dictionary = arrValues[[arraySelected[indexPath.row] intValue]];
-        cell.valueLabel.text = [NSString stringWithFormat:@"~%@", dictionary.allKeys.firstObject];
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    if ([collectionView isEqual:_collectionView]) {
+        CollectionViewCell *cell = (CollectionViewCell *)
+        [collectionView dequeueReusableCellWithReuseIdentifier:cellID
+                                                  forIndexPath:indexPath];
+        NSDictionary *dictionary = arrViewData[indexPath.row];
+        NSString *string = [dictionary.allKeys.firstObject description];
+        cell.titleLabel.text = kString(string);
+        NSArray *arrValues = dictionary.allValues.firstObject;
+        
+        if (indexPath.row != 5) {
+            cell.valueLabel.text = kString([arrValues[[arraySelected[indexPath.row] intValue]] description]);
+        }
+        else{
+            cell.valueLabel.text = kString(@"更多");
+        }
+        
+        return cell;
     }
     
+    LogoCollectionViewCell *cell = (LogoCollectionViewCell *)
+    [collectionView dequeueReusableCellWithReuseIdentifier:cellIDLogo
+                                              forIndexPath:indexPath];
+    
+    
+    
+    NSDictionary *dictionary = [FontDataTool pictureDataArray][indexPath.row];
+    UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.bmp",[dictionary.allKeys.firstObject description]]];
+    image = [image resizedImage:2];
+    cell.imv.image = image;
     return cell;
 }
 
 #pragma mark UIPickerViewDataSource;
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
-    
     return arrPickView.count;
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
     return 1;
 }
-
-//- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
-//    if(editRow != 5){
-//        return kString([arrPickView[row] description]);
-//    }
-//    return nil;
-//}
 
 - (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(nullable UIView *)view {
     if(editRow == 5){
@@ -422,10 +492,6 @@ static NSString *cellID = @"CollectionViewCell";
         self.ViewEffectBody.alpha = 0;
         [self.view addSubview:self.ViewEffectBody];
         
-//        self.ViewEffectHead = [[UIVisualEffectView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 65)];
-//        self.ViewEffectHead.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-//        self.ViewEffectHead.alpha = 0;
-        
         [[UIApplication sharedApplication].keyWindow addSubview:self.ViewEffectHead];
     }
     [self.view addSubview:self.ViewCover];
@@ -458,7 +524,7 @@ static NSString *cellID = @"CollectionViewCell";
     }];
 }
 
-
+#pragma mark UITextViewDelegate
 - (void)textViewDidEndEditing:(UITextView *)textView{
     
     NSRange _range = textView.selectedRange;
@@ -470,9 +536,19 @@ static NSString *cellID = @"CollectionViewCell";
     [self setText:textView.text];
 }
 
-- (void)barbuttonItemLeftClick{
-    [self dismissViewControllerAnimated:YES completion:NULL];
+#pragma mark DFTextViewDelegate
+- (BOOL)textViewWillDeleteBackward:(UITextView *)textView{
+    if (textView.text.length >= 4) {
+        
+        NSString *lastFour = [textView.text substringWithRange:NSMakeRange(textView.text.length - 4, 4)];
+        if([lastFour isLogo]){
+            textView.text = [textView.text substringToIndex:textView.text.length - 4];
+            return YES;
+        }
+    }
+    return NO;
 }
+
 
 - (IBAction)backButtonClick {
     [self barbuttonItemLeftClick];

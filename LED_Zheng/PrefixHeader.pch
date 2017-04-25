@@ -28,4 +28,6 @@
 
 #import "FontDataTool.h"
 
+#import "NSString+Verify.h"
+
 #endif /* PrefixHeader_pch */
