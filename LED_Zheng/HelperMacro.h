@@ -55,7 +55,10 @@
 #define SystemVersion    [[[UIDevice currentDevice] systemVersion] doubleValue]  // 当前系统版本
 
 // 中英文
-#define kString(_S)      NSLocalizedString(_S, @"")
+//#define kString(_S)      NSLocalizedString(_S, @"")
+#define kString(key)  [[NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:DFDLanguage]] ofType:@"lproj"]] localizedStringForKey:(key) value:nil table:@"Localizable"]
+
+
 #define St(_k)           [@(_k) description]
 
 
@@ -120,8 +123,8 @@
 #define DChatBorderColor                    [UIColor cz_colorWithHex:0xe5e5e5]  // 聊天消息的边框色
 
 
-
-
+#define DFDLanguage     @"DFDLanguage"
+#define DFDlanguageChanged @"DFDlanguageChanged"
 
 
 

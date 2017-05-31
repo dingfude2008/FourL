@@ -7,7 +7,6 @@
 */
 
 
-
 "重新尝试" = "Try again";
 "返回" = "Back";
 "蓝牙开关已关闭" = "Bluetooth is off";
@@ -56,5 +55,5 @@
 "清除所有节目吗?" = "Clear all programs?";
 "在这里输入并保存节目信息:" = "Write & save your message here:";
 "保存" = "Save";
-"" = "";
+"更多" = "More";
 "" = "";

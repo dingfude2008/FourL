@@ -39,6 +39,7 @@ static NSString *cellID = @"ListViewCell";
     
     self.title = kString(@"节目列表");
     
+    
     [bleButton setTitle:kString(@"点击选择连接的设备") forState:UIControlStateNormal];
     [bleButton sizeToFit];
     
@@ -232,6 +233,30 @@ static NSString *cellID = @"ListViewCell";
         alert.tag = 1;
         [alert show];
     }
+}
+
+
+- (IBAction)changeLanguage {
+    
+    
+    NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:DFDLanguage];
+    
+    NSString *titleS =  [[NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%@", name] ofType:@"lproj"]] localizedStringForKey:(@"节目列表") value:nil table:@"Language"];
+    
+    
+//    [NSBundle bundleWithPath:@""] lo
+    
+    NSLog(@"--> %@ %@", name, titleS);
+    
+    
+    
+    NSString *language = GetUserDefault(DFDLanguage);
+    if ([language isEqualToString: @"en"]) {
+        SetUserDefault(DFDLanguage, @"zh-Hans")
+    }else {
+        SetUserDefault(DFDLanguage, @"en")
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:DFDlanguageChanged object:nil];
 }
 
 

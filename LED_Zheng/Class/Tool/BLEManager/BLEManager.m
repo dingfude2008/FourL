@@ -246,7 +246,7 @@ static BLEManager *bleManager;
 
 -(void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI{
     float distance = powf(10, (abs([RSSI intValue]) - 59) / (10 * 2.0));
-    NSLog(@"设备名称 : %@ %@  距离 %.1f米", peripheral.name, [peripheral.identifier UUIDString], distance);
+    //NSLog(@"设备名称 : %@ %@  距离 %.1f米", peripheral.name, [peripheral.identifier UUIDString], distance);
     
     if (peripheral.name && (([peripheral.name rangeOfString:Filter_Name].length) || ([peripheral.name rangeOfString:OtherFilter_Name].length))){
         peripheral.isAris = YES;

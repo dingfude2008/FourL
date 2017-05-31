@@ -419,13 +419,13 @@ static NSString *cellIDLogo = @"LogoCollectionViewCell";
         NSDictionary *dictionary = arrViewData[indexPath.row];
         NSString *string = [dictionary.allKeys.firstObject description];
         cell.titleLabel.text = kString(string);
-        NSArray *arrValues = dictionary.allValues.firstObject;
         
         if (indexPath.row != 5) {
+            NSArray *arrValues = dictionary.allValues.firstObject;
             cell.valueLabel.text = kString([arrValues[[arraySelected[indexPath.row] intValue]] description]);
         }
         else{
-            cell.valueLabel.text = kString(@"更多");
+            cell.valueLabel.text = kString([dictionary.allValues.firstObject description]);
         }
         
         return cell;

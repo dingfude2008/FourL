@@ -18,18 +18,74 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     [FontDataTool setupData];
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
-    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-    UINavigationController *nav = mainStoryboard.instantiateInitialViewController;
-    self.window.rootViewController = nav;
+    
+    [self setupMainIn];
+    
     [self.window makeKeyAndVisible];
     
-    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(runLoopLink) userInfo:nil repeats:YES];
-    [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+    [self setupLanguage];
+    
+    [self setupRunLoopLink];
+    
+    [self setupObserver];
     
     return YES;
 }
+
+- (void)setupMainIn{
+    
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+    UINavigationController *nav = mainStoryboard.instantiateInitialViewController;
+
+    typedef void (^Animation)(void);
+    UIWindow* window = [UIApplication sharedApplication].keyWindow;
+    
+    nav.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    Animation animation = ^{
+        BOOL oldState = [UIView areAnimationsEnabled];
+        [UIView setAnimationsEnabled:NO];
+        self.window.rootViewController = nav;
+        [self.window makeKeyAndVisible];
+        [UIView setAnimationsEnabled:oldState];
+    };
+    
+    [UIView transitionWithView:window
+                      duration:0.0f
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:animation
+                    completion:nil];
+}
+
+- (void)setupLanguage{
+    
+    if (![[NSUserDefaults standardUserDefaults]objectForKey:DFDLanguage]) {
+        NSArray *languages = [NSLocale preferredLanguages];
+        NSString *language = [languages objectAtIndex:0];
+        if ([language hasPrefix:@"zh-Hans"]) {
+            [[NSUserDefaults standardUserDefaults] setObject:@"zh-Hans" forKey:DFDLanguage];
+        }else if([language hasPrefix:@"en"]) {
+            [[NSUserDefaults standardUserDefaults] setObject:@"en" forKey:DFDLanguage];
+        }
+    }
+}
+
+- (void)setupObserver{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(languageChanged) name:DFDlanguageChanged object:nil];
+}
+
+- (void)languageChanged{
+    [self setupMainIn];
+}
+
+- (void)setupRunLoopLink{
+    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(runLoopLink) userInfo:nil repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+}
+
+
 - (void)runLoopLink{
     NSString *uuidSting = GetUserDefault(DefaultUUIDString);
     if (DDBLE.connectState != ConnectState_Connected && uuidSting.length > 0) {

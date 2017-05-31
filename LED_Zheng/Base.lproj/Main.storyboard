@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="tpr-CM-Nqp">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="tpr-CM-Nqp">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -61,7 +61,7 @@
                                 <rect key="frame" x="10" y="407" width="355" height="80"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ntm-8d-16d">
-                                        <rect key="frame" x="5" y="5.5" width="350" height="21"/>
+                                        <rect key="frame" x="5" y="6" width="350" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <color key="highlightedColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
@@ -170,7 +170,7 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="listBackgroundImage" translatesAutoresizingMaskIntoConstraints="NO" id="oMc-4j-3X0">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="i73-A5-G9u">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="i73-A5-G9u">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="617"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -201,15 +201,26 @@
                                             <action selector="writeButtonClick" destination="uE3-k2-LiO" eventType="touchUpInside" id="JSp-7l-sFB"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tuk-kf-tZJ">
+                                        <rect key="frame" x="172" y="8" width="30" height="34"/>
+                                        <state key="normal" title="Lan">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="changeLanguage" destination="uE3-k2-LiO" eventType="touchUpInside" id="sFi-Yf-crm"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="fOm-CI-IES" firstAttribute="top" secondItem="jEb-mA-723" secondAttribute="top" id="0LO-yf-rrb"/>
+                                    <constraint firstItem="Tuk-kf-tZJ" firstAttribute="centerY" secondItem="jEb-mA-723" secondAttribute="centerY" id="CW7-qC-Slj"/>
                                     <constraint firstItem="fOm-CI-IES" firstAttribute="leading" secondItem="jEb-mA-723" secondAttribute="leading" constant="5" id="LXS-Zz-dhI"/>
                                     <constraint firstItem="88J-3j-bBt" firstAttribute="top" secondItem="jEb-mA-723" secondAttribute="top" id="UI0-6y-Ck5"/>
                                     <constraint firstAttribute="trailing" secondItem="88J-3j-bBt" secondAttribute="trailing" constant="5" id="WTo-jG-5X1"/>
                                     <constraint firstAttribute="bottom" secondItem="fOm-CI-IES" secondAttribute="bottom" id="Y1H-GN-fLU"/>
                                     <constraint firstAttribute="bottom" secondItem="88J-3j-bBt" secondAttribute="bottom" id="gLQ-Dw-kfj"/>
+                                    <constraint firstItem="Tuk-kf-tZJ" firstAttribute="centerX" secondItem="jEb-mA-723" secondAttribute="centerX" id="zJZ-3n-Sxk"/>
                                 </constraints>
                             </view>
                         </subviews>
