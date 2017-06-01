@@ -356,7 +356,7 @@ static NSArray<NSString *> * enlishEmpty;                                   // �
     if ([self isChinese:string]) {
         NSLog(@"%@:  ->汉字", string);
         *isChinese = YES;
-        
+
         return [self getGBKFromChinese:string];
     }
     
@@ -607,7 +607,6 @@ static NSArray<NSString *> * enlishEmpty;                                   // �
  @return 行列数据信息。 数组中为行列的键值对。 Key: 是否有数据(@"1":有点  @"0":没有点) Value:NSArray 0:列，1:行
  */
 + (NSArray<NSArray <NSDictionary*>*> *)getRowColumnDataFromLatticeData:(NSArray<NSArray <NSNumber*>*> *)arrayM{
-    arrayM = [arrayM mutableCopy];
     NSMutableArray *arrayResult = [NSMutableArray array];
     NSMutableArray *arraySimple;
     for (int w = 0; w < arrayM.count; w++) {
@@ -796,25 +795,6 @@ void N_S(unsigned char Data[],unsigned char DataNEW[],char Longs)
     unsigned char DataLS[20];
     if(Longs==9)
     {
-//        //1.填充开头的2列
-//        DataLS[0]=0;
-//        DataLS[1]=0;
-//        DataLS[2]=0;
-//        //2.中间部分的数据
-//        for(i=0;i<9;i++)
-//        {
-//            DataLS[i+3]=Data[i];
-//        }
-//        //3.填充尾部的4列
-//        DataLS[12]=0;
-//        DataLS[13]=0;
-//        DataLS[14]=0;
-//        
-//        DataLS[15]=0;
-//        DataLS[16]=0;
-//        DataLS[17]=0;
-        
-        
         //1.填充开头的2列
         DataLS[0]=0;
         DataLS[1]=0;
