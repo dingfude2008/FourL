@@ -586,7 +586,7 @@ static BLEManager *bleManager;
     // 每一条节目要补满的个数
     // int additonArray[textDataArray.count];
     
-    // 获取文本+补码的总长度,  每一个节目 + 补码 + 下一条节目 + 补码
+    // 文本长度 + 补码的总长度,  每一个节目 + 补码 + 下一条节目 + 补码
     int lengh = 0;
     
     for (int i = 0; i < textDataArray.count; i++) {
@@ -653,7 +653,6 @@ static BLEManager *bleManager;
     // 图文数据总数
     int countTextData = 0;
     for (int i = 0; i < textDataArray.count; i++) {
-        
         // 这个是纯文本数据
         NSArray *arraySimpleProgram = textDataArray[i];
         for (int j = 0; j < arraySimpleProgram.count; j++) {

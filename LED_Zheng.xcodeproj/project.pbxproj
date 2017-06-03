@@ -900,8 +900,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xinyi.zhengLed;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "72344a9e-37e8-4eba-92c8-3ca9722762db";
-				PROVISIONING_PROFILE_SPECIFIER = zhengLed_deve_0413;
+				PROVISIONING_PROFILE = "3d9f70bf-b0ec-4d1e-afdf-ea8373268add";
+				PROVISIONING_PROFILE_SPECIFIER = zhengLed_deve_170601;
 			};
 			name = Debug;
 		};
@@ -918,8 +918,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xinyi.zhengLed;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "72344a9e-37e8-4eba-92c8-3ca9722762db";
-				PROVISIONING_PROFILE_SPECIFIER = zhengLed_deve_0413;
+				PROVISIONING_PROFILE = "3d9f70bf-b0ec-4d1e-afdf-ea8373268add";
+				PROVISIONING_PROFILE_SPECIFIER = zhengLed_deve_170601;
 			};
 			name = Release;
 		};

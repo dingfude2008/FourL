@@ -17,6 +17,8 @@ static NSString *cellID = @"ListViewCell";
 @interface ListViewController ()<UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>{
     __weak IBOutlet UIButton *bleButton;
     __weak IBOutlet UIButton *writeButton;
+    __weak IBOutlet UIButton *languageButton;
+    
     Program * selectedModel;
     BOOL isAdd;
     NSMutableArray *selectedArray;          // 选中的数组
@@ -45,6 +47,9 @@ static NSString *cellID = @"ListViewCell";
     
     [writeButton setTitle:kString(@"发送节目") forState:UIControlStateNormal];
     [writeButton sizeToFit];
+    
+    [languageButton setTitle:kString(@"语言") forState:UIControlStateNormal];
+    [languageButton sizeToFit];
     
     [self.listTabView registerNib:[UINib nibWithNibName:cellID bundle:nil] forCellReuseIdentifier:cellID];
     
@@ -336,6 +341,10 @@ static NSString *cellID = @"ListViewCell";
 #if TARGET_IPHONE_SIMULATOR
     NSLog(@"模拟器");
 #elif TARGET_OS_IPHONE
+    
+    
+//    [DDBLE postTextArrayAdditional:arrayAdditional
+//                     textDataArray:arrayNumbers];return;
     
     if (DDBLE.connectState == ConnectState_Connected) {
         MBShowAll;
