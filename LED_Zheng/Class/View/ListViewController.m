@@ -243,18 +243,6 @@ static NSString *cellID = @"ListViewCell";
 
 - (IBAction)changeLanguage {
     
-    
-    NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:DFDLanguage];
-    
-    NSString *titleS =  [[NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%@", name] ofType:@"lproj"]] localizedStringForKey:(@"节目列表") value:nil table:@"Language"];
-    
-    
-//    [NSBundle bundleWithPath:@""] lo
-    
-    NSLog(@"--> %@ %@", name, titleS);
-    
-    
-    
     NSString *language = GetUserDefault(DFDLanguage);
     if ([language isEqualToString: @"en"]) {
         SetUserDefault(DFDLanguage, @"zh-Hans")
@@ -267,6 +255,7 @@ static NSString *cellID = @"ListViewCell";
 
 - (IBAction)writeButtonClick {
     
+    // 这里注释，是因为，可以一条不选，覆盖所有
 //    if (self.arrayData.count == 0) {
 //        MBShow(@"没有节目");
 //        return;

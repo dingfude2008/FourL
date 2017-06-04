@@ -917,8 +917,8 @@ void N_S(unsigned char Data[],unsigned char DataNEW[],char Longs)
  @return 最后的数据
  */
 + (NSArray<NSArray <NSNumber*>*> *)handleLogoDataFromOriginalText:(NSString *)text location:(int*)endLocation{
-    NSString *newText = [text copy];
     
+    NSString *newText = [text copy];
     NSArray<NSTextCheckingResult *> *arrayLogo = [text rangeLogoInString];
     
     // 占位汉字的索引位置

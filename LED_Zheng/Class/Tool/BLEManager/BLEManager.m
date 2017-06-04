@@ -454,7 +454,6 @@ static BLEManager *bleManager;
         }
         
         
-        
         switch (self.postCommondState) {
                 case PostCommondState_Handshake:{
                     if (([self checkData:data] == CommondCheckType_Correct)) {
@@ -483,7 +482,6 @@ static BLEManager *bleManager;
                                 [self postBigData];
                             }else if(self.textDataOffset + 1 == self.textDataAllCount){
                                 NSLog(@"文本数据发送完成了");
-                                
                                 self.postCommondState = PostCommondState_PostEndData;
                                 [self postEndData];
                             }
@@ -503,8 +501,6 @@ static BLEManager *bleManager;
                         case CommondCheckType_Error:{
                             NSLog(@"其他未知错误");
                             [self.delegate CallBack_Data:Bussiness_Error obj:@(BussinessError_UnknowedError)];
-                            
-                            [self.delegate CallBack_Data:Bussiness_OK obj:nil];
                         }break;
                     }
                 }break;
@@ -606,7 +602,6 @@ static BLEManager *bleManager;
             NSArray *simpleAdditianal = self.arrayAdditional[i];
             NSArray *simpleTextData = self.textDataArray[i];
             
-            NSLog(@"");
             bytes[0 + headOffest] =
             bytes[1 + headOffest] =
             bytes[2 + headOffest] =
@@ -693,7 +688,6 @@ static BLEManager *bleManager;
        uuidString:self.per.identifier.UUIDString
         charaUUID:W_SentData_UUID];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_global_queue(0, 0), ^{
-    
         if (!self.isOK) {
             [self handshake];
         }

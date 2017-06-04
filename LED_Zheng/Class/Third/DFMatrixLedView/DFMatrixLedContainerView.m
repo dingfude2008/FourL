@@ -38,12 +38,6 @@
         matrixLedView.pointsArray = arraySub;
         
         [self addSubview:matrixLedView];
-//        
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            matrixLedView.layer.borderWidth = 1;
-//            matrixLedView.layer.borderColor = [UIColor redColor].CGColor;
-//            [self addSubview:matrixLedView];
-//        }); 
     }
 }
 

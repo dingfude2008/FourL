@@ -31,7 +31,7 @@
 }
 
 - (void)dealloc{
-    NSLog(@"%@销毁了", NSStringFromClass([self class]));
+    //NSLog(@"%@销毁了", NSStringFromClass([self class]));
 }
 
 - (void)viewWillAppear:(BOOL)animated{
